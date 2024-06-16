@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from "./components/SharedLayout/Navbar";
+import Sidebar from "./components/SharedLayout/Sidebar/Sidebar";
+import Footer from "./components/SharedLayout/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +18,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" data-theme="synthwave" style={{ scrollPaddingTop: '5rem', scrollBehavior: 'smooth' }}>
+      <body className={`${inter.className}`}>
+
+        <div className="drawer lg:drawer-open">
+          <input id="appLeftDrawer" type="checkbox" className="drawer-toggle hidden" />
+          <div className="drawer-content">
+            <Navbar />
+            <div>
+              <div className="flex min-h-screen">
+                <main className="flex-1 p-6">{children}</main>
+              </div>
+              <Footer />
+            </div>
+
+          </div>
+          <div className="drawer-side">
+            <label htmlFor="appLeftDrawer" aria-label="close sidebar" className="drawer-overlay"></label>
+            <Sidebar />
+          </div>
+        </div>
+      </body>
     </html>
   );
 }

@@ -20,7 +20,7 @@ const config: Config = {
     daisyui,
   ],
   daisyui: {
-    themes: ["light", "dark", "cupcake", "synthwave"],
+    themes: ["light", "acid", "lemonade", "dracula", "business", "dark"],
   },
 
 };

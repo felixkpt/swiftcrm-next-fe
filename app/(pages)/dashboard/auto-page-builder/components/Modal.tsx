@@ -1,5 +1,5 @@
 import Pluralize from 'pluralize';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -19,7 +19,7 @@ interface ModalProps {
     commonDataTypes: string[];
     field: FieldType;
     index: number;
-    fieldValidity: FieldValidation
+    fieldValidation: FieldValidation
     onChange: (index: number, updatedField: FieldType) => void;
     hasDoneSubmission: boolean;
 }
@@ -29,22 +29,46 @@ const Modal: React.FC<ModalProps> = ({
     commonDataTypes,
     field,
     index,
-    fieldValidity,
+    fieldValidation,
     onChange,
     hasDoneSubmission,
 }) => {
+    // State to control dialog open/close
     const [open, setOpen] = useState(false);
-    const [dropdownSource, setDropdownSource] = useState<string>(field.dropdownSource?.value || '')
+
+    // State for dropdown source and dependencies
+    const [dropdownSource, setDropdownSource] = useState<string>(field.dropdownSource?.value || '');
     const [dropdownDependencies, setDropdownDependencies] = useState<string[]>(field.dropdownDependsOn?.value || []);
 
+    // State to track if any modal fields are invalid
+    const [isAnyModalFieldsInvalid, setIsAnyModalFieldsInvalid] = useState(false);
+
+    // Effect to check for errors on mount and when dependencies change
+    useEffect(() => {
+        const checkForErrors = () => {
+            const errors = !fieldValidation ? [] : [
+                !fieldValidation.label && field.label.required && !(field.label.value && field.label.value.trim()),
+                !fieldValidation.dataType && field.dataType.required && !field.dataType.value.trim(),
+                !fieldValidation.defaultValue && field.defaultValue.required && !(field.defaultValue.value && field.defaultValue.value.trim()) || !validateDefaultValue(field.dataType.value, field.defaultValue.value),
+                inputType === 'dropdown' && !fieldValidation.dropdownSource && field.dropdownSource.required && !(field.dropdownSource.value && field.dropdownSource.value.trim()),
+            ];
+            setIsAnyModalFieldsInvalid(errors.some(error => error));
+        };
+
+        checkForErrors();
+    }, [field, fieldValidation, inputType, hasDoneSubmission]);
+
+    // Handle dialog open
     const handleClickOpen = () => {
         setOpen(true);
     };
 
+    // Handle dialog close
     const handleClose = () => {
         setOpen(false);
     };
 
+    // Handle checkbox change
     const handleCheckboxChange = (key: keyof FieldType, value: boolean) => {
         const updatedField = {
             ...field,
@@ -53,10 +77,11 @@ const Modal: React.FC<ModalProps> = ({
         onChange(index, updatedField);
     };
 
+    // Handle dropdown source change
     const handleSourceChange = (event: SelectChangeEvent<string>) => {
         const newSource = event.target.value;
         setDropdownSource(newSource);
-        const newName = Pluralize.singular(newSource) + '_id'
+        const newName = Pluralize.singular(newSource) + '_id';
 
         const updatedField = {
             ...field,
@@ -66,6 +91,7 @@ const Modal: React.FC<ModalProps> = ({
         onChange(index, updatedField);
     };
 
+    // Handle dropdown dependencies change
     const handleDependencyChange = (event: SelectChangeEvent<string[]>) => {
         const newDependencies = event.target.value as string[];
         setDropdownDependencies(newDependencies);
@@ -76,19 +102,24 @@ const Modal: React.FC<ModalProps> = ({
         onChange(index, updatedField);
     };
 
+    // Check if field is valid
     const isValid = field.name.value.trim() !== '' && field.type.value.trim() !== '';
 
-
+    // Check for dropdown source error
     const dropdownSourceError =
         hasDoneSubmission &&
-        !fieldValidity.dropdownSource &&
+        !fieldValidation.dropdownSource &&
         field.dropdownSource.required &&
-        !(field.dropdownSource.value && field.dropdownSource.value.trim())
+        !(field.dropdownSource.value && field.dropdownSource.value.trim());
 
     return (
         <>
-            <Button variant="outlined" onClick={handleClickOpen} disabled={!isValid}>
-                <MoreVertIcon />
+            <Button
+                variant="outlined"
+                onClick={handleClickOpen}
+                disabled={!isValid}
+                style={{ color: isValid && isAnyModalFieldsInvalid ? 'red' : 'inherit' }}
+            >    <MoreVertIcon />
             </Button>
             <Dialog fullWidth={false} maxWidth={'sm'} open={open} onClose={handleClose}>
                 <DialogTitle>More Properties for {field.name.value}</DialogTitle>
@@ -108,15 +139,15 @@ const Modal: React.FC<ModalProps> = ({
                                 }
                                 error={
                                     hasDoneSubmission &&
-                                    typeof fieldValidity.label === 'boolean' &&
-                                    !fieldValidity.label &&
+                                    typeof fieldValidation.label === 'boolean' &&
+                                    !fieldValidation.label &&
                                     field.label.required &&
                                     !(field.label.value && field.label.value.trim())
                                 }
                                 helperText={
                                     hasDoneSubmission &&
-                                        typeof fieldValidity.label === 'boolean' &&
-                                        !fieldValidity.label &&
+                                        typeof fieldValidation.label === 'boolean' &&
+                                        !fieldValidation.label &&
                                         field.label.required &&
                                         !(field.label.value && field.label.value.trim())
                                         ? 'Label is required'
@@ -138,16 +169,16 @@ const Modal: React.FC<ModalProps> = ({
                                     label="Data Type"
                                     error={
                                         hasDoneSubmission &&
-                                        typeof fieldValidity.dataType === 'boolean' &&
-                                        !fieldValidity.dataType &&
+                                        typeof fieldValidation.dataType === 'boolean' &&
+                                        !fieldValidation.dataType &&
                                         field.dataType.required &&
                                         !field.dataType.value.trim()
                                     }
                                     sx={{
                                         borderColor:
                                             hasDoneSubmission &&
-                                                typeof fieldValidity.dataType === 'boolean' &&
-                                                !fieldValidity.dataType &&
+                                                typeof fieldValidation.dataType === 'boolean' &&
+                                                !fieldValidation.dataType &&
                                                 field.dataType.required &&
                                                 !field.dataType.value.trim()
                                                 ? 'red'
@@ -179,16 +210,16 @@ const Modal: React.FC<ModalProps> = ({
                                 }
                                 error={
                                     hasDoneSubmission &&
-                                    typeof fieldValidity.defaultValue === 'boolean' &&
-                                    !fieldValidity.defaultValue &&
+                                    typeof fieldValidation.defaultValue === 'boolean' &&
+                                    !fieldValidation.defaultValue &&
                                     field.defaultValue.required &&
                                     !(field.defaultValue.value && field.defaultValue.value.trim()) ||
                                     !validateDefaultValue(field.dataType.value, field.defaultValue.value)
                                 }
                                 helperText={
                                     hasDoneSubmission &&
-                                        typeof fieldValidity.defaultValue === 'boolean' &&
-                                        !fieldValidity.defaultValue &&
+                                        typeof fieldValidation.defaultValue === 'boolean' &&
+                                        !fieldValidation.defaultValue &&
                                         field.defaultValue.required &&
                                         !(field.defaultValue.value && field.defaultValue.value.trim()) ||
                                         !validateDefaultValue(field.dataType.value, field.defaultValue.value)

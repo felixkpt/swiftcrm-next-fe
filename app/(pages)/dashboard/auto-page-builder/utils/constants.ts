@@ -1,4 +1,5 @@
-import { FieldType } from "../types";
+// app/(pages)/dashboard/auto-page-builder/utils/constants.ts
+import { ActionLabelType, FieldType, FieldValidation } from "../types";
 
 export const inputTypes = [
     {
@@ -24,10 +25,22 @@ export const newField: FieldType = {
     isRequired: { value: true, required: true },
     isVisibleInList: { value: true, required: true },
     isVisibleInSingleView: { value: true, required: true },
-    isUnique: { value: false, required: true },
+    isUnique: { value: false, required: false },
     dropdownSource: { value: '', required: false },
     dropdownDependsOn: { value: [], required: false },
 };
+
+const generateValidation = (field: FieldType): FieldValidation => {
+    const validation: FieldValidation | any = {};
+    for (const key in field) {
+        if (field.hasOwnProperty(key)) {
+            validation[key] = field[key].required;
+        }
+    }
+    return validation;
+};
+
+export const newValidation: FieldValidation = generateValidation(newField);
 
 export const actionLabelsActions = [
     { key: 'viewRecord', label: 'View Record' },
@@ -49,3 +62,8 @@ export const dropdownDependenciesList = [
     'customers',
 ];
 
+export const newActionLabel: ActionLabelType = {
+    key: { value: '', required: true },
+    label: { value: '', required: false },
+    actionType: { value: '', required: true },
+};

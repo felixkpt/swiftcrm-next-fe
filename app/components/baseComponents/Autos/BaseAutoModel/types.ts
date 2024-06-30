@@ -16,18 +16,18 @@ export type ActionType = 'dropdown' | 'buttons'
 
 export type ActionItemType = {
     label: string;
-    slug: string | null;
-    classes: string;
     actionType: 'modal' | 'navigation';
-    show: boolean
+    slug?: string | null;
+    classes?: string;
+    show?: boolean
 };
 
 export type ActionLabelsActionsType = {
-    viewRecord?: Pick<ActionItemType, 'actionType' | 'label' | 'show'>;
-    editRecord?: Pick<ActionItemType, 'actionType' | 'label' | 'show'>;
-    updateRecordStatus?: Pick<ActionItemType, 'actionType' | 'label' | 'show'>;
-    archiveRecord?: Pick<ActionItemType, 'actionType' | 'label' | 'show'>;
-    deleteRecord?: Pick<ActionItemType, 'actionType' | 'label' | 'show'>;
+    viewRecord?: ActionItemType
+    editRecord?: ActionItemType
+    updateRecordStatus?: ActionItemType
+    archiveRecord?: ActionItemType
+    deleteRecord?: ActionItemType
 };
 
 export type ActionListType = {

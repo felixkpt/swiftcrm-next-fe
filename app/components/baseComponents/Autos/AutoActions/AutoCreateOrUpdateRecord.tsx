@@ -158,7 +158,7 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelName, met
                 {fillable.map((field) => (
                     <div key={field.name} className="mb-4">
                         <label htmlFor={field.name} className="block text-gray-500 text-sm font-bold mb-2">
-                            {field.label}:
+                            {field.label || field.name}:
                         </label>
                         {field.type === 'textarea' ? (
                             <textarea

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { FieldType, FieldValidation } from '../types';
-import { newField } from '../utils/constants';
+import { newField, newValidation } from '../utils/constants';
 
 const useFieldState = () => {
     // State to hold the fields configuration
@@ -19,7 +19,6 @@ const useFieldState = () => {
     // Handler to add a new field
     const handleAddField = () => {
         setFields([...fields, newField]);
-        const newValidation: FieldValidation = { name: true, type: true, label: false, dataType: false, defaultValue: false };
         setFieldValidations([...fieldValidations, newValidation]);
     };
 

@@ -3,9 +3,14 @@ export interface FieldSchema {
     name: string;
     type: string;
     label: string;
-    isRequired: boolean;
-    dataType?: string | null;
+    dataType: string | null;
     defaultValue?: any;
+    
+    isRequired?: boolean;
+    isVisibleInList?: boolean;
+    isVisibleInSingleView?: boolean;
+    isUnique?: boolean;
+
     dropdownSource?: string;
     dropdownDependsOn?: string[];
   }
@@ -14,9 +19,6 @@ export interface FieldSchema {
     key: string;
     label: string;
     actionType: string;
-    show: boolean;
-    required: boolean;
-    isRequired: boolean;
   }
   
   export interface HeaderSchema {
@@ -26,7 +28,7 @@ export interface FieldSchema {
     isVisibleInSingleView: boolean;
   }
   
-  export interface AutoPageBuilderRequest {
+  export interface AutoPageBuilderType {
     modelName: string;
     modelURI: string;
     apiEndpoint: string;

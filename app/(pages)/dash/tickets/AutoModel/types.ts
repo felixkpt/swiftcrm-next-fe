@@ -1,11 +1,9 @@
 
-type TicketType = {
-id: number;
+type Tickets2351112Type = {
+id: any;
   created_at: any;
   updated_at: any;
   source_id: string;
-  customer_id: any;
-  disposition_id: any;
 }
 
-export default TicketType;
+export default Tickets2351112Type;

@@ -10,16 +10,18 @@ import {
     Divider,
 } from '@mui/material';
 import BasicInfoComponent from './BasicInfoComponent';
-import FieldComponent from './FieldComponent';
+import FieldsComponent from './FieldsComponent';
 import PreviewModal from './PreviewModal';
 import { appConfig, publish } from '@/app/components/baseComponents/utils/helpers';
-import { ActionLabelType, FieldType, FieldValidation } from '../types';
-import { inputTypes } from '../utils/constants';
+import { ActionLabelType, ActionLabelTypeValidation, FieldValidation } from '../types';
+import { inputTypes, newActionLabel } from '../utils/constants';
 import useFieldState from '../hooks/useFieldState';
 import ActionLabelsComponent from './ActionLabelsComponent';
 import { useParams } from 'next/navigation';
 import axios from 'axios';
 import getConstants from '../AutoModel/getConstants';
+import { mapExistingFields, mapExistingActionLables, makeFieldValidation, makeActionLabelValidation } from '../utils/helpers';
+import useActionLabelState from '../hooks/useActionLabelState';
 
 type Props = {
     saveAndGenerateModel: (data: any) => void;
@@ -30,15 +32,16 @@ const Builder: React.FC<Props> = ({ saveAndGenerateModel }) => {
     const { API_ENDPOINT } = getConstants;
     const pageId = params?.pageId;
 
-    const [modelName, setModelName] = useState('');
-    const [modelURI, setModelURI] = useState('');
-    const [apiEndpoint, setApiEndpoint] = useState('');
+    const [modelName, setModelName] = useState<string>('');
+    const [modelURI, setModelURI] = useState<string>('');
+    const [apiEndpoint, setApiEndpoint] = useState<string>('');
 
-    const [actionLabels, setActionLabels] = useState<ActionLabelType[]>([
-        { key: '', label: '', actionType: '', show: true, required: true, isRequired: true },
-    ]);
+    const { fields, setFields, fieldValidations, setFieldValidations, handleAddField } = useFieldState();
+    const { actionLabels, setActionLabels, actionLabelValidations, setActionLabelValidations } = useActionLabelState();
 
-    const { fields, setFields, setFieldValidations, allFieldsAreValid, handleAddField, fieldValidations } = useFieldState();
+    const [isPreviewOpen, setIsPreviewOpen] = useState<boolean>(false);
+    const [hasDoneSubmission, setHasDoneSubmission] = useState<boolean>(false);
+    const [isBasicInfoValid, setIsBasicInfoValid] = useState<boolean>(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,41 +51,33 @@ const Builder: React.FC<Props> = ({ saveAndGenerateModel }) => {
                 setModelName(data.modelName);
                 setModelURI(data.modelURI);
                 setApiEndpoint(data.apiEndpoint);
-                setActionLabels(data.action_labels);
 
-                const mappedFields: FieldType[] = data.fields.map((field: any) => {
-                    if (field.name === 'id' || field.name === 'created_at' || field.name === 'updated_at') return null;
+                const mappedActionLabels = mapExistingActionLables(data.action_labels);
+                setActionLabels(mappedActionLabels);
 
-                    return {
-                        id: field.id,
-                        name: { value: field.name, required: field.isRequired },
-                        type: { value: field.type, required: field.isRequired },
-                        defaultValue: { value: field.defaultValue, required: field.isRequired },
-                        isRequired: { value: field.isRequired, required: field.isRequired },
-                        isVisibleInList: { value: true, required: field.isVisibleInList },
-                        isVisibleInSingleView: { value: true, required: field.isVisibleInSingleView },
-                        label: { value: field.label, required: field.isRequired },
-                        dataType: { value: field.dataType, required: field.isRequired },
-                        isUnique: { value: false, required: field.isUnique },
-                        dropdownSource: { value: field.dropdownSource || '', required: field.isRequired },
-                        dropdownDependsOn: { value: field.dropdownDependsOn || [], required: field.isRequired },
-                    };
-                }).filter((itm: any) => itm);
+                const initialActionLabelValidations = mappedActionLabels.map(label =>
+                    makeActionLabelValidation(label)
+                );
+                setActionLabelValidations(initialActionLabelValidations);
 
+                const mappedFields = mapExistingFields(data.fields);
                 setFields(mappedFields);
+
+                const initialFieldValidations = mappedFields.map(field =>
+                    makeFieldValidation(field)
+                );
+                setFieldValidations(initialFieldValidations);
 
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
 
-        fetchData();
-    }, [API_ENDPOINT, pageId, setFields]);
+        if (pageId) {
+            fetchData();
+        }
 
-    const [actionLabelValidations, setActionLabelValidations] = useState<boolean[]>([]);
-    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-    const [hasDoneSubmission, setHasDoneSubmission] = useState(false);
-    const [isBasicInfoValid, setIsBasicInfoValid] = useState(true);
+    }, [API_ENDPOINT, pageId, setFields]);
 
     const handlePreviewOpen = () => {
         setIsPreviewOpen(true);
@@ -92,19 +87,7 @@ const Builder: React.FC<Props> = ({ saveAndGenerateModel }) => {
         setIsPreviewOpen(false);
     };
 
-    function updateFieldValidation(updatedField: FieldType): FieldValidation {
-        return {
-            name: !updatedField.name.required || updatedField.name.value.trim() !== '',
-            type: !updatedField.type.required || updatedField.type.value.trim() !== '',
-            label: !updatedField.label.required || updatedField.label.value.trim() !== '',
-            dataType: !updatedField.dataType.required || updatedField.dataType.value.trim() !== '',
-            defaultValue: !updatedField.defaultValue.required || updatedField.defaultValue.value.trim() !== '',
-            dropdownSource: !updatedField.dropdownSource.required || updatedField.dropdownSource.value.trim() !== '',
-            dropdownDependsOn: !updatedField.dropdownDependsOn.required || updatedField.dropdownDependsOn.value.length !== 0,
-        };
-    }
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setHasDoneSubmission(true);
 
@@ -113,41 +96,44 @@ const Builder: React.FC<Props> = ({ saveAndGenerateModel }) => {
         const isApiEndpointValid = apiEndpoint.trim() !== '';
         setIsBasicInfoValid(isModelNameValid && isModelURIValid && isApiEndpointValid);
 
-        const fieldValidations = fields.map(field => {
-            return updateFieldValidation(field);
-        });
-
+        const fieldValidations: FieldValidation[] = fields.map(field =>
+            makeFieldValidation(field)
+        );
         setFieldValidations(fieldValidations);
 
-        setActionLabelValidations([]);
-        actionLabels.forEach((action) => {
-            setActionLabelValidations((prev) => {
-                const newValidations = [...prev];
-                if (action.key === '' || action.actionType === '') {
-                    newValidations.push(false);
-                } else {
-                    newValidations.push(true);
-                }
-                return newValidations;
-            });
-        });
+        const actionLabelValidations: ActionLabelTypeValidation[] = actionLabels.map(label =>
+            makeActionLabelValidation(label)
+        );
+        setActionLabelValidations(actionLabelValidations);
+
+        console.log('fieldValidations::',fieldValidations,'actionLabelValidations:',actionLabelValidations)
 
         const isValid = isModelNameValid && isModelURIValid && isApiEndpointValid
-            && allFieldsAreValid(fieldValidations) && actionLabelValidations.every(Boolean);
+            && fieldValidations.every(validation => Object.values(validation).every(Boolean))
+            && actionLabelValidations.every(validation => Object.values(validation).every(Boolean));
 
         if (!isValid) {
             publish('autoNotification', { error: { message: 'Please fill in all required fields.' }, type: 'error' });
             return;
         }
 
-        saveAndGenerateModel({
-            modelName,
-            modelURI,
-            apiEndpoint,
-            fields,
-            actionLabels,
-            pageId,
-        });
+        try {
+            await saveAndGenerateModel({
+                modelName,
+                modelURI,
+                apiEndpoint,
+                fields,
+                actionLabels,
+                pageId,
+            });
+
+            // Optional success notification if needed
+            publish('autoNotification', { message: 'Model saved successfully.', type: 'success' });
+
+        } catch (error) {
+            console.error('Error saving model:', error);
+            publish('autoNotification', { error: { message: 'Failed to save model.' }, type: 'error' });
+        }
     };
 
     return (
@@ -169,15 +155,15 @@ const Builder: React.FC<Props> = ({ saveAndGenerateModel }) => {
                             hasDoneSubmission={hasDoneSubmission}
                         />
                         <Divider sx={{ my: 2 }} />
-                        <FieldComponent
+                        <FieldsComponent
                             inputTypes={inputTypes}
                             fields={fields}
                             setFields={setFields}
-                            fieldValidity={fieldValidations}
                             hasDoneSubmission={hasDoneSubmission}
-                            onAddField={handleAddField}
-                            updateFieldValidation={updateFieldValidation}
+                            updateFieldValidation={makeFieldValidation}
+                            fieldValidations={fieldValidations}
                             setFieldValidations={setFieldValidations}
+                            onAddField={handleAddField}
                         />
                         <Divider sx={{ my: 2 }} />
                         <Box mb={2}>
@@ -185,6 +171,7 @@ const Builder: React.FC<Props> = ({ saveAndGenerateModel }) => {
                                 actionLabels={actionLabels}
                                 setActionLabels={setActionLabels}
                                 hasDoneSubmission={hasDoneSubmission}
+                                updateActionLabelValidations={setActionLabelValidations}
                                 actionLabelValidations={actionLabelValidations}
                             />
                         </Box>

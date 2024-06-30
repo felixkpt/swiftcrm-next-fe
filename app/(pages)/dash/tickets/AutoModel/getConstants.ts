@@ -3,42 +3,24 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelName = 'tickets';
+const modelName = 'tickets2351112s';
+const modelURI = 'dash/tickets';
 const apiEndpoint = 'admin/tickets';
 
-// Define fillable fields for the tickets model
+// Define fillable fields for the tickets2351112s model
 const fillableFields = [
   {
     name: "source_id",
-    label: "Ticket source",
-    type: "dropdown",
-    dataType: "integer",
-    defaultValue: "1",
+    label: "sdds",
+    type: "textarea",
+    dataType: "string",
+    defaultValue: "sdds1",
     isRequired: true,
-    dropdownSource: "sources",
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: null,
     dropdownDependsOn: null
-  },
-  {
-    name: "customer_id",
-    label: "TKT Customer",
-    type: "dropdown",
-    dataType: "integer",
-    defaultValue: null,
-    isRequired: true,
-    dropdownSource: "customers",
-    dropdownDependsOn: null
-  },
-  {
-    name: "disposition_id",
-    label: "Dispo",
-    type: "dropdown",
-    dataType: "integer",
-    defaultValue: null,
-    isRequired: true,
-    dropdownSource: "dispositions",
-    dropdownDependsOn: [
-      "sources"
-    ]
   }
 ]
 
@@ -46,19 +28,7 @@ const fillableFields = [
 const headers = [
   {
     key: "source_id",
-    label: "Ticket source",
-    isVisibleInList: true,
-    isVisibleInSingleView: true
-  },
-  {
-    key: "customer_id",
-    label: "TKT Customer",
-    isVisibleInList: true,
-    isVisibleInSingleView: true
-  },
-  {
-    key: "disposition_id",
-    label: "Dispo",
+    label: "sdds",
     isVisibleInList: true,
     isVisibleInSingleView: true
   },
@@ -77,26 +47,15 @@ const newRecordDefaults = {}
 const actionLabelsActions: ActionLabelsActionsType = {
   viewRecord: {
     actionType: "navigation",
-    label: "View ticket >",
-    show: true
-  },
-  editRecord: {
-    actionType: "modal",
-    label: "EDT TKT",
-    show: true
-  },
-  deleteRecord: {
-    actionType: "modal",
-    label: "Delete TKT",
-    show: true
-  },
-
+    label: ""
+  }
 };
 
-// Create tickets constants using the createModelConstants function
+// Create tickets2351112s constants using the createModelConstants function
 const getConstants = createModelConstants(
-  modelName,          // modelName: Name of the model
-  apiEndpoint,        // apiEndpoint: API endpoint for categories
+  modelName,          // modelName: Name of the model/page
+  modelURI,           // modelURI: API endpoint for mode/page
+  apiEndpoint,        // apiEndpoint: API endpoint for mode/page
   fillableFields,     // fillableFields: Fields that can be filled when creating or updating records
   headers,            // headers: Headers to display in the UI
   newRecordDefaults,  // newRecordDefaults: Default values for creating a new record

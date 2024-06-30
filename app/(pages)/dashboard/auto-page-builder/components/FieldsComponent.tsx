@@ -19,18 +19,18 @@ type FieldProps = {
   inputTypes: { name: string, commonDataTypes: string[] }[];
   fields: FieldType[];
   setFields: React.Dispatch<React.SetStateAction<FieldType[]>>;
-  fieldValidity: any[];
+  fieldValidations: any[];
   hasDoneSubmission: boolean;
   onAddField: () => void;
   updateFieldValidation: (updatedField: FieldType) => FieldValidation;
   setFieldValidations: React.Dispatch<React.SetStateAction<FieldValidation[]>>
 };
 
-const FieldComponent: React.FC<FieldProps> = ({
+const FieldsComponent: React.FC<FieldProps> = ({
   inputTypes,
   fields,
   setFields,
-  fieldValidity,
+  fieldValidations,
   hasDoneSubmission,
   onAddField,
   updateFieldValidation,
@@ -89,15 +89,15 @@ const FieldComponent: React.FC<FieldProps> = ({
       }
       error={
         hasDoneSubmission &&
-        typeof fieldValidity[index][key] === 'boolean' &&
-        !fieldValidity[index][key] &&
+        typeof fieldValidations[index][key] === 'boolean' &&
+        !fieldValidations[index][key] &&
         field[key].required &&
         !(field[key].value && field[key].value.trim())
       }
       helperText={
         hasDoneSubmission &&
-          typeof fieldValidity[index][key] === 'boolean' &&
-          !fieldValidity[index][key] &&
+          typeof fieldValidations[index][key] === 'boolean' &&
+          !fieldValidations[index][key] &&
           field[key].required &&
           !(field[key].value && field[key].value.trim())
           ? 'This field is required'
@@ -106,7 +106,7 @@ const FieldComponent: React.FC<FieldProps> = ({
       sx={{
         borderColor:
           hasDoneSubmission &&
-            !fieldValidity[index][key] &&
+            !fieldValidations[index][key] &&
             field[key].required &&
             !(field[key].value && field[key].value.trim())
             ? 'red'
@@ -134,16 +134,16 @@ const FieldComponent: React.FC<FieldProps> = ({
                 label="Type"
                 error={
                   hasDoneSubmission &&
-                  typeof fieldValidity[index].type === 'boolean' &&
-                  !fieldValidity[index].type &&
+                  typeof fieldValidations[index].type === 'boolean' &&
+                  !fieldValidations[index].type &&
                   field.type.required &&
                   !field.type.value.trim()
                 }
                 sx={{
                   borderColor:
                     hasDoneSubmission &&
-                      typeof fieldValidity[index].type === 'boolean' &&
-                      !fieldValidity[index].type &&
+                      typeof fieldValidations[index].type === 'boolean' &&
+                      !fieldValidations[index].type &&
                       field.type.required &&
                       !field.type.value.trim()
                       ? 'red'
@@ -164,7 +164,7 @@ const FieldComponent: React.FC<FieldProps> = ({
               commonDataTypes={inputTypes.find(type => type.name === field.type.value)?.commonDataTypes || []}
               field={field}
               index={index}
-              fieldValidity={fieldValidity[index]}
+              fieldValidation={fieldValidations[index]}
               hasDoneSubmission={hasDoneSubmission}
               onChange={handleFieldChange}
             />
@@ -185,4 +185,4 @@ const FieldComponent: React.FC<FieldProps> = ({
   );
 };
 
-export default FieldComponent;
+export default FieldsComponent;

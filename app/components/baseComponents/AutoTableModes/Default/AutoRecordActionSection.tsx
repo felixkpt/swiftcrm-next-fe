@@ -14,9 +14,11 @@ type Props = {
 
 const AutoRecordActionSection = ({ componentId, record, recordEndpoint, actionLabels, actionType = 'dropdown' }: Props) => {
 
+    console.log('actionsList',actionLabels)
     if (Object.keys(actionLabels).length === 0) return
 
     const actionsList = Object.keys(actionLabels) as KnownActionsType[]
+
 
     return (
         <>

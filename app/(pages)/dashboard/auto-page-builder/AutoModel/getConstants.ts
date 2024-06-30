@@ -4,6 +4,7 @@ import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/B
 
 // Define variables for model name and API endpoint
 const modelName = 'Auto page';
+const modelURI = '/dashboard/auto-page-builder';
 const apiEndpoint = '/dashboard/auto-page-builder';
 
 // Define fillable fields for the leadmasters model
@@ -86,7 +87,8 @@ const actionLabelsActions: ActionLabelsActionsType = {
 // Create leadmasters constants using the createModelConstants function
 const getConstants = createModelConstants(
   modelName,          // modelName: Name of the model
-  apiEndpoint,        // apiEndpoint: API endpoint for categories
+  modelURI,           // modelURI: API endpoint for mode/page
+  apiEndpoint,        // apiEndpoint: API endpoint for mode/page
   fillableFields,     // fillableFields: Fields that can be filled when creating or updating records
   headers,            // headers: Headers to display in the UI
   newRecordDefaults,  // newRecordDefaults: Default values for creating a new record

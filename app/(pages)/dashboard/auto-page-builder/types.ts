@@ -51,14 +51,32 @@ export type FieldValidation = {
     label: boolean;
     dataType: boolean;
     defaultValue: boolean;
+    isRequired: boolean;
+    isUnique: boolean;
+    isVisibleInList: boolean;
+    isVisibleInSingleView: boolean;
     dropdownSource?: boolean;
     dropdownDependsOn?: boolean;
 }
+
 export type ActionLabelType = {
-    key: string;
-    label: string;
-    actionType: string;
-    show: boolean;
-    required?: boolean;
-    isRequired?: boolean;
+    key: {
+        value: string;
+        required: boolean;
+    };
+    label: {
+        value: string;
+        required: boolean;
+    };
+    actionType: {
+        value: string;
+        required: boolean;
+    };
 };
+
+
+export type ActionLabelTypeValidation = {
+    key: boolean;
+    label: boolean;
+    actionType: boolean;
+}

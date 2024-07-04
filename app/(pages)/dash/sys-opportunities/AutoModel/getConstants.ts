@@ -3,39 +3,24 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelName = 'opportunities';
-const modelURI = 'opportunities';
-const apiEndpoint = 'app/opportunities';
+const modelName = 'sys-opportunities';
+const modelURI = 'dash/sys-opportunities';
+const apiEndpoint = 'dash/opportunities';
 
-// Define fillable fields for the opportunities model
+// Define fillable fields for the sys-opportunities model
 const fillableFields = [
   {
     name: "source_id",
     label: "",
-    type: "dropdown",
-    dataType: "integer",
+    type: "input",
+    dataType: "string",
     defaultValue: null,
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: "sources",
+    dropdownSource: null,
     dropdownDependsOn: null
-  },
-  {
-    name: "customer_id",
-    label: "",
-    type: "dropdown",
-    dataType: "integer",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: false,
-    dropdownSource: "customers",
-    dropdownDependsOn: [
-      "sources"
-    ]
   }
 ]
 
@@ -43,12 +28,6 @@ const fillableFields = [
 const headers = [
   {
     key: "source_id",
-    label: "",
-    isVisibleInList: true,
-    isVisibleInSingleView: true
-  },
-  {
-    key: "customer_id",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
@@ -68,19 +47,11 @@ const newRecordDefaults = {}
 const actionLabelsActions: ActionLabelsActionsType = {
   viewRecord: {
     actionType: "navigation",
-    label: ""
-  },
-  editRecord: {
-    actionType: "modal",
-    label: ""
-  },
-  deleteRecord: {
-    actionType: "modal",
-    label: ""
+    label: "View opportunity ->"
   }
 };
 
-// Create opportunities constants using the createModelConstants function
+// Create sys-opportunities constants using the createModelConstants function
 const getConstants = createModelConstants(
   modelName,          // modelName: Name of the model/page
   modelURI,           // modelURI: API endpoint for mode/page

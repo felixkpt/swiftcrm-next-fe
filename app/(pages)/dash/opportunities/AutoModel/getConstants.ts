@@ -3,18 +3,18 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelName = 'tickets2351112s';
-const modelURI = 'dash/tickets';
-const apiEndpoint = 'admin/tickets';
+const modelName = 'opportunities';
+const modelURI = 'dash/opportunities';
+const apiEndpoint = 'dash/opportunities';
 
-// Define fillable fields for the tickets2351112s model
+// Define fillable fields for the opportunities model
 const fillableFields = [
   {
     name: "source_id",
-    label: "sdds",
-    type: "textarea",
+    label: "",
+    type: "input",
     dataType: "string",
-    defaultValue: "sdds1",
+    defaultValue: null,
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
@@ -28,7 +28,7 @@ const fillableFields = [
 const headers = [
   {
     key: "source_id",
-    label: "sdds",
+    label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
   },
@@ -47,11 +47,11 @@ const newRecordDefaults = {}
 const actionLabelsActions: ActionLabelsActionsType = {
   viewRecord: {
     actionType: "navigation",
-    label: ""
+    label: "View opportunity ->"
   }
 };
 
-// Create tickets2351112s constants using the createModelConstants function
+// Create opportunities constants using the createModelConstants function
 const getConstants = createModelConstants(
   modelName,          // modelName: Name of the model/page
   modelURI,           // modelURI: API endpoint for mode/page

@@ -14,9 +14,11 @@ class ActionHandlers implements ActionHandlersInterface {
 
   viewRecord = (record: RecordType, headers: HeaderType[]) => {
     console.log('Viewing record', record);
+
+    const endpoint = (this.isSingle ? this.apiEndpoint : `${this.apiEndpoint}/${record.id}`).replace(/\/+/g, '/')
     publish(`${this.componentId}View_setRecord`, {
       record,
-      endpoint: this.isSingle ? this.apiEndpoint : `${this.apiEndpoint}/${record.id}`,
+      endpoint,
       method: 'GET',
       headers
     }); // Set the record to be shown
@@ -25,9 +27,11 @@ class ActionHandlers implements ActionHandlersInterface {
   };
 
   editRecord = (record: RecordType) => {
+
+    const endpoint = (this.isSingle ? this.apiEndpoint : `${this.apiEndpoint}/${record.id}`).replace(/\/+/g, '/')
     publish(`${this.componentId}CreateOrUpdate_editRecord`, {
       record,
-      endpoint: this.isSingle ? this.apiEndpoint : `${this.apiEndpoint}/${record.id}`,
+      endpoint,
       method: 'PUT',
     }); // Set the record to be edited
 
@@ -36,9 +40,11 @@ class ActionHandlers implements ActionHandlersInterface {
 
   updateRecordStatus = (record: RecordType) => {
     console.log('Updating status of record', record);
+
+    const endpoint = (this.isSingle ? this.apiEndpoint : `${this.apiEndpoint}/${record.id}/status`).replace(/\/+/g, '/')
     publish(`${this.componentId}UpdateStatus_setRecord`, {
       record,
-      endpoint: this.isSingle ? this.apiEndpoint : `${this.apiEndpoint}/${record.id}/status`,
+      endpoint,
       method: 'PATCH',
     }); // Update the record status
 
@@ -47,9 +53,11 @@ class ActionHandlers implements ActionHandlersInterface {
 
   archiveRecord = (record: RecordType) => {
     console.log('Archiving record', record);
+
+    const endpoint = (this.isSingle ? this.apiEndpoint : `${this.apiEndpoint}/${record.id}/archive`).replace(/\/+/g, '/')
     publish(`${this.componentId}Archive_setRecord`, {
       record,
-      endpoint: this.isSingle ? this.apiEndpoint : `${this.apiEndpoint}/${record.id}/archive`,
+      endpoint,
       method: 'POST',
     }); // Archive the record
 
@@ -58,9 +66,11 @@ class ActionHandlers implements ActionHandlersInterface {
 
   deleteRecord = (record: RecordType) => {
     console.log('Deleting record', record);
+
+    const endpoint = (this.isSingle ? this.apiEndpoint : `${this.apiEndpoint}/${record.id}`).replace(/\/+/g, '/')
     publish(`${this.componentId}Delete_setRecord`, {
       record,
-      endpoint: this.isSingle ? this.apiEndpoint : `${this.apiEndpoint}/${record.id}`,
+      endpoint,
       method: 'DELETE',
     }); // Delete the record
 

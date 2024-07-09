@@ -38,24 +38,30 @@ const FieldsComponent: React.FC<FieldProps> = ({
 }) => {
 
   const handleFieldChange = (index: number, updatedField: FieldType) => {
-    if (updatedField.type.value === 'dropdown') {
-      updatedField.dropdownSource.required = true;
-    } else {
-      updatedField.dropdownSource.required = false;
-    }
 
-    setFields((prevFields) =>
-      prevFields.map((field, i) => (i === index ? updatedField : field))
-    );
+    // Ensure the dropdownSource required property is set correctly
+    const newField = {
+        ...updatedField,
+        dropdownSource: {
+            ...updatedField.dropdownSource,
+            required: updatedField.type.value === 'dropdown'
+        }
+    };
 
-    const validation: FieldValidation = updateFieldValidation(updatedField);
+    // Create a new copy of the fields array with the updated field
+    const newFields = fields.map((field, i) => (i === index ? newField : field));
+
+    setFields(newFields);
+
+    const validation: FieldValidation = updateFieldValidation(newField);
 
     setFieldValidations((prevValidations) => {
-      const newValidations = [...prevValidations];
-      newValidations[index] = validation;
-      return newValidations;
+        const newValidations = [...prevValidations];
+        newValidations[index] = validation;
+        return newValidations;
     });
-  };
+};
+
 
   const handleRemoveField = (index: number) => {
     setFields((prevFields) => prevFields.filter((_, i) => i !== index));

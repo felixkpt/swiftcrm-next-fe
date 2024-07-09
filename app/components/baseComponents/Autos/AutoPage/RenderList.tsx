@@ -10,6 +10,7 @@ import { ActionHandlersInterface, ActionListType, FillableType, HeaderType, Know
 import DefaultActionHandlers from '../BaseAutoModel/ActionHandlers';
 import AllActionsModals from '../AutoActions/AllActionsModals';
 import AllActionsAutoPosts from '../AutoActions/AllActionsAutoPosts';
+import { MetadataType, ResultsType } from '@/app/(pages)/conversation-app/ConversationModel/types';
 
 type Props = {
   modelName: string;
@@ -22,6 +23,7 @@ type Props = {
   ActionHandlers?: new (componentId: string, apiEndpoint: string) => ActionHandlersInterface;
   mapRecords: (records: any[]) => any[];
   actionLabels: Partial<ActionListType>;
+  createUri?: string;
 };
 
 const Renderer: React.FC<Props> = ({
@@ -35,26 +37,37 @@ const Renderer: React.FC<Props> = ({
   ActionHandlers,
   mapRecords,
   actionLabels,
+  createUri,
 }) => {
   const defaultActionHandlers = ActionHandlers ? new ActionHandlers(componentId, apiEndpoint) : new DefaultActionHandlers(componentId, apiEndpoint);
+  const [localApiEndpoint, setLocalApiEndpoint] = useState(apiEndpoint)
 
   const [headerTitle, setHeaderTitle] = useState(`${modelNamePlural.charAt(0).toUpperCase() + modelNamePlural.slice(1)} list`)
 
   const router = useRouter();
-  const [records, setRecords] = useState<any[]>([]);
+  const [records, setRecords] = useState<ResultsType>([]);
+  const [metadata, setMetaData] = useState<MetadataType>(null);
   const { response } = useAutoPostDone({ componentId });
 
+  const onPageChange = (page: number) => {
+    setLocalApiEndpoint(`${apiEndpoint}?page=` + page)
+  }
+
   const fetchRecords = async () => {
+    if (!localApiEndpoint) return
+
     try {
-      const response = await axios.get(appConfig.api.url(apiEndpoint));
+      const response = await axios.get(appConfig.api.url(localApiEndpoint));
 
       const hasMetaData = response?.data?.metadata
       const data = response?.data
       if (hasMetaData) {
         setHeaderTitle(data.metadata.title);
+        setMetaData(data.metadata);
         setRecords(mapRecords(data.results || []));
-        }else {
+      } else {
         setRecords(mapRecords(data || []));
+        setMetaData(null);
       }
 
     } catch (error) {
@@ -64,7 +77,7 @@ const Renderer: React.FC<Props> = ({
 
   useEffect(() => {
     fetchRecords();
-  }, []);
+  }, [localApiEndpoint]);
 
   useEffect(() => {
     if (response && response.status === 200) {
@@ -98,7 +111,7 @@ const Renderer: React.FC<Props> = ({
       }
     } else {
     }
-  }, [records, actionLabels, defaultActionHandlers, apiEndpoint]);
+  }, [records, actionLabels, defaultActionHandlers, localApiEndpoint]);
 
   useEffect(() => {
     const handleTableClick = (e: Event) => {
@@ -124,11 +137,14 @@ const Renderer: React.FC<Props> = ({
         description=""
         componentId={`${componentId}CreateOrUpdate`}
         showCreateButton
+        createUri={createUri}
       />
       <AutoTable
         records={records}
+        metadata={metadata}
         headers={filteredHeaders}
         componentId={componentId}
+        onPageChange={onPageChange}
         AutoTableHeaderActions={AutoTableHeaderActions || DefaultAutoTableHeaderActions}
       />
       <AllActionsModals

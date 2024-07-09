@@ -49,6 +49,13 @@ export type InterviewSessionType = {
     sub_category_name: string
 };
 
-export type ResultsType = Array<any>
-export type MetadataType = null | any
-export type ResultsMetaDataType = ResultsType & MetadataType
+export type ResultsType = any[]
+export type MetadataType =
+    {
+        [key: string]: any
+        page: number
+        per_page: number
+        total: number
+    } | null
+
+export type ResultsWithMetaDataType = ResultsType & MetadataType

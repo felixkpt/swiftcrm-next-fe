@@ -12,10 +12,16 @@ export function removeQuotesFromKeys(obj: any) {
 export function processTemplate(template: string, data: AutoPageBuilderType) {
   const blacklisted = ['id', 'created_at', 'updated_at']
 
+  let apiEndpoint = data.apiEndpoint
+  // Ensure apiEndpoint ends with '/'
+  if (!apiEndpoint.endsWith('/')) {
+    apiEndpoint += '/';
+  }
+
   return template
     .replace(/{autoPageBuilder_modelName}/g, data.modelName)
     .replace(/{autoPageBuilder_modelURI}/g, data.modelURI)
-    .replace(/{autoPageBuilder_apiEndpoint}/g, data.apiEndpoint)
+    .replace(/{autoPageBuilder_apiEndpoint}/g, apiEndpoint)
     .replace(/{autoPageBuilder_fillableFields}/g, removeQuotesFromKeys(data.fields.filter((itm) => !blacklisted.includes(itm.name))))
     .replace(/{autoPageBuilder_headers}/g, removeQuotesFromKeys(data.headers))
     .replace(/{autoPageBuilder_newRecordDefaults}/g, removeQuotesFromKeys({}))
@@ -173,19 +179,19 @@ export function mapExistingFields(fields: FieldSchema[]): FieldType[] {
     if (field.name === 'id' || field.name === 'created_at' || field.name === 'updated_at') return null;
 
     return {
-      name: { value: field.name, required: true },
-      type: { value: field.type || '', required: true },
-      defaultValue: { value: field.defaultValue || '', required: true },
-      isRequired: { value: field.isRequired, required: true },
-      isVisibleInList: { value: field.isVisibleInList, required: true },
-      isVisibleInSingleView: { value: field.isVisibleInSingleView, required: true },
-      label: { value: field.label || '', required: true },
-      dataType: { value: field.dataType || '', required: true },
-      isUnique: { value: field.isUnique, required: true },
-      dropdownSource: { value: field.dropdownSource || '', required: true },
-      dropdownDependsOn: { value: field.dropdownDependsOn || [], required: true },
+      name: { value: field.name, required: newField.name.required },
+      type: { value: field.type || '', required: newField.type.required },
+      defaultValue: { value: field.defaultValue || '', required: newField.defaultValue.required },
+      isRequired: { value: field.isRequired, required: newField.isRequired.required },
+      isVisibleInList: { value: field.isVisibleInList, required: newField.isVisibleInList.required },
+      isVisibleInSingleView: { value: field.isVisibleInSingleView, required: newField.isVisibleInSingleView.required },
+      label: { value: field.label || '', required: newField.label.required },
+      dataType: { value: field.dataType || '', required: newField.dataType.required },
+      isUnique: { value: field.isUnique, required: newField.isUnique.required },
+      dropdownSource: { value: field.dropdownSource || '', required: newField.dropdownSource.required },
+      dropdownDependsOn: { value: field.dropdownDependsOn || [], required: newField.dropdownDependsOn.required },
     };
-  }).filter((itm: any) => itm !== null)
+  }).filter((itm) => itm !== null);
 
   return mapped as FieldType[]
 }
@@ -205,18 +211,19 @@ function checkIfIsBooleanOrNumeric(value: any): boolean {
 
 // Function to create field validation based on updatedField
 export function makeFieldValidation(updatedField: FieldType): FieldValidation {
+
   const res: FieldValidation = {
-    name: (updatedField.name.required && updatedField.name.value?.trim() !== '') || !newField.name.required,
-    type: (updatedField.type.required && updatedField.type.value?.trim() !== '') || !newField.type.required,
-    label: (updatedField.label.required && updatedField.label.value?.trim() !== '') || !newField.label.required,
-    dataType: (updatedField.dataType.required && updatedField.dataType?.value?.trim() !== '') || !newField.dataType.required,
-    defaultValue: (updatedField.defaultValue.required && updatedField.defaultValue?.value?.trim() !== '') || !newField.defaultValue.required,
-    isRequired: (updatedField.isRequired.required && checkIfIsBooleanOrNumeric(updatedField.isRequired.value)) || !newField.isRequired.required,
-    isUnique: (updatedField.isUnique.required && checkIfIsBooleanOrNumeric(updatedField.isUnique.value)) || !newField.isUnique.required,
-    isVisibleInList: (updatedField.isVisibleInList.required && checkIfIsBooleanOrNumeric(updatedField.isVisibleInList.value)) || !newField.isVisibleInList.required,
-    isVisibleInSingleView: (updatedField.isVisibleInSingleView.required && checkIfIsBooleanOrNumeric(updatedField.isVisibleInSingleView.value)) || !newField.isVisibleInSingleView.required,
-    dropdownSource: (updatedField.dropdownSource.required && updatedField.dropdownSource?.value?.trim() !== '') || !newField.dropdownSource.required,
-    dropdownDependsOn: (updatedField.dropdownDependsOn.required && updatedField.dropdownDependsOn?.value?.length !== 0) || !newField.dropdownDependsOn.required,
+    name: updatedField.name.required ? updatedField.name.value?.trim() !== '' : !newField.name.required,
+    type: updatedField.type.required ? updatedField.type.value?.trim() !== '' : !newField.type.required,
+    label: updatedField.label.required ? updatedField.label.value?.trim() !== '' : !newField.label.required,
+    dataType: updatedField.dataType.required ? updatedField.dataType?.value?.trim() !== '' : !newField.dataType.required,
+    defaultValue: updatedField.defaultValue.required ? updatedField.defaultValue?.value?.trim() !== '' : !newField.defaultValue.required,
+    isRequired: updatedField.isRequired.required ? checkIfIsBooleanOrNumeric(updatedField.isRequired.value) : !newField.isRequired.required,
+    isUnique: updatedField.isUnique.required ? checkIfIsBooleanOrNumeric(updatedField.isUnique.value) : !newField.isUnique.required,
+    isVisibleInList: updatedField.isVisibleInList.required ? checkIfIsBooleanOrNumeric(updatedField.isVisibleInList.value) : !newField.isVisibleInList.required,
+    isVisibleInSingleView: updatedField.isVisibleInSingleView.required ? checkIfIsBooleanOrNumeric(updatedField.isVisibleInSingleView.value) : !newField.isVisibleInSingleView.required,
+    dropdownSource: updatedField.dropdownSource.required ? updatedField.dropdownSource?.value?.trim() !== '' : !newField.dropdownSource.required,
+    dropdownDependsOn: updatedField.dropdownDependsOn.required ? updatedField.dropdownDependsOn?.value?.length !== 0 : !newField.dropdownDependsOn.required,
   }
 
   return res;

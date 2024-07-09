@@ -111,7 +111,7 @@ const Modal: React.FC<ModalProps> = ({
         !fieldValidation.dropdownSource &&
         field.dropdownSource.required &&
         !(field.dropdownSource.value && field.dropdownSource.value.trim());
-
+console.log('dropdownSourceError', dropdownSourceError, 'fieldValidation.dropdownSource', fieldValidation)
     return (
         <>
             <Button

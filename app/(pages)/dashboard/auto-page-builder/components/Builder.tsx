@@ -13,8 +13,8 @@ import BasicInfoComponent from './BasicInfoComponent';
 import FieldsComponent from './FieldsComponent';
 import PreviewModal from './PreviewModal';
 import { appConfig, publish } from '@/app/components/baseComponents/utils/helpers';
-import { ActionLabelType, ActionLabelTypeValidation, FieldValidation } from '../types';
-import { inputTypes, newActionLabel } from '../utils/constants';
+import { ActionLabelTypeValidation, FieldValidation } from '../types';
+import { inputTypes } from '../utils/constants';
 import useFieldState from '../hooks/useFieldState';
 import ActionLabelsComponent from './ActionLabelsComponent';
 import { useParams } from 'next/navigation';
@@ -106,7 +106,7 @@ const Builder: React.FC<Props> = ({ saveAndGenerateModel }) => {
         );
         setActionLabelValidations(actionLabelValidations);
 
-        console.log('fieldValidations::',fieldValidations,'actionLabelValidations:',actionLabelValidations)
+        console.log('FFD', fields, 'fieldValidations::',fieldValidations,'actionLabelValidations:',actionLabelValidations)
 
         const isValid = isModelNameValid && isModelURIValid && isApiEndpointValid
             && fieldValidations.every(validation => Object.values(validation).every(Boolean))

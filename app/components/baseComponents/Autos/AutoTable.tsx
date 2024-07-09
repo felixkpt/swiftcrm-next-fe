@@ -1,16 +1,24 @@
 'use client'
 
+import Pagination from "../Pagination/Index";
 import { HeaderType } from "./BaseAutoModel/types";
+import { ResultsType, MetadataType } from "@/app/(pages)/conversation-app/ConversationModel/types";
 
 type Props = {
     headers: HeaderType[];
-    records: any[];
+    records: ResultsType
+    metadata: MetadataType
     componentId: string
+    onPageChange: (page: number) => void;
     AutoTableHeaderActions?: React.ElementType
-
 };
 
-const AutoTable = ({ records, headers, componentId, AutoTableHeaderActions }: Props) => {
+const AutoTable = ({ records, metadata, headers, componentId, onPageChange, AutoTableHeaderActions }: Props) => {
+
+    const currentPage = metadata?.page
+    const perPage = metadata?.per_page
+    const totalPages = metadata?.total
+
     componentId = componentId + 'AutoTable'
 
     return (
@@ -19,7 +27,7 @@ const AutoTable = ({ records, headers, componentId, AutoTableHeaderActions }: Pr
                 &&
                 <AutoTableHeaderActions componentId={componentId} records={records} />
             }
-            <table className="table">
+            <table className="table shadow">
                 <thead>
                     <tr>
                         {headers.map((column, index) => (
@@ -37,6 +45,9 @@ const AutoTable = ({ records, headers, componentId, AutoTableHeaderActions }: Pr
                     ))}
                 </tbody>
             </table>
+            <div className="flex justify-center mt-2">
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
+            </div>
         </div>
     );
 };

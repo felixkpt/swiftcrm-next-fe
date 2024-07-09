@@ -32,6 +32,7 @@ const page = () => {
       headers={HEADERS}
       mapRecords={records => mapRecords(records, COMPONENT_ID, apiEndpoint, ACTION_LABELS, ACTION_TYPE)}
       actionLabels={ACTION_LABELS}
+      createUri={`/dashboard/auto-page-builder/create`}
     />
   );
 };

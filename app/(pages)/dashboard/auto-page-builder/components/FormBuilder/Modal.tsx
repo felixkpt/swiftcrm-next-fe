@@ -10,17 +10,18 @@ import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import { FormControl, Grid, InputLabel, MenuItem, Select, Typography, SelectChangeEvent } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { FieldType, FieldValidation } from '../types';
-import { validateDefaultValue } from '../utils/helpers';
-import { dropdownDependenciesList } from '../utils/constants';
+import { FieldType, FieldValidation } from '../../types';
+import { validateDefaultValue } from '../../utils/helpers';
+import { CommonDataTypes, RecordType } from '@/app/components/baseComponents/Autos/BaseAutoModel/types';
 
 interface ModalProps {
     inputType: string;
-    commonDataTypes: string[];
+    commonDataTypes: CommonDataTypes[];
     field: FieldType;
     index: number;
     fieldValidation: FieldValidation
-    onChange: (index: number, updatedField: FieldType) => void;
+    handleFieldChange: (index: number, updatedField: FieldType) => void;
+    dropdownSourcesList: RecordType[];
     hasDoneSubmission: boolean;
 }
 
@@ -30,7 +31,8 @@ const Modal: React.FC<ModalProps> = ({
     field,
     index,
     fieldValidation,
-    onChange,
+    handleFieldChange,
+    dropdownSourcesList,
     hasDoneSubmission,
 }) => {
     // State to control dialog open/close
@@ -74,21 +76,25 @@ const Modal: React.FC<ModalProps> = ({
             ...field,
             [key]: { value, required: field[key].required },
         };
-        onChange(index, updatedField);
+        handleFieldChange(index, updatedField);
     };
 
     // Handle dropdown source change
     const handleSourceChange = (event: SelectChangeEvent<string>) => {
-        const newSource = event.target.value;
-        setDropdownSource(newSource);
-        const newName = Pluralize.singular(newSource) + '_id';
-
-        const updatedField = {
-            ...field,
-            name: { value: newName, required: true },
-            dropdownSource: { value: newSource, required: field.dropdownSource?.required },
-        };
-        onChange(index, updatedField);
+        if (dropdownSourcesList) {
+            const newSource = event.target.value;
+            setDropdownSource(newSource);
+            const found = dropdownSourcesList.find((item) => item.apiEndpoint == newSource);
+            if (found) {
+                const newName = found.table_name_singular + '_id'
+                const updatedField = {
+                    ...field,
+                    name: { value: newName, required: true },
+                    dropdownSource: { value: newSource, required: field.dropdownSource?.required },
+                };
+                handleFieldChange(index, updatedField);
+            }
+        }
     };
 
     // Handle dropdown dependencies change
@@ -99,7 +105,7 @@ const Modal: React.FC<ModalProps> = ({
             ...field,
             dropdownDependsOn: { value: newDependencies, required: field.dropdownDependsOn?.required },
         };
-        onChange(index, updatedField);
+        handleFieldChange(index, updatedField);
     };
 
     // Check if field is valid
@@ -111,13 +117,13 @@ const Modal: React.FC<ModalProps> = ({
         !fieldValidation.dropdownSource &&
         field.dropdownSource.required &&
         !(field.dropdownSource.value && field.dropdownSource.value.trim());
-console.log('dropdownSourceError', dropdownSourceError, 'fieldValidation.dropdownSource', fieldValidation)
+
     return (
         <>
             <Button
                 variant="outlined"
                 onClick={handleClickOpen}
-                disabled={!isValid}
+                // disabled={!isValid}
                 style={{ color: isValid && isAnyModalFieldsInvalid ? 'red' : 'inherit' }}
             >    <MoreVertIcon />
             </Button>
@@ -127,12 +133,42 @@ console.log('dropdownSourceError', dropdownSourceError, 'fieldValidation.dropdow
                     <Grid container spacing={2} mt={2}>
                         <Grid item xs={12}>
                             <TextField
+                                label="Name"
+                                fullWidth
+                                variant="outlined"
+                                value={field.name.value}
+                                onChange={(e) =>
+                                    handleFieldChange(index, {
+                                        ...field,
+                                        name: { value: e.target.value, required: field.name.required },
+                                    })
+                                }
+                                error={
+                                    hasDoneSubmission &&
+                                    typeof fieldValidation.name === 'boolean' &&
+                                    !fieldValidation.name &&
+                                    field.name.required &&
+                                    !(field.name.value && field.name.value.trim())
+                                }
+                                helperText={
+                                    hasDoneSubmission &&
+                                        typeof fieldValidation.name === 'boolean' &&
+                                        !fieldValidation.name &&
+                                        field.name.required &&
+                                        !(field.name.value && field.name.value.trim())
+                                        ? 'Name is required'
+                                        : ''
+                                }
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
                                 label="Label"
                                 fullWidth
                                 variant="outlined"
                                 value={field.label.value}
                                 onChange={(e) =>
-                                    onChange(index, {
+                                    handleFieldChange(index, {
                                         ...field,
                                         label: { value: e.target.value, required: field.label.required },
                                     })
@@ -161,7 +197,7 @@ console.log('dropdownSourceError', dropdownSourceError, 'fieldValidation.dropdow
                                 <Select
                                     value={field.dataType.value}
                                     onChange={(e) =>
-                                        onChange(index, {
+                                        handleFieldChange(index, {
                                             ...field,
                                             dataType: { value: e.target.value, required: field.dataType.required },
                                         })
@@ -200,7 +236,7 @@ console.log('dropdownSourceError', dropdownSourceError, 'fieldValidation.dropdow
                                 variant="outlined"
                                 value={field.defaultValue.value}
                                 onChange={(e) =>
-                                    onChange(index, {
+                                    handleFieldChange(index, {
                                         ...field,
                                         defaultValue: {
                                             value: e.target.value,
@@ -228,6 +264,26 @@ console.log('dropdownSourceError', dropdownSourceError, 'fieldValidation.dropdow
                                 }
                             />
                         </Grid>
+                        <Grid item xs={12}>
+                            <InputLabel>Width</InputLabel>
+                            <Select
+                                label="Width"
+                                name="width"
+                                fullWidth
+                                value={field.desktopWidth.value}
+                                onChange={(e) =>
+                                    handleFieldChange(index, {
+                                        ...field,
+                                        desktopWidth: { value: parseInt(e.target.value ?? 0), required: field.desktopWidth.required },
+                                    })
+                                }                            >
+                                {[...Array(12).keys()].map((value) => (
+                                    <MenuItem key={value + 1} value={value + 1}>
+                                        {value + 1}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </Grid>
                         {inputType === 'dropdown' && (
                             <>
                                 <Grid item xs={12}>
@@ -243,9 +299,9 @@ console.log('dropdownSourceError', dropdownSourceError, 'fieldValidation.dropdow
                                             error={dropdownSourceError}
                                             renderValue={(selected) => selected}
                                         >
-                                            {dropdownDependenciesList.map((dep, idx) => (
-                                                <MenuItem key={idx} value={dep}>
-                                                    {dep}
+                                            {dropdownSourcesList.map((dep, idx) => (
+                                                <MenuItem key={idx} value={dep.apiEndpoint}>
+                                                    {dep.apiEndpoint}
                                                 </MenuItem>
                                             ))}
                                         </Select>
@@ -269,9 +325,9 @@ console.log('dropdownSourceError', dropdownSourceError, 'fieldValidation.dropdow
                                             label="Dependencies"
                                             renderValue={(selected) => (selected as string[]).join(', ')}
                                         >
-                                            {dropdownDependenciesList.filter((itm) => itm !== dropdownSource).map((dep, idx) => (
-                                                <MenuItem key={idx} value={dep}>
-                                                    {dep}
+                                            {dropdownSourcesList.filter((itm) => itm !== dropdownSource.apiEndpoint).map((dep, idx) => (
+                                                <MenuItem key={idx} value={dep.apiEndpoint}>
+                                                    {dep.apiEndpoint}
                                                 </MenuItem>
                                             ))}
                                         </Select>

@@ -13,17 +13,12 @@ export const formatErrors: FormatErrorsFunction = {
     fastAPI: (errors) => {
         const formattedErrors: Record<string, string> = {};
 
-        errors.forEach((error) => {
+        typeof errors == 'object' && errors.length && errors.forEach((error) => {
             const { loc, msg } = error;
             const field = loc[1];
             formattedErrors[field] = msg;
         });
 
         return formattedErrors;
-    },
-    laravel: (errors) => {
-        // Placeholder for formatting Laravel errors
-        // We will Implement formatting logic here
-        return {};
     },
 };

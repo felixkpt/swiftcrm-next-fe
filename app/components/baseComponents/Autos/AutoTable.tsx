@@ -9,11 +9,11 @@ type Props = {
     records: ResultsType
     metadata: MetadataType
     componentId: string
-    onPageChange: (page: number) => void;
+    onPageNumberChange: (page: number) => void;
     AutoTableHeaderActions?: React.ElementType
 };
 
-const AutoTable = ({ records, metadata, headers, componentId, onPageChange, AutoTableHeaderActions }: Props) => {
+const AutoTable = ({ records, metadata, headers, componentId, onPageNumberChange, AutoTableHeaderActions }: Props) => {
 
     const currentPage = metadata?.page
     const perPage = metadata?.per_page
@@ -46,7 +46,7 @@ const AutoTable = ({ records, metadata, headers, componentId, onPageChange, Auto
                 </tbody>
             </table>
             <div className="flex justify-center mt-2">
-                <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
+                <Pagination currentPage={currentPage} totalPages={totalPages} onPageNumberChange={onPageNumberChange} />
             </div>
         </div>
     );

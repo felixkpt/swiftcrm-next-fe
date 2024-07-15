@@ -3,10 +3,10 @@ import React from 'react';
 type PaginationProps = {
     currentPage?: number;
     totalPages?: number;
-    onPageChange: (page: number) => void;
+    onPageNumberChange: (page: number) => void;
 };
 
-const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) => {
+const Pagination = ({ currentPage, totalPages, onPageNumberChange }: PaginationProps) => {
     const limit = 1
 
     const renderPageNumbers = () => {
@@ -19,7 +19,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
                     <button
                         key={i}
                         className={`join-item btn ${i === currentPage ? 'btn-active' : ''}`}
-                        onClick={() => onPageChange(i)}
+                        onClick={() => onPageNumberChange(i)}
                     >
                         {i}
                     </button>

@@ -50,4 +50,22 @@ export type FillableType = {
     dataType?: any;
     defaultValue?: any;
     hidden?: boolean
+
+    isVisibleInList?: boolean,
+    isVisibleInSingleView?: boolean,
+    isUnique?: boolean,
+    dropdownSource?: string,
+    dropdownDependsOn?: string[]
+    onChangeUpdateList?: string[]
+
+};
+
+export type CommonDataTypes =
+    | 'text' | 'string' | 'integer' | 'biginteger' | 'boolean'
+    | 'float' | 'double' | 'decimal' | 'date' | 'datetime'
+    | 'timestamp' | 'time' | 'uuid' | 'longtext' | 'json';
+
+export type InputType = {
+    name: 'input' | 'textarea' | 'dropdown';
+    commonDataTypes: CommonDataTypes[];
 };

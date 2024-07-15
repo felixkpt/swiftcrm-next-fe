@@ -1,4 +1,5 @@
 // app/(pages)/dashboard/auto-page-builder/utils/helpers.ts
+import Pluralize from 'pluralize';
 import { ActionLabelType, ActionLabelTypeValidation, FieldType, FieldValidation } from "../types";
 import { ActionLabelSchema, AutoPageBuilderType, FieldSchema, HeaderSchema } from "./backendTypes";
 import { newActionLabel, newField } from "./constants";
@@ -190,6 +191,8 @@ export function mapExistingFields(fields: FieldSchema[]): FieldType[] {
       isUnique: { value: field.isUnique, required: newField.isUnique.required },
       dropdownSource: { value: field.dropdownSource || '', required: newField.dropdownSource.required },
       dropdownDependsOn: { value: field.dropdownDependsOn || [], required: newField.dropdownDependsOn.required },
+      desktopWidth: { value: field.desktopWidth || [], required: newField.desktopWidth.required },
+      mobileWidth: { value: field.mobileWidth || [], required: newField.mobileWidth.required },
     };
   }).filter((itm) => itm !== null);
 

@@ -3,7 +3,9 @@ import { FieldType, FieldValidation } from '../types';
 import { newField, newValidation } from '../utils/constants';
 
 const useFieldState = () => {
-    const [fields, setFields] = useState<FieldType[]>([newField]);
+    const [fields, setFields] = useState<FieldType[]>([
+        { ...newField, },
+    ]);
     const [fieldValidations, setFieldValidations] = useState<FieldValidation[]>([]);
 
     const allFieldsAreValid = (fieldValidations: FieldValidation[]) => {
@@ -12,8 +14,14 @@ const useFieldState = () => {
         });
     };
 
-    const handleAddField = () => {
-        setFields([...fields, newField]);
+    const handleAddField = (name: string, type: string, dataType: string) => {
+        const newFieldWithType = {
+            ...newField,
+            name: { value: name, required: newField.name.required, },
+            type: { value: type, required: newField.type.required, },
+            dataType: { value: dataType, required: newField.dataType.required },
+        };
+        setFields([...fields, newFieldWithType]);
         setFieldValidations([...fieldValidations, newValidation]);
     };
 

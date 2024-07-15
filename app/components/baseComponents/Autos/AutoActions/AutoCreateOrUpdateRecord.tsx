@@ -1,14 +1,12 @@
-'use client'
+'use client';
 import { useState, useEffect, useRef } from 'react';
 import { publish, subscribe } from '../../utils/helpers';
 import { formatErrors } from '../../utils/formatErrors';
 import SubmitButton from '../../Buttons/SubmitButton';
 import { HttpVerb } from '@/app/components/baseComponents/types';
 import { FillableType } from '../BaseAutoModel/types';
-
-type ErrorResponse = {
-    detail: { loc: string[]; msg: string; type: string }[];
-};
+import DynamicDropdown from './DynamicDropdown';
+import DropdownDependsOn from './DropdownDependsOn';
 
 type Props = {
     componentId: string;
@@ -47,7 +45,38 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelName, met
         }
     }, [record, modelName]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const [dependencyValues, setDependencyValues] = useState<Record<string, string>>({});
+    useEffect(() => {
+
+        if (fillable && fillable.length > 0) {
+            fillable.forEach((field) => {
+                console.log('dropdownSource:', field.dropdownSource)
+                const dropdownDependsOn = field.dropdownDependsOn
+                console.log('dropdownDependsOn:', dropdownDependsOn)
+                if (dropdownDependsOn) {
+                    dropdownDependsOn.forEach((dependency) => {
+                        fillable.map((field) => {
+                            if (field.dropdownSource === dependency) {
+                                if (field.onChangeUpdateList) {
+
+                                    const newList = [...field.onChangeUpdateList, dependency].filter((value, index, array) => array.indexOf(value) === index)
+                                    field.onChangeUpdateList = newList
+                                } else {
+                                    field.onChangeUpdateList = [dependency]
+                                }
+                            }
+                        })
+                    })
+                }
+
+            })
+
+        }
+    }, [fillable]);
+
+    console.log('fillable:::::', fillable)
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData((prevFormData) => ({
             ...prevFormData,
@@ -57,6 +86,15 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelName, met
             ...prevErrors,
             [name]: null,
         }));
+
+        // Check if the field has onChangeUpdateList
+        const field = fillable.find((f) => f.name === name);
+        if (field?.onChangeUpdateList) {
+            field.onChangeUpdateList.forEach((updateField) => {
+                console.log(`${componentId}_update_${updateField}`, value)
+                publish(`${componentId}_update_${updateField}`, { [field.name]: value });
+            });
+        }
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -79,9 +117,21 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelName, met
                 if (typeof error === 'string') {
                     setGeneralError(error);
                 } else if (typeof error === 'object') {
-                    const formattedErrors = formatErrors.fastAPI(error.detail);
-                    if (formattedErrors) {
-                        setErrors(formattedErrors);
+                    if (error.detail && Array.isArray(error.detail)) {
+                        const formattedErrors = formatErrors.fastAPI(error.detail);
+                        if (formattedErrors) {
+                            setErrors(formattedErrors);
+                        }
+                    } else if (error.detail && error.detail.type) {
+                        const errorType = error.detail.type;
+                        const errorMsg = error.detail.msg;
+                        if (errorType === 'unique_constraint') {
+                            setGeneralError(errorMsg);
+                        } else {
+                            setGeneralError('An unknown error occurred.');
+                        }
+                    } else {
+                        setGeneralError('An unknown error occurred.');
                     }
                 } else {
                     setGeneralError('An unknown error occurred.');
@@ -90,7 +140,6 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelName, met
         };
 
         const unsubscribe = subscribe(`${componentId}_done`, handleResponse);
-
         return () => {
             unsubscribe();
         };
@@ -149,7 +198,7 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelName, met
 
     return (
         <>
-            <div className="border-b-2 border-b-gray-400">
+            <div className="border-b-2 border-b-gray-400 mb-5">
                 <h3 className="font-bold text-lg text-gray-300">{localTitle}</h3>
             </div>
 
@@ -175,17 +224,35 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelName, met
                                 }}
                                 className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline ${errors[field.name] ? 'border-red-700' : ''}`}
                             />
-                        ) : (
-                            <input
-                                type={field.type}
-                                id={field.name}
+                        ) : field.type === 'dropdown' && field.dropdownDependsOn ? (
+                            <DropdownDependsOn
+                                componentId={componentId}
                                 name={field.name}
                                 value={formData[field.name]}
                                 onChange={handleChange}
-                                aria-label={field.label}
-                                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline h-fit ${errors[field.name] ? 'border-red-700' : ''}`}
+                                dropdownSource={field.dropdownSource || ''}
+                                dropdownDependsOn={field.dropdownDependsOn}
                             />
-                        )}
+                        ) :
+                            field.type === 'dropdown' ? (
+                                <DynamicDropdown
+                                    componentId={componentId}
+                                    name={field.name}
+                                    value={formData[field.name]}
+                                    onChange={handleChange}
+                                    dropdownSource={field.dropdownSource || ''}
+                                />
+                            ) : (
+                                <input
+                                    type={field.type}
+                                    id={field.name}
+                                    name={field.name}
+                                    value={formData[field.name]}
+                                    onChange={handleChange}
+                                    aria-label={field.label}
+                                    className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline h-fit ${errors[field.name] ? 'border-red-700' : ''}`}
+                                />
+                            )}
                         {errors[field.name] && (
                             <p className="text-red-700 text-sm mt-1">{errors[field.name]}</p>
                         )}

@@ -44,7 +44,7 @@ const AutoDeleteRecord: React.FC<Props> = ({ componentId, modelName, method, end
 
     return (
         <>
-            <div className="border-b-2 border-b-gray-400"><h3 className="font-bold text-lg text-gray-300">{localTitle}</h3></div>
+            <div className="border-b-2 border-b-gray-400 mb-5"><h3 className="font-bold text-lg text-gray-300">{localTitle}</h3></div>
 
             Record Delete!
         </>

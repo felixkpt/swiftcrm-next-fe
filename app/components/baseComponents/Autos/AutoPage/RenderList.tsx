@@ -1,3 +1,4 @@
+'use client'
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
@@ -11,6 +12,8 @@ import DefaultActionHandlers from '../BaseAutoModel/ActionHandlers';
 import AllActionsModals from '../AutoActions/AllActionsModals';
 import AllActionsAutoPosts from '../AutoActions/AllActionsAutoPosts';
 import { MetadataType, ResultsType } from '@/app/(pages)/conversation-app/ConversationModel/types';
+import useAutoResolveEndPointPlaceholders from '../BaseAutoModel/useAutoResolveEndPointPlaceholders';
+import mapRecords from '@/app/(pages)/dashboard/auto-page-builder/AutoModel/mapRecords';
 
 type Props = {
   modelName: string;
@@ -21,8 +24,11 @@ type Props = {
   headers: HeaderType[];
   AutoTableHeaderActions?: React.ElementType;
   ActionHandlers?: new (componentId: string, apiEndpoint: string) => ActionHandlersInterface;
-  mapRecords: (records: any[]) => any[];
+  serverRecords: ResultsType
+  revalidateServerRecords:any
+  serverMetadata:any
   actionLabels: Partial<ActionListType>;
+  actionType: any;
   createUri?: string;
 };
 
@@ -35,21 +41,29 @@ const Renderer: React.FC<Props> = ({
   headers,
   AutoTableHeaderActions,
   ActionHandlers,
-  mapRecords,
+  serverRecords,
+  revalidateServerRecords,
+  serverMetadata,
   actionLabels,
+  actionType,
   createUri,
 }) => {
   const defaultActionHandlers = ActionHandlers ? new ActionHandlers(componentId, apiEndpoint) : new DefaultActionHandlers(componentId, apiEndpoint);
+
+  apiEndpoint = useAutoResolveEndPointPlaceholders({ apiEndpoint });
+
   const [localApiEndpoint, setLocalApiEndpoint] = useState(apiEndpoint)
 
   const [headerTitle, setHeaderTitle] = useState(`${modelNamePlural.charAt(0).toUpperCase() + modelNamePlural.slice(1)} list`)
 
   const router = useRouter();
-  const [records, setRecords] = useState<ResultsType>([]);
-  const [metadata, setMetaData] = useState<MetadataType>(null);
+  serverRecords = mapRecords(serverRecords, componentId, apiEndpoint, actionLabels, actionType);
+
+  const [records, setRecords] = useState<ResultsType>(serverRecords);
+  const [metadata, setMetaData] = useState<MetadataType>(serverMetadata);
   const { response } = useAutoPostDone({ componentId });
 
-  const onPageChange = (page: number) => {
+  const onPageNumberChange = (page: number) => {
     setLocalApiEndpoint(`${apiEndpoint}?page=` + page)
   }
 
@@ -64,9 +78,9 @@ const Renderer: React.FC<Props> = ({
       if (hasMetaData) {
         setHeaderTitle(data.metadata.title);
         setMetaData(data.metadata);
-        setRecords(mapRecords(data.results || []));
+        setRecords(mapRecords(data.results || [], componentId, apiEndpoint, actionLabels, actionType));
       } else {
-        setRecords(mapRecords(data || []));
+        setRecords(mapRecords(data || [], componentId, apiEndpoint, actionLabels, actionType));
         setMetaData(null);
       }
 
@@ -76,12 +90,17 @@ const Renderer: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    fetchRecords();
+    if (apiEndpoint !== localApiEndpoint) {
+      console.log('fetching only....')
+      fetchRecords();
+    }
   }, [localApiEndpoint]);
-
+  
   useEffect(() => {
     if (response && response.status === 200) {
+      console.log('fetching and revalidating....')
       fetchRecords();
+      revalidateServerRecords()
     }
   }, [response]);
 
@@ -144,7 +163,7 @@ const Renderer: React.FC<Props> = ({
         metadata={metadata}
         headers={filteredHeaders}
         componentId={componentId}
-        onPageChange={onPageChange}
+        onPageNumberChange={onPageNumberChange}
         AutoTableHeaderActions={AutoTableHeaderActions || DefaultAutoTableHeaderActions}
       />
       <AllActionsModals

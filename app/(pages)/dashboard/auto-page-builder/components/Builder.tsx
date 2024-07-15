@@ -10,11 +10,10 @@ import {
     Divider,
 } from '@mui/material';
 import BasicInfoComponent from './BasicInfoComponent';
-import FieldsComponent from './FieldsComponent';
+import FieldsComponent from './FormBuilder/FieldsComponent';
 import PreviewModal from './PreviewModal';
 import { appConfig, publish } from '@/app/components/baseComponents/utils/helpers';
 import { ActionLabelTypeValidation, FieldValidation } from '../types';
-import { inputTypes } from '../utils/constants';
 import useFieldState from '../hooks/useFieldState';
 import ActionLabelsComponent from './ActionLabelsComponent';
 import { useParams } from 'next/navigation';
@@ -22,12 +21,15 @@ import axios from 'axios';
 import getConstants from '../AutoModel/getConstants';
 import { mapExistingFields, mapExistingActionLables, makeFieldValidation, makeActionLabelValidation } from '../utils/helpers';
 import useActionLabelState from '../hooks/useActionLabelState';
+import { InputType, RecordType } from '@/app/components/baseComponents/Autos/BaseAutoModel/types';
 
 type Props = {
+    inputTypes: InputType[];
+    dropdownSourcesList: RecordType[];
     saveAndGenerateModel: (data: any) => void;
 };
 
-const Builder: React.FC<Props> = ({ saveAndGenerateModel }) => {
+const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGenerateModel }) => {
     const params = useParams();
     const { API_ENDPOINT } = getConstants;
     const pageId = params?.pageId;
@@ -106,7 +108,7 @@ const Builder: React.FC<Props> = ({ saveAndGenerateModel }) => {
         );
         setActionLabelValidations(actionLabelValidations);
 
-        console.log('FFD', fields, 'fieldValidations::',fieldValidations,'actionLabelValidations:',actionLabelValidations)
+        console.log('FFD', fields, 'fieldValidations::', fieldValidations, 'actionLabelValidations:', actionLabelValidations)
 
         const isValid = isModelNameValid && isModelURIValid && isApiEndpointValid
             && fieldValidations.every(validation => Object.values(validation).every(Boolean))
@@ -136,66 +138,76 @@ const Builder: React.FC<Props> = ({ saveAndGenerateModel }) => {
         }
     };
 
+    const [selectedField, setFieldSettings] = useState({ field: {...fields[0]}, index: 0 })
+
     return (
-        <Grid justifyContent="center" mt={4}>
-            <Grid item xs={10}>
-                <Paper elevation={3} sx={{ padding: 3 }}>
-                    <Typography variant="h5" gutterBottom>
-                        Auto Page Builder
-                    </Typography>
-                    <form onSubmit={handleSubmit}>
-                        <BasicInfoComponent
-                            modelName={modelName}
-                            setModelName={setModelName}
-                            modelURI={modelURI}
-                            setModelURI={setModelURI}
-                            apiEndpoint={apiEndpoint}
-                            setApiEndpoint={setApiEndpoint}
-                            isValid={isBasicInfoValid}
-                            hasDoneSubmission={hasDoneSubmission}
-                        />
-                        <Divider sx={{ my: 2 }} />
-                        <FieldsComponent
-                            inputTypes={inputTypes}
-                            fields={fields}
-                            setFields={setFields}
-                            hasDoneSubmission={hasDoneSubmission}
-                            updateFieldValidation={makeFieldValidation}
-                            fieldValidations={fieldValidations}
-                            setFieldValidations={setFieldValidations}
-                            onAddField={handleAddField}
-                        />
-                        <Divider sx={{ my: 2 }} />
-                        <Box mb={2}>
-                            <ActionLabelsComponent
-                                actionLabels={actionLabels}
-                                setActionLabels={setActionLabels}
+        <div>
+            <div>
+                <h1>Form Builder</h1>
+            </div>
+            <Grid justifyContent="center" mt={4}>
+                <Grid item xs={10}>
+                    <Paper elevation={3} sx={{ padding: 3 }}>
+                        <Typography variant="h5" gutterBottom>
+                            Auto Page Builder
+                        </Typography>
+                        <form onSubmit={handleSubmit}>
+                            <BasicInfoComponent
+                                modelName={modelName}
+                                setModelName={setModelName}
+                                modelURI={modelURI}
+                                setModelURI={setModelURI}
+                                apiEndpoint={apiEndpoint}
+                                setApiEndpoint={setApiEndpoint}
+                                isValid={isBasicInfoValid}
                                 hasDoneSubmission={hasDoneSubmission}
-                                updateActionLabelValidations={setActionLabelValidations}
-                                actionLabelValidations={actionLabelValidations}
                             />
-                        </Box>
-                        <Divider sx={{ my: 2 }} />
-                        <Box mt={2}>
-                            <Button type="button" variant="contained" color="primary" onClick={handlePreviewOpen}>
-                                Preview
-                            </Button>
-                            <Button type="submit" variant="contained" color="primary" sx={{ ml: 2 }}>
-                                Save
-                            </Button>
-                        </Box>
-                    </form>
-                </Paper>
+                            <Divider sx={{ my: 2 }} />
+                            <FieldsComponent
+                                inputTypes={inputTypes}
+                                fields={fields}
+                                setFields={setFields}
+                                dropdownSourcesList={dropdownSourcesList}
+                                hasDoneSubmission={hasDoneSubmission}
+                                updateFieldValidation={makeFieldValidation}
+                                fieldValidations={fieldValidations}
+                                setFieldValidations={setFieldValidations}
+                                onAddField={handleAddField}
+                                
+                            />
+                            <Divider sx={{ my: 2 }} />
+                            <Box mb={2}>
+                                <ActionLabelsComponent
+                                    actionLabels={actionLabels}
+                                    setActionLabels={setActionLabels}
+                                    hasDoneSubmission={hasDoneSubmission}
+                                    updateActionLabelValidations={setActionLabelValidations}
+                                    actionLabelValidations={actionLabelValidations}
+                                />
+                            </Box>
+                            <Divider sx={{ my: 2 }} />
+                            <Box mt={2}>
+                                <Button type="button" variant="contained" color="primary" onClick={handlePreviewOpen}>
+                                    Preview
+                                </Button>
+                                <Button type="submit" variant="contained" color="primary" sx={{ ml: 2 }}>
+                                    Save
+                                </Button>
+                            </Box>
+                        </form>
+                    </Paper>
+                </Grid>
+                <PreviewModal
+                    open={isPreviewOpen}
+                    onClose={handlePreviewClose}
+                    modelName={modelName}
+                    apiEndpoint={apiEndpoint}
+                    fields={fields}
+                    actionLabels={actionLabels}
+                />
             </Grid>
-            <PreviewModal
-                open={isPreviewOpen}
-                onClose={handlePreviewClose}
-                modelName={modelName}
-                apiEndpoint={apiEndpoint}
-                fields={fields}
-                actionLabels={actionLabels}
-            />
-        </Grid>
+        </div>
+
     );
 };
 

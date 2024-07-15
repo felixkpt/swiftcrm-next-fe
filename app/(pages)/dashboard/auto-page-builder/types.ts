@@ -43,6 +43,14 @@ export type FieldType = {
         value: string[];
         required: boolean;
     };
+    desktopWidth: {
+        value: number;
+        required: boolean;
+    };
+    mobileWidth: {
+        value: number;
+        required: boolean;
+    };
 };
 
 export type FieldValidation = {

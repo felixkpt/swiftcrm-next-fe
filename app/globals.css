@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities;  
+  .MuiGrid-item {
+    transition: all 0.2s ease;
+  }
+  

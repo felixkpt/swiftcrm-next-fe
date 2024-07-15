@@ -1,10 +1,11 @@
 // app/(pages)/dashboard/auto-page-builder/utils/constants.ts
+import { InputType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 import { ActionLabelType, FieldType, FieldValidation } from "../types";
 
-export const inputTypes = [
+export const inputTypes: InputType[] = [
     {
         name: 'input',
-        commonDataTypes: ['text', 'string', 'integer', 'biginteger', 'boolean', 'float', 'double', 'decimal', 'date', 'datetime', 'timestamp', 'time', 'uuid']
+        commonDataTypes: ['string', 'integer', 'biginteger', 'boolean', 'float', 'double', 'decimal', 'date', 'datetime', 'timestamp', 'time', 'uuid']
     },
     {
         name: 'textarea',
@@ -17,10 +18,10 @@ export const inputTypes = [
 ];
 
 export const newField: FieldType = {
-    name: { value: '', required: true },
-    type: { value: '', required: true },
+    name: { value: 'name', required: true },
+    type: { value: 'input', required: true },
     label: { value: '', required: false },
-    dataType: { value: '', required: true },
+    dataType: { value: 'string', required: true },
     defaultValue: { value: '', required: false },
     isRequired: { value: true, required: true },
     isVisibleInList: { value: true, required: true },
@@ -28,6 +29,8 @@ export const newField: FieldType = {
     isUnique: { value: false, required: false },
     dropdownSource: { value: '', required: false },
     dropdownDependsOn: { value: [], required: false },
+    desktopWidth: { value: 12, required: false },
+    mobileWidth: { value: 12, required: false },
 };
 
 const generateValidation = (field: FieldType): FieldValidation => {

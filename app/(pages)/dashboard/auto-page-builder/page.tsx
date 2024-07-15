@@ -1,14 +1,13 @@
-
-/* eslint-disable react-hooks/rules-of-hooks */
-'use client';
 // Start AutoModel imports
-import getConstants from './AutoModel/getConstants';
-import mapRecords from './AutoModel/mapRecords';
 import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderList';
-import useAutoResolveEndPointPlaceholders from '@/app/components/baseComponents/Autos/BaseAutoModel/useAutoResolveEndPointPlaceholders';
+import { appConfig } from '@/app/components/baseComponents/utils/helpers';
+import fetchRecords from '@/app/components/baseComponents/utils/fetchRecords';
+import getConstants from './AutoModel/getConstants';
+import { revalidateTag } from 'next/cache';
 // End AutoModel imports
 
-const page = () => {
+const page = async () => {
+  // Destructure constants from getConstants
   const {
     MODEL_NAME,
     MODEL_NAME_PLURAL,
@@ -20,19 +19,42 @@ const page = () => {
     FILLABLE_FIELDS
   } = getConstants;
 
-  const apiEndpoint = useAutoResolveEndPointPlaceholders({ apiEndpoint: API_ENDPOINT });
+  // Define the API endpoint URL using appConfig
+  const apiEndpoint = appConfig.api.url(API_ENDPOINT);
+
+  // Initialize variables for records and metadata
+  let records = [];
+  let metadata = null;
+
+  try {
+    // Fetch records using the fetchRecords helper function
+    const { records: fetchedRecords, metadata: fetchedMetadata } = await fetchRecords(apiEndpoint, [COMPONENT_ID]);
+    records = fetchedRecords;
+    metadata = fetchedMetadata;
+  } catch (error) {
+    console.error(`Error fetching ${MODEL_NAME_PLURAL}:`, error);
+  }
+
+  // Function to revalidate server records
+  async function revalidateServerRecords() {
+    'use server';
+    revalidateTag(COMPONENT_ID);
+  }
 
   return (
     <Renderer
-      modelName={MODEL_NAME}
-      modelNamePlural={MODEL_NAME_PLURAL}
-      componentId={COMPONENT_ID}
-      apiEndpoint={apiEndpoint}
-      fillableFields={FILLABLE_FIELDS}
-      headers={HEADERS}
-      mapRecords={records => mapRecords(records, COMPONENT_ID, apiEndpoint, ACTION_LABELS, ACTION_TYPE)}
-      actionLabels={ACTION_LABELS}
-      createUri={`/dashboard/auto-page-builder/create`}
+      modelName={MODEL_NAME} // Model name for display purposes
+      modelNamePlural={MODEL_NAME_PLURAL} // Plural model name for API and display
+      componentId={COMPONENT_ID} // Unique component identifier
+      fillableFields={FILLABLE_FIELDS} // Fields that are fillable
+      headers={HEADERS} // HTTP headers for API requests
+      actionLabels={ACTION_LABELS} // Labels for different actions (e.g., create, update)
+      actionType={ACTION_TYPE} // Type of action (e.g., create, edit)
+      apiEndpoint={API_ENDPOINT} // API endpoint for fetching records
+      serverRecords={records} // Initial fetched records to be displayed
+      revalidateServerRecords={revalidateServerRecords} // Function to revalidate server records
+      serverMetadata={metadata} // Metadata associated with the fetched records
+      createUri={`/dashboard/auto-page-builder/create`} // URI for creating new records
     />
   );
 };

@@ -1,6 +1,6 @@
 // app/(pages)/dashboard/auto-page-builder/utils/makeApiRequest.ts
-import { formatErrors } from '@/app/components/baseComponents/utils/formatErrors';
 import { appConfig } from '@/app/components/baseComponents/utils/helpers';
+import { revalidateTag } from 'next/cache'
 
 
 type ResultsType = {
@@ -12,9 +12,10 @@ type ResultsType = {
   ok: boolean
 }
 
+const uri = 'dashboard/auto-page-builder'
 export async function makeApiRequest(data: any) {
 
-  return genericRequestor('dashboard/auto-page-builder', data)
+  return genericRequestor(uri, data)
 
 }
 
@@ -22,7 +23,7 @@ async function genericRequestor(endPoint: string, data: any) {
   const pageId = data?.pageId
   endPoint = pageId ? `${endPoint}/${pageId}` : endPoint
 
-  console.log('DDDD::', JSON.stringify(data))
+  console.log('DATA::', JSON.stringify(data))
 
   const results: ResultsType = {
     data: null,
@@ -48,7 +49,8 @@ async function genericRequestor(endPoint: string, data: any) {
       if (results.status == 200 || results.status == 201) {
         results.ok = true
       }
-
+      // revalidateTag "auto-page-builder"
+      revalidateTag('auto-page-builder')
       return response.json()
     })
       .then((data) => {

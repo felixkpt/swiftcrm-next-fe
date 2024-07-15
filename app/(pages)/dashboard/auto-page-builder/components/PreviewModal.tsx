@@ -1,13 +1,7 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography, Box } from '@mui/material';
-import { FieldType } from '../types';
+import { ActionLabelType, FieldType } from '../types';
 
-type ActionLabel = {
-  key: string;
-  label: string;
-  actionType: string;
-  show: boolean;
-};
 
 type Props = {
   open: boolean;
@@ -15,7 +9,7 @@ type Props = {
   modelName: string;
   apiEndpoint: string;
   fields: FieldType[];
-  actionLabels: ActionLabel[];
+  actionLabels: ActionLabelType[];
 };
 
 const PreviewModal: React.FC<Props> = ({ open, onClose, modelName, apiEndpoint, fields, actionLabels }) => {

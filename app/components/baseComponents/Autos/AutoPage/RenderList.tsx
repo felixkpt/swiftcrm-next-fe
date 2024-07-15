@@ -11,9 +11,9 @@ import { ActionHandlersInterface, ActionListType, FillableType, HeaderType, Know
 import DefaultActionHandlers from '../BaseAutoModel/ActionHandlers';
 import AllActionsModals from '../AutoActions/AllActionsModals';
 import AllActionsAutoPosts from '../AutoActions/AllActionsAutoPosts';
-import { MetadataType, ResultsType } from '@/app/(pages)/conversation-app/ConversationModel/types';
 import useAutoResolveEndPointPlaceholders from '../BaseAutoModel/useAutoResolveEndPointPlaceholders';
 import mapRecords from '@/app/(pages)/dashboard/auto-page-builder/AutoModel/mapRecords';
+import { GeneralResultType, MetadataType } from '../../types';
 
 type Props = {
   modelName: string;
@@ -24,7 +24,7 @@ type Props = {
   headers: HeaderType[];
   AutoTableHeaderActions?: React.ElementType;
   ActionHandlers?: new (componentId: string, apiEndpoint: string) => ActionHandlersInterface;
-  serverRecords: ResultsType
+  serverRecords: GeneralResultType[]
   revalidateServerRecords:any
   serverMetadata:any
   actionLabels: Partial<ActionListType>;
@@ -59,7 +59,7 @@ const Renderer: React.FC<Props> = ({
   const router = useRouter();
   serverRecords = mapRecords(serverRecords, componentId, apiEndpoint, actionLabels, actionType);
 
-  const [records, setRecords] = useState<ResultsType>(serverRecords);
+  const [records, setRecords] = useState<GeneralResultType[]>(serverRecords);
   const [metadata, setMetaData] = useState<MetadataType>(serverMetadata);
   const { response } = useAutoPostDone({ componentId });
 

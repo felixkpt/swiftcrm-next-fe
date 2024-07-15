@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  TextField,
-  Grid,
-  Box,
-  Typography,
-} from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 import { FieldType, FieldValidation } from '../../types';
 import { InputType, RecordType } from '@/app/components/baseComponents/Autos/BaseAutoModel/types';
 import { DndProvider } from 'react-dnd';
@@ -19,7 +14,7 @@ type FieldProps = {
   fieldValidations: any[];
   dropdownSourcesList: RecordType[];
   hasDoneSubmission: boolean;
-  onAddField: () => void;
+  onAddField: (name: string, type: string, dataType: string) => void;
   updateFieldValidation: (updatedField: FieldType) => FieldValidation;
   setFieldValidations: React.Dispatch<React.SetStateAction<FieldValidation[]>>
 };

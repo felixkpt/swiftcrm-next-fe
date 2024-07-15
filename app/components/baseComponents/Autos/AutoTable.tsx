@@ -1,12 +1,11 @@
 'use client'
 
 import Pagination from "../Pagination/Index";
+import { GeneralResultType, MetadataType } from "../types";
 import { HeaderType } from "./BaseAutoModel/types";
-import { ResultsType, MetadataType } from "@/app/(pages)/conversation-app/ConversationModel/types";
-
 type Props = {
     headers: HeaderType[];
-    records: ResultsType
+    records: GeneralResultType[]
     metadata: MetadataType
     componentId: string
     onPageNumberChange: (page: number) => void;

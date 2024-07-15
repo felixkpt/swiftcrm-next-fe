@@ -3,7 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import Modal from "./Modal";
-import { InputType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
+import { CommonDataTypes, InputType, RecordType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 import { AutoPageBuilderType } from "../../utils/backendTypes";
 
 const ItemTypes = {
@@ -18,7 +18,7 @@ type DraggableFieldProps = {
     moveField: (dragIndex: number, hoverIndex: number) => void;
     handleRemoveField: (index: number) => void;
     inputTypes: InputType[];
-    dropdownSourcesList: AutoPageBuilderType[];
+    dropdownSourcesList: RecordType[];
     fieldValidations: any;
     handleFieldChange: (index: number, field: any) => void;
     hasDoneSubmission: boolean;
@@ -91,7 +91,7 @@ const DraggableField = ({
 
 const renderModal = (
     inputType: string,
-    commonDataTypes: string[],
+    commonDataTypes: CommonDataTypes[],
     field: any,
     index: number,
     fieldValidation: any,

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ActionLabelType, ActionLabelTypeValidation } from '../types';
-import { newActionLabel } from '../utils/constants';
+import { actionLabelsActions, newActionLabel } from '../utils/constants';
 import { makeActionLabelValidation } from '../utils/helpers';
 
 const useActionLabelState = () => {

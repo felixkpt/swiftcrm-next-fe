@@ -138,8 +138,6 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         }
     };
 
-    const [selectedField, setFieldSettings] = useState({ field: {...fields[0]}, index: 0 })
-
     return (
         <div>
             <div>

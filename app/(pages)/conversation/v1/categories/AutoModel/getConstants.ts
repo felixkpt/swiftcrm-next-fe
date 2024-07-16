@@ -4,8 +4,8 @@ import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/B
 
 // Define variables for model name and API endpoint
 const modelName = 'categories';
-const modelURI = 'conversation-app/categories';
-const apiEndpoint = 'conversation-app/categories/';
+const modelURI = 'conversation/v1/categories';
+const apiEndpoint = 'conversation/v1/categories/';
 
 // Define fillable fields for the categories model
 const fillableFields = [

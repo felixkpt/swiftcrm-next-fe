@@ -9,12 +9,12 @@ const Page = () => {
                 Choose an action below.
             </p>
             <div className="flex space-x-4">
-                <Link href="/conversation-app/interview/session">
+                <Link href="/conversation/v1/interview/session">
                     <span className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all duration-300">
                         Got to interview session 🎓
                     </span>
                 </Link>
-                <Link href="/conversation-app/interview/results/categories">
+                <Link href="/conversation/v1/interview/results/categories">
                     <span className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-all duration-300">
                         Past interview results 🚀
                     </span>

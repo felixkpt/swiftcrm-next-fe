@@ -31,7 +31,7 @@ const Page = () => {
     const fetchResults = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(appConfig.api.url('/dashboard/interview/completed-by-categories'));
+        const response = await axios.get(appConfig.api.url('/conversation/v1/interview/completed-by-categories'));
         setCategories(response.data.results || []);
         setMetadata(response.data.metadata || null);
       } catch (error) {
@@ -93,7 +93,7 @@ const Page = () => {
               <div key={index} className="mb-4">
                 <h3 className="text-xl font-semibold mb-2">{category.name}, Sub Categories ({category.sub_categories.length}), Interviews ({category.sub_categories.reduce((p, c)=>p+c.total_count, 0)})</h3>
                 <p className="text-lg mb-2">
-                  <Link href={`/conversation-app/interview/results/categories/${category.id}`}>
+                  <Link href={`/conversation/v1/interview/results/categories/${category.id}`}>
                     <span className="text-blue-600 hover:underline">View sub_categories</span>
                   </Link>
                 </p>

@@ -29,7 +29,7 @@ const Page = () => {
 
       try {
         setIsLoading(true);
-        const uri = `/dashboard/interview/completed-by-categories/${categoryId}`;
+        const uri = `/conversation/v1/interview/completed-by-categories/${categoryId}`;
         const response = await axios.get(appConfig.api.url(uri));
         const results: ExendedSubCategoryType[] = response.data.results || [];
         const updatedSubcategories: ExendedSubCategoryType[] = results.map(sub_category => ({
@@ -96,7 +96,7 @@ const Page = () => {
                 <h3 className="text-xl font-semibold mb-2">{sub_category.name} ({sub_category.total_count})</h3>
                 <p className="text-lg mb-2">
                   <span className="text-blue-600">{`Average Performance: ${sub_category.average_performance.toFixed(0)}`}</span>
-                  <Link href={`/conversation-app/interview/results/categories/${categoryId}/sub-category/${sub_category.id}`}>
+                  <Link href={`/conversation/v1/interview/results/categories/${categoryId}/sub-category/${sub_category.id}`}>
                     <span className="ml-2 text-blue-600 hover:underline">View Interviews</span>
                   </Link>
                 </p>

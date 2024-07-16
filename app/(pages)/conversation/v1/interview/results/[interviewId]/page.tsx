@@ -24,7 +24,7 @@ const page = () => {
 
             try {
                 setIsLoading(true)
-                const uri = `/dashboard/interview/results/${interviewId}`
+                const uri = `/conversation/v1/interview/results/${interviewId}`
                 const response = await axios.get(appConfig.api.url(uri));
                 console.log('response.data::', uri, response.data)
                 setResults(response.data.results || []);

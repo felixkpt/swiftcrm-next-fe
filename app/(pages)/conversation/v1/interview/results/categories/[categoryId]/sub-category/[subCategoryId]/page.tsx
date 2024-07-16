@@ -23,7 +23,7 @@ const Page = () => {
 
       try {
         setIsLoading(true);
-        const uri = `/dashboard/interview/results/categories/${categoryId}/sub-category/${subCategoryId}`;
+        const uri = `/conversation/v1/interview/results/categories/${categoryId}/sub-category/${subCategoryId}`;
         const response = await axios.get(appConfig.api.url(uri));
         const data = response.data;
 

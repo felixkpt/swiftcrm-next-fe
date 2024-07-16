@@ -51,7 +51,7 @@ const InterviewProgress = ({ selectedCategory, selectedSubCategory, setCurrentSe
                                 {interviewProgress.current_question === interviewProgress.total_count && (
                                     <Link
                                         target='_blank'
-                                        href={`/conversation-app/interview/results/${currentSessionId}`}
+                                        href={`/conversation/v1/interview/results/${currentSessionId}`}
                                         className="btn btn-sm btn-success mb-0.5"
                                     >
                                         Show My Results

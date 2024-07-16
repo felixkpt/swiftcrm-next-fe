@@ -6,7 +6,7 @@ const Sidebar = () => {
             <nav>
                 <ul className="menu p-4 w-80 min-h-full">
                     <li><Link href="/">Dashboard</Link></li>
-                    <li><Link href="/conversation-app">Conversation App</Link></li>
+                    <li><Link href="/conversation/v1/">Conversation App</Link></li>
                 </ul>
             </nav>
         </aside>

@@ -13,7 +13,7 @@ const InterviewListCard = ({ interview }: Props) => {
       <p>Created At: {interview.created_at}</p>
       <p>Updated At: {interview.updated_at}</p>
       <Link
-        href={`/conversation-app/interview/results/${interview.id}`}
+        href={`/conversation/v1/interview/results/${interview.id}`}
         className="mt-4 text-blue-500 hover:underline"
       >
         View Details

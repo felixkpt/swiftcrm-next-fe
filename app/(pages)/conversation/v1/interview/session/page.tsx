@@ -39,7 +39,7 @@ const Page = () => {
                 formData.append('file', blob, `my_speech_for_${selectedCategory.id}.wav`);
 
                 // Send form data to the FastAPI backend
-                const resp = await axios.post(appConfig.api.url(`/post-audio?sub_cat_id=${selectedSubCategory.id}&mode=${mode}`), formData, {
+                const resp = await axios.post(appConfig.api.url(`/conversation/v1/post-audio?sub_cat_id=${selectedSubCategory.id}&mode=${mode}`), formData, {
                     headers: {
                         'Content-Type': 'audio/mpeg',
                     },

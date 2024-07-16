@@ -11,21 +11,21 @@ type ErrorResponse = {
 
 type Props = {
     componentId: string;
-    modelName: string;
+    modelNameSingular: string;
     method: HttpVerb;
     endpoint: string; // Change action to endpoint
     fillable: FillableType[];
 };
 
-const AutoArchiveRecord: React.FC<Props> = ({ componentId, modelName, method, endpoint, fillable }) => {
-    const [localTitle, setLocalTitle] = useState(`Archive ${modelName} record`)
+const AutoArchiveRecord: React.FC<Props> = ({ componentId, modelNameSingular, method, endpoint, fillable }) => {
+    const [localTitle, setLocalTitle] = useState(`Archive ${modelNameSingular} record`)
     const [record, setRecord] = useState<any>();
 
     useEffect(() => {
         if (record) {
-            setLocalTitle(`Archive ${modelName} record #${record.id}`)
+            setLocalTitle(`Archive ${modelNameSingular} record #${record.id}`)
         } else {
-            setLocalTitle(`Archive ${modelName} record`)
+            setLocalTitle(`Archive ${modelNameSingular} record`)
         }
     }, [record])
 

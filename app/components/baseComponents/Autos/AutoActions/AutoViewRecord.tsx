@@ -12,22 +12,22 @@ type ErrorResponse = {
 
 type Props = {
     componentId: string;
-    modelName: string;
+    modelNameSingular: string;
     method: HttpVerb;
     endpoint: string; // Change action to endpoint
     fillable: FillableType[];
 };
 
-const AutoViewRecord: React.FC<Props> = ({ componentId, modelName, method, endpoint, fillable }) => {
-    const [localTitle, setLocalTitle] = useState(`Viewing ${modelName}`)
+const AutoViewRecord: React.FC<Props> = ({ componentId, modelNameSingular, method, endpoint, fillable }) => {
+    const [localTitle, setLocalTitle] = useState(`Viewing ${modelNameSingular}`)
     const [record, setRecord] = useState<any>();
     const [headers, setHeaders] = useState<any>();
 
     useEffect(() => {
         if (record) {
-            setLocalTitle(`Viewing ${modelName} #${record.id}`)
+            setLocalTitle(`Viewing ${modelNameSingular} #${record.id}`)
         } else {
-            setLocalTitle(`Viewing ${modelName}`)
+            setLocalTitle(`Viewing ${modelNameSingular}`)
         }
     }, [record])
 

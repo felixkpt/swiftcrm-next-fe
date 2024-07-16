@@ -16,7 +16,7 @@ import mapRecords from '@/app/(pages)/dashboard/auto-page-builder/AutoModel/mapR
 import { GeneralResultType, MetadataType } from '../../types';
 
 type Props = {
-  modelName: string;
+  modelNameSingular: string;
   modelNamePlural: string;
   componentId: string;
   apiEndpoint: string;
@@ -33,7 +33,7 @@ type Props = {
 };
 
 const Renderer: React.FC<Props> = ({
-  modelName,
+  modelNameSingular,
   modelNamePlural,
   componentId,
   apiEndpoint,
@@ -168,7 +168,7 @@ const Renderer: React.FC<Props> = ({
       />
       <AllActionsModals
         componentId={componentId}
-        modelName={modelName}
+        modelNameSingular={modelNameSingular}
         apiEndpoint={apiEndpoint}
         fillableFields={fillableFields}
       />

@@ -11,21 +11,21 @@ type ErrorResponse = {
 
 type Props = {
     componentId: string;
-    modelName: string;
+    modelNameSingular: string;
     method: HttpVerb;
     endpoint: string; // Change action to endpoint
     fillable: FillableType[];
 };
 
-const AutoDeleteRecord: React.FC<Props> = ({ componentId, modelName, method, endpoint, fillable }) => {
-    const [localTitle, setLocalTitle] = useState(`Delete ${modelName} record`)
+const AutoDeleteRecord: React.FC<Props> = ({ componentId, modelNameSingular, method, endpoint, fillable }) => {
+    const [localTitle, setLocalTitle] = useState(`Delete ${modelNameSingular} record`)
     const [record, setRecord] = useState<any>();
 
     useEffect(() => {
         if (record) {
-            setLocalTitle(`Delete ${modelName} record #${record.id}`)
+            setLocalTitle(`Delete ${modelNameSingular} record #${record.id}`)
         } else {
-            setLocalTitle(`Delete ${modelName} record`)
+            setLocalTitle(`Delete ${modelNameSingular} record`)
         }
     }, [record])
 

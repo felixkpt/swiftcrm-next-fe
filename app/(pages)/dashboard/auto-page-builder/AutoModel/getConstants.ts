@@ -3,14 +3,14 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelName = 'Auto page';
+const modelNameSingular = 'Auto page';
 const modelURI = '/dashboard/auto-page-builder';
 const apiEndpoint = '/dashboard/auto-page-builder';
 
 // Define fillable fields for the leadmasters model
 const fillableFields = [
   {
-    name: "modelName",
+    name: "modelNameSingular",
     label: "Name",
     type: "input",
     dataType: "biginteger",
@@ -36,7 +36,7 @@ const fillableFields = [
 // Define headers for displaying in the UI (e.g., table headers, singleViewOnly means can only be shown when viewing one item not list/table)
 const headers = [
   {
-    key: "modelName",
+    key: "modelNameSingular",
     label: "Page name",
     isVisibleInList: true,
     isVisibleInSingleView: true
@@ -86,7 +86,7 @@ const actionLabelsActions: ActionLabelsActionsType = {
 
 // Create leadmasters constants using the createModelConstants function
 const getConstants = createModelConstants(
-  modelName,          // modelName: Name of the model
+  modelNameSingular,          // modelNameSingular: Name of the model
   modelURI,           // modelURI: API endpoint for mode/page
   apiEndpoint,        // apiEndpoint: API endpoint for mode/page
   fillableFields,     // fillableFields: Fields that can be filled when creating or updating records

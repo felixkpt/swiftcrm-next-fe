@@ -22,6 +22,7 @@ import getConstants from '../AutoModel/getConstants';
 import { mapExistingFields, mapExistingActionLables, makeFieldValidation, makeActionLabelValidation } from '../utils/helpers';
 import useActionLabelState from '../hooks/useActionLabelState';
 import { InputType, RecordType } from '@/app/components/baseComponents/Autos/BaseAutoModel/types';
+import RelationshipComponent from './RelationshipComponent';
 
 type Props = {
     inputTypes: InputType[];
@@ -34,7 +35,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
     const { API_ENDPOINT } = getConstants;
     const pageId = params?.pageId;
 
-    const [modelName, setModelName] = useState<string>('');
+    const [modelNameSingular, setModelName] = useState<string>('');
     const [modelURI, setModelURI] = useState<string>('');
     const [apiEndpoint, setApiEndpoint] = useState<string>('');
 
@@ -50,7 +51,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
             try {
                 const response = await axios.get(appConfig.api.url(`${API_ENDPOINT}/${pageId}`));
                 const data = response.data;
-                setModelName(data.modelName);
+                setModelName(data.name_singular);
                 setModelURI(data.modelURI);
                 setApiEndpoint(data.apiEndpoint);
 
@@ -93,7 +94,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         event.preventDefault();
         setHasDoneSubmission(true);
 
-        const isModelNameValid = modelName.trim() !== '';
+        const isModelNameValid = modelNameSingular.trim() !== '';
         const isModelURIValid = modelURI.trim() !== '';
         const isApiEndpointValid = apiEndpoint.trim() !== '';
         setIsBasicInfoValid(isModelNameValid && isModelURIValid && isApiEndpointValid);
@@ -121,7 +122,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
 
         try {
             await saveAndGenerateModel({
-                modelName,
+                modelNameSingular,
                 modelURI,
                 apiEndpoint,
                 fields,
@@ -138,6 +139,8 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         }
     };
 
+    const [relationships, setRelationships] = useState<Relationship[]>([]);
+
     return (
         <div>
             <div>
@@ -151,7 +154,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                         </Typography>
                         <form onSubmit={handleSubmit}>
                             <BasicInfoComponent
-                                modelName={modelName}
+                                modelNameSingular={modelNameSingular}
                                 setModelName={setModelName}
                                 modelURI={modelURI}
                                 setModelURI={setModelURI}
@@ -171,7 +174,6 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                                 fieldValidations={fieldValidations}
                                 setFieldValidations={setFieldValidations}
                                 onAddField={handleAddField}
-                                
                             />
                             <Divider sx={{ my: 2 }} />
                             <Box mb={2}>
@@ -183,6 +185,15 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                                     actionLabelValidations={actionLabelValidations}
                                 />
                             </Box>
+                            <Divider sx={{ my: 2 }} />
+                            <Typography variant="h6" gutterBottom>
+                                Define Relationships
+                            </Typography>
+                            <RelationshipComponent
+                                relationships={relationships}
+                                setRelationships={setRelationships}
+                                autobuilderObjects={dropdownSourcesList}
+                            />
                             <Divider sx={{ my: 2 }} />
                             <Box mt={2}>
                                 <Button type="button" variant="contained" color="primary" onClick={handlePreviewOpen}>
@@ -198,7 +209,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                 <PreviewModal
                     open={isPreviewOpen}
                     onClose={handlePreviewClose}
-                    modelName={modelName}
+                    modelNameSingular={modelNameSingular}
                     apiEndpoint={apiEndpoint}
                     fields={fields}
                     actionLabels={actionLabels}

@@ -9,56 +9,56 @@ import { FillableType } from '../BaseAutoModel/types';
 
 type Props = {
     componentId: string;
-    modelName: string;
+    modelNameSingular: string;
     apiEndpoint: string;
     fillableFields: FillableType[];
 };
 
-const AllActionsModals: React.FC<Props> = ({ componentId, modelName, apiEndpoint, fillableFields }) => {
+const AllActionsModals: React.FC<Props> = ({ componentId, modelNameSingular, apiEndpoint, fillableFields }) => {
 
     const fillableFieldsFiltered = fillableFields.filter((v) => !v.hidden)
     return (
         <div>
-            <AutoModal componentId={`${componentId}CreateOrUpdate`} title={modelName.charAt(0).toUpperCase() + modelName.slice(1)}>
+            <AutoModal componentId={`${componentId}CreateOrUpdate`} title={modelNameSingular.charAt(0).toUpperCase() + modelNameSingular.slice(1)}>
                 <AutoCreateOrUpdateRecord
                     componentId={`${componentId}CreateOrUpdate`}
-                    modelName={modelName}
+                    modelNameSingular={modelNameSingular}
                     method="POST"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal componentId={`${componentId}View`} title={modelName.charAt(0).toUpperCase() + modelName.slice(1)}>
+            <AutoModal componentId={`${componentId}View`} title={modelNameSingular.charAt(0).toUpperCase() + modelNameSingular.slice(1)}>
                 <AutoViewRecord
                     componentId={`${componentId}View`}
-                    modelName={modelName}
+                    modelNameSingular={modelNameSingular}
                     method="GET"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal componentId={`${componentId}UpdateStatus`} title={modelName.charAt(0).toUpperCase() + modelName.slice(1)}>
+            <AutoModal componentId={`${componentId}UpdateStatus`} title={modelNameSingular.charAt(0).toUpperCase() + modelNameSingular.slice(1)}>
                 <AutoUpdateStatus
                     componentId={`${componentId}UpdateStatus`}
-                    modelName={modelName}
+                    modelNameSingular={modelNameSingular}
                     method="GET"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal componentId={`${componentId}Archive`} title={modelName.charAt(0).toUpperCase() + modelName.slice(1)}>
+            <AutoModal componentId={`${componentId}Archive`} title={modelNameSingular.charAt(0).toUpperCase() + modelNameSingular.slice(1)}>
                 <AutoArchiveRecord
                     componentId={`${componentId}Archive`}
-                    modelName={modelName}
+                    modelNameSingular={modelNameSingular}
                     method="POST"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal componentId={`${componentId}Delete`} title={modelName.charAt(0).toUpperCase() + modelName.slice(1)}>
+            <AutoModal componentId={`${componentId}Delete`} title={modelNameSingular.charAt(0).toUpperCase() + modelNameSingular.slice(1)}>
                 <AutoDeleteRecord
                     componentId={`${componentId}Delete`}
-                    modelName={modelName}
+                    modelNameSingular={modelNameSingular}
                     method="DELETE"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}

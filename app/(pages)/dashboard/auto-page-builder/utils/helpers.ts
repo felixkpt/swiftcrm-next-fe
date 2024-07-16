@@ -20,7 +20,7 @@ export function processTemplate(template: string, data: AutoPageBuilderType) {
   }
 
   return template
-    .replace(/{autoPageBuilder_modelName}/g, data.modelName)
+    .replace(/{autoPageBuilder_modelNameSingular}/g, data.modelNameSingular)
     .replace(/{autoPageBuilder_modelURI}/g, data.modelURI)
     .replace(/{autoPageBuilder_apiEndpoint}/g, apiEndpoint)
     .replace(/{autoPageBuilder_fillableFields}/g, removeQuotesFromKeys(data.fields.filter((itm) => !blacklisted.includes(itm.name))))

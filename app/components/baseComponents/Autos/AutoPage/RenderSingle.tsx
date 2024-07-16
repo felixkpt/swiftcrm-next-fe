@@ -12,7 +12,7 @@ import AllActionsModals from '../AutoActions/AllActionsModals';
 import AllActionsAutoPosts from '../AutoActions/AllActionsAutoPosts';
 
 type Props = {
-  modelName: string;
+  modelNameSingular: string;
   modelNamePlural: string;
   componentId: string;
   apiEndpoint: string;
@@ -26,7 +26,7 @@ type Props = {
 };
 
 const Renderer: React.FC<Props> = ({
-  modelName,
+  modelNameSingular,
   modelNamePlural,
   componentId,
   apiEndpoint,
@@ -106,7 +106,7 @@ const Renderer: React.FC<Props> = ({
   return (
     <div>
       <AutoHeader
-        headerTitle={`${modelName.charAt(0).toUpperCase() + modelName.slice(1)} ${record?.id ? '#' + record.id : ''}`}
+        headerTitle={`${modelNameSingular.charAt(0).toUpperCase() + modelNameSingular.slice(1)} ${record?.id ? '#' + record.id : ''}`}
         description=""
         componentId={`${componentId}CreateOrUpdate`}
       />
@@ -118,7 +118,7 @@ const Renderer: React.FC<Props> = ({
       />
       <AllActionsModals
         componentId={componentId}
-        modelName={modelName}
+        modelNameSingular={modelNameSingular}
         apiEndpoint={apiEndpoint}
         fillableFields={fillableFields}
       />

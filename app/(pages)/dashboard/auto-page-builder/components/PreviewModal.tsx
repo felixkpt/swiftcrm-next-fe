@@ -6,13 +6,13 @@ import { ActionLabelType, FieldType } from '../types';
 type Props = {
   open: boolean;
   onClose: () => void;
-  modelName: string;
+  modelNameSingular: string;
   apiEndpoint: string;
   fields: FieldType[];
   actionLabels: ActionLabelType[];
 };
 
-const PreviewModal: React.FC<Props> = ({ open, onClose, modelName, apiEndpoint, fields, actionLabels }) => {
+const PreviewModal: React.FC<Props> = ({ open, onClose, modelNameSingular, apiEndpoint, fields, actionLabels }) => {
 
   // Sample data for listed items and a single item preview
   const sampleDataList = [
@@ -29,7 +29,7 @@ const PreviewModal: React.FC<Props> = ({ open, onClose, modelName, apiEndpoint, 
         {/* Model/Page Name */}
         <Box mb={2}>
           <Typography variant="h6">Model/Page Name</Typography>
-          <Typography>{modelName}</Typography>
+          <Typography>{modelNameSingular}</Typography>
         </Box>
 
         {/* API Endpoint */}

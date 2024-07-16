@@ -82,7 +82,7 @@ const DraggableField = ({
                 marginBottom: '16px',
             }}
         >
-            <Grid container spacing={2} mt={2} p={1} style={{ border: `${selectedField.field.uuid === field.uuid ? 'solid 1px blue' : 'solid 1px gray'}` }} >
+            <Grid container spacing={2} mt={2} p={1} style={{ border: `${'solid 1px rgb(23 69 145 / 50%)'}` }} >
                 {renderField(field, handleRemoveField, index, inputType, commonDataTypes, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
             </Grid>
         </div>
@@ -99,7 +99,7 @@ const renderModal = (
     dropdownSourcesList: AutoPageBuilderType[],
     hasDoneSubmission: boolean
 ) => (
-    <Grid item xs={1}>
+    <Grid item>
         <Modal
             inputType={inputType}
             commonDataTypes={commonDataTypes}
@@ -113,12 +113,21 @@ const renderModal = (
     </Grid>
 );
 
+
+const renderRemoveField = (handleRemoveField: (index: number) => void, index: number) => (
+    <Grid item>
+        <IconButton aria-label="delete" onClick={() => handleRemoveField(index)}>
+            <DeleteIcon />
+        </IconButton>
+    </Grid>
+);
+
 const renderField = (
     field: any,
     handleRemoveField: (index: number) => void,
     index: number,
     inputType: string,
-    commonDataTypes: string[],
+    commonDataTypes: CommonDataTypes[],
     fieldValidation: any,
     handleFieldChange: (index: number, field: any) => void,
     dropdownSourcesList: AutoPageBuilderType[],
@@ -135,7 +144,7 @@ const renderField = (
             if (field.dataType.value === 'date') {
                 return (
                     <>
-                        <Grid item xs={10}>
+                        <Grid item xs={10} pr={1}>
                             <TextField
                                 label={field.label.value || field.name.value}
                                 type="date"
@@ -144,14 +153,16 @@ const renderField = (
                                 InputLabelProps={{ shrink: true }}
                             />
                         </Grid>
-                        {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
-                        {renderRemoveField(handleRemoveField, index)}
+                        <Grid container xs={2} justifyContent={'end'} alignItems={'center'}>
+                            {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
+                            {renderRemoveField(handleRemoveField, index)}
+                        </Grid>
                     </>
                 );
             } else if (field.dataType.value === 'datetime' || field.dataType.value === 'timestamp') {
                 return (
                     <>
-                        <Grid item xs={10}>
+                        <Grid item xs={10} pr={1}>
                             <TextField
                                 label={field.label.value || field.name.value}
                                 type="datetime-local"
@@ -160,14 +171,16 @@ const renderField = (
                                 InputLabelProps={{ shrink: true }}
                             />
                         </Grid>
-                        {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
-                        {renderRemoveField(handleRemoveField, index)}
+                        <Grid container xs={2} justifyContent={'end'} alignItems={'center'}>
+                            {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
+                            {renderRemoveField(handleRemoveField, index)}
+                        </Grid>
                     </>
                 );
             } else if (field.dataType.value === 'time') {
                 return (
                     <>
-                        <Grid item xs={10}>
+                        <Grid item xs={10} pr={1}>
                             <TextField
                                 label={field.label.value || field.name.value}
                                 type="time"
@@ -176,14 +189,16 @@ const renderField = (
                                 InputLabelProps={{ shrink: true }}
                             />
                         </Grid>
-                        {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
-                        {renderRemoveField(handleRemoveField, index)}
+                        <Grid container xs={2} justifyContent={'end'} alignItems={'center'}>
+                            {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
+                            {renderRemoveField(handleRemoveField, index)}
+                        </Grid>
                     </>
                 );
             } else if (['integer', 'biginteger', 'float', 'double', 'decimal'].includes(field.dataType.value)) {
                 return (
                     <>
-                        <Grid item xs={10}>
+                        <Grid item xs={10} pr={1}>
                             <TextField
                                 label={field.label.value || field.name.value}
                                 variant="outlined"
@@ -191,25 +206,29 @@ const renderField = (
                                 type="number"
                             />
                         </Grid>
-                        {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
-                        {renderRemoveField(handleRemoveField, index)}
+                        <Grid container xs={2} justifyContent={'end'} alignItems={'center'}>
+                            {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
+                            {renderRemoveField(handleRemoveField, index)}
+                        </Grid>
                     </>
                 );
             } else {
                 return (
                     <>
-                        <Grid item xs={10}>
+                        <Grid item xs={10} pr={1}>
                             <TextField label={field.label.value || field.name.value} variant="outlined" fullWidth />
                         </Grid>
-                        {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
-                        {renderRemoveField(handleRemoveField, index)}
+                        <Grid container xs={2} justifyContent={'end'} alignItems={'center'}>
+                            {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
+                            {renderRemoveField(handleRemoveField, index)}
+                        </Grid>
                     </>
                 );
             }
         case 'textarea':
             return (
                 <>
-                    <Grid item xs={10}>
+                    <Grid item xs={10} pr={1}>
                         <TextField
                             label={field.label.value || field.name.value}
                             variant="outlined"
@@ -218,14 +237,16 @@ const renderField = (
                             fullWidth
                         />
                     </Grid>
-                    {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
-                    {renderRemoveField(handleRemoveField, index)}
+                    <Grid container xs={2} justifyContent={'end'} alignItems={'center'}>
+                        {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
+                        {renderRemoveField(handleRemoveField, index)}
+                    </Grid>
                 </>
             );
         case 'dropdown':
             return (
                 <>
-                    <Grid item xs={10}>
+                    <Grid item xs={10} pr={1}>
                         <Select
                             label={field.label.value || field.name.value}
                             variant="outlined"
@@ -239,21 +260,15 @@ const renderField = (
                             ))}
                         </Select>
                     </Grid>
-                    {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
-                    {renderRemoveField(handleRemoveField, index)}
+                    <Grid container xs={2} justifyContent={'end'} alignItems={'center'}>
+                        {renderModal(inputType, commonDataTypes, field, index, fieldValidation, handleFieldChange, dropdownSourcesList, hasDoneSubmission)}
+                        {renderRemoveField(handleRemoveField, index)}
+                    </Grid>
                 </>
             );
         default:
             return null;
     }
 };
-
-const renderRemoveField = (handleRemoveField: (index: number) => void, index: number) => (
-    <Grid item xs={1}>
-        <IconButton aria-label="delete" onClick={() => handleRemoveField(index)}>
-            <DeleteIcon />
-        </IconButton>
-    </Grid>
-);
 
 export default DraggableField;

@@ -94,7 +94,7 @@ const FieldsComponent: React.FC<FieldProps> = ({
             sx={{
               display: 'grid',
               gridTemplateColumns: 'repeat(12, 1fr)',
-              gap: 2,
+              gap: 3,
             }}
           >
             {fields.map((field, index) => (

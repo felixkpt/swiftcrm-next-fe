@@ -43,7 +43,7 @@ const page = async () => {
 
   return (
     <Renderer
-      modelName={MODEL_NAME} // Model name for display purposes
+      modelNameSingular={MODEL_NAME} // Model name for display purposes
       modelNamePlural={MODEL_NAME_PLURAL} // Plural model name for API and display
       componentId={COMPONENT_ID} // Unique component identifier
       fillableFields={FILLABLE_FIELDS} // Fields that are fillable

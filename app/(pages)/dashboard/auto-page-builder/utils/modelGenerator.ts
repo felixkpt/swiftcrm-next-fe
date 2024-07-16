@@ -16,13 +16,13 @@ export async function saveAndGenerateModel(dataRaw: any) {
   'use server';
   console.log('dataRaw::', dataRaw)
 
-  const { modelName, modelURI, fields: fieldsRaw, } = dataRaw;
+  const { modelNameSingular, modelURI, fields: fieldsRaw, } = dataRaw;
 
   const { fields, headers } = getFieldsAndHeaders(fieldsRaw)
   const actionLabels = getActionLabels(dataRaw.actionLabels)
 
   const data: AutoPageBuilderType = dataRaw
-  data.modelName = Pluralize(modelName)
+  data.modelNameSingular = Pluralize(modelNameSingular)
   data.fields = fields
   data.headers = headers
   data.actionLabels = actionLabels
@@ -31,15 +31,15 @@ export async function saveAndGenerateModel(dataRaw: any) {
   const results = await makeApiRequest(data)
 
   if (results.ok) {
-    generateModel(data, fields, modelName, modelURI)
+    generateModel(data, fields, modelNameSingular, modelURI)
   }
 
   return results
 
 }
 
-function generateModel(data: any, fields: any, modelName: string, modelURI: string) {
-  const singularModelName = Pluralize.singular(modelName)
+function generateModel(data: any, fields: any, modelNameSingular: string, modelURI: string) {
+  const singularModelName = Pluralize.singular(modelNameSingular)
 
   try {
     const actionLabels: ActionLabelsActionsType | any = {}

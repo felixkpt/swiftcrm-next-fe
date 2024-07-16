@@ -2,7 +2,7 @@ import React from 'react';
 import { TextField } from '@mui/material';
 
 type Props = {
-    modelName: string;
+    modelNameSingular: string;
     setModelName: React.Dispatch<React.SetStateAction<string>>;
     modelURI: string;
     setModelURI: React.Dispatch<React.SetStateAction<string>>;
@@ -13,7 +13,7 @@ type Props = {
 };
 
 const BasicInfoComponent: React.FC<Props> = ({
-    modelName,
+    modelNameSingular,
     setModelName,
     modelURI,
     setModelURI,
@@ -25,8 +25,8 @@ const BasicInfoComponent: React.FC<Props> = ({
 
     const isInvalidField = (field: string): boolean => {
         switch (field) {
-            case 'modelName':
-                return hasDoneSubmission && !isValid && modelName.trim() == '';
+            case 'modelNameSingular':
+                return hasDoneSubmission && !isValid && modelNameSingular.trim() == '';
             case 'modelURI':
                 return hasDoneSubmission && !isValid && modelURI.trim() == '';
             case 'apiEndpoint':
@@ -42,13 +42,13 @@ const BasicInfoComponent: React.FC<Props> = ({
                 label="Model/Page Name"
                 fullWidth
                 variant="outlined"
-                value={modelName}
+                value={modelNameSingular}
                 onChange={(e) => setModelName(e.target.value)}
-                error={isInvalidField('modelName')}
-                helperText={isInvalidField('modelName') ? 'The field is required' : ''}
+                error={isInvalidField('modelNameSingular')}
+                helperText={isInvalidField('modelNameSingular') ? 'The field is required' : ''}
                 sx={{
                     mb: 2,
-                    borderColor: isInvalidField('modelName') ? 'red' : undefined
+                    borderColor: isInvalidField('modelNameSingular') ? 'red' : undefined
                 }}
             />
             <TextField

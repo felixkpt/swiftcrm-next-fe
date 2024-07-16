@@ -31,7 +31,7 @@ export interface HeaderSchema {
 }
 
 export interface AutoPageBuilderType {
-  modelName: string;
+  modelNameSingular: string;
   modelURI: string;
   apiEndpoint: string;
   fields: FieldSchema[];

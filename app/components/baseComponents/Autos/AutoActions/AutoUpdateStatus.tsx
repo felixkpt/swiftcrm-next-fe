@@ -11,21 +11,21 @@ type ErrorResponse = {
 
 type Props = {
     componentId: string;
-    modelName: string;
+    modelNameSingular: string;
     method: HttpVerb;
     endpoint: string; // Change action to endpoint
     fillable: FillableType[];
 };
 
-const AutoUpdateStatus: React.FC<Props> = ({ componentId, modelName, method, endpoint, fillable }) => {
-    const [localTitle, setLocalTitle] = useState(`Update Status of ${modelName}`)
+const AutoUpdateStatus: React.FC<Props> = ({ componentId, modelNameSingular, method, endpoint, fillable }) => {
+    const [localTitle, setLocalTitle] = useState(`Update Status of ${modelNameSingular}`)
     const [record, setRecord] = useState<any>();
 
     useEffect(() => {
         if (record) {
-            setLocalTitle(`Update Status of ${modelName} #${record.id}`)
+            setLocalTitle(`Update Status of ${modelNameSingular} #${record.id}`)
         } else {
-            setLocalTitle(`Update Status of ${modelName}`)
+            setLocalTitle(`Update Status of ${modelNameSingular}`)
         }
     }, [record])
 

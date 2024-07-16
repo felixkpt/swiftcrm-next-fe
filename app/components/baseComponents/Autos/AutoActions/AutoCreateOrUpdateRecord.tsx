@@ -10,7 +10,7 @@ import DropdownDependsOn from './DropdownDependsOn';
 
 type Props = {
     componentId: string;
-    modelName: string;
+    modelNameSingular: string;
     method: HttpVerb;
     endpoint: string;
     fillable: FillableType[];
@@ -23,8 +23,8 @@ const setInitials = (fillable: FillableType[]) => {
     }, {} as Record<string, string>);
 };
 
-const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelName, method, endpoint, fillable }) => {
-    const [localTitle, setLocalTitle] = useState(`Create ${modelName}`);
+const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingular, method, endpoint, fillable }) => {
+    const [localTitle, setLocalTitle] = useState(`Create ${modelNameSingular}`);
     const [record, setRecord] = useState<any>(null);
     const initialfillable = fillable;
     const [formData, setFormData] = useState(setInitials(initialfillable));
@@ -39,11 +39,11 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelName, met
 
     useEffect(() => {
         if (record) {
-            setLocalTitle(`Edit ${modelName} #${record.id}`);
+            setLocalTitle(`Edit ${modelNameSingular} #${record.id}`);
         } else {
-            setLocalTitle(`Create ${modelName}`);
+            setLocalTitle(`Create ${modelNameSingular}`);
         }
-    }, [record, modelName]);
+    }, [record, modelNameSingular]);
 
     const [dependencyValues, setDependencyValues] = useState<Record<string, string>>({});
     useEffect(() => {

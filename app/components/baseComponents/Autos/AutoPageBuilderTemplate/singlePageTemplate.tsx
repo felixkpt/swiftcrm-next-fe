@@ -27,7 +27,7 @@ const page = () => {
   return (
     <>
       <Renderer
-        modelName={MODEL_NAME}
+        modelNameSingular={MODEL_NAME}
         modelNamePlural={MODEL_NAME_PLURAL}
         componentId={COMPONENT_ID}
         apiEndpoint={apiEndpoint}

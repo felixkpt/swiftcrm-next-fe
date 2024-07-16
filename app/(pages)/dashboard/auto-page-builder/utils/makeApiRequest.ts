@@ -22,6 +22,7 @@ export async function makeApiRequest(data: any) {
 async function genericRequestor(endPoint: string, data: any) {
   const pageId = data?.pageId
   endPoint = pageId ? `${endPoint}/${pageId}` : endPoint
+  data.modelName = data.modelNameSingular
 
   console.log('DATA::', JSON.stringify(data))
 

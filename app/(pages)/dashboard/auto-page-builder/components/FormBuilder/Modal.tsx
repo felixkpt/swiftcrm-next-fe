@@ -86,7 +86,7 @@ const Modal: React.FC<ModalProps> = ({
             setDropdownSource(newSource);
             const found = dropdownSourcesList.find((item) => item.apiEndpoint == newSource);
             if (found) {
-                const newName = found.table_name_singular + '_id'
+                const newName = Pluralize.singular(found.modelNameSingular.toLowerCase().replace(/[^a-zA-Z0-9]/g, '_')) + '_id';
                 const updatedField = {
                     ...field,
                     name: { value: newName, required: true },
@@ -121,11 +121,18 @@ const Modal: React.FC<ModalProps> = ({
     return (
         <>
             <Button
+                size="small"
                 variant="outlined"
                 onClick={handleClickOpen}
-                // disabled={!isValid}
-                style={{ color: isValid && isAnyModalFieldsInvalid ? 'red' : 'inherit' }}
-            >    <MoreVertIcon />
+                disabled={!isValid}
+                style={{
+                    color: isValid && isAnyModalFieldsInvalid ? 'red' : 'inherit',
+                    minWidth: '24px',
+                    padding: '10px',
+                    fontSize: '18px'
+                }}
+            >
+                <MoreVertIcon style={{ fontSize: '16px' }} />
             </Button>
             <Dialog fullWidth={false} maxWidth={'sm'} open={open} onClose={handleClose}>
                 <DialogTitle>More Properties for {field.name.value}</DialogTitle>

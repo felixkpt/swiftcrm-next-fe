@@ -35,7 +35,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
     const { API_ENDPOINT } = getConstants;
     const pageId = params?.pageId;
 
-    const [modelNameSingular, setModelName] = useState<string>('');
+    const [modelNameSingular, setModelNameSingular] = useState<string>('');
     const [modelURI, setModelURI] = useState<string>('');
     const [apiEndpoint, setApiEndpoint] = useState<string>('');
 
@@ -51,7 +51,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
             try {
                 const response = await axios.get(appConfig.api.url(`${API_ENDPOINT}/${pageId}`));
                 const data = response.data;
-                setModelName(data.name_singular);
+                setModelNameSingular(data.name_singular);
                 setModelURI(data.modelURI);
                 setApiEndpoint(data.apiEndpoint);
 
@@ -155,7 +155,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                         <form onSubmit={handleSubmit}>
                             <BasicInfoComponent
                                 modelNameSingular={modelNameSingular}
-                                setModelName={setModelName}
+                                setModelNameSingular={setModelNameSingular}
                                 modelURI={modelURI}
                                 setModelURI={setModelURI}
                                 apiEndpoint={apiEndpoint}

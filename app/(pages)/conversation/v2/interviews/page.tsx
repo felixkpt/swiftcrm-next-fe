@@ -1,7 +1,8 @@
+
 // Start AutoModel imports
-import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderList';
 import { appConfig } from '@/app/components/baseComponents/utils/helpers';
 import fetchRecords from '@/app/components/baseComponents/utils/fetchRecords';
+import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderList';
 import getConstants from './AutoModel/getConstants';
 import { revalidateTag } from 'next/cache';
 // End AutoModel imports

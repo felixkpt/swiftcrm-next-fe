@@ -10,17 +10,17 @@ const Page = () => {
         Whether you&apos;re 🚂 training or 🎙️ practicing interview questions, our app provides a dynamic learning experience.
       </p>
       <div className="flex space-x-4">
-        <Link href="/conversation/v1/training">
+        <Link href="/conversation/v2/training">
           <span className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-all duration-300">
             Train 🚀
           </span>
         </Link>
-        <Link href="/conversation/v1/interview">
+        <Link href="/conversation/v2/interview">
           <span className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all duration-300">
             Interview 🎓
           </span>
         </Link>
-        <Link href="/conversation/v1/categories">
+        <Link href="/conversation/v2/categories">
           <span className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-all duration-300">
             Categories 🎓
           </span>

@@ -3,7 +3,7 @@ import { TextField } from '@mui/material';
 
 type Props = {
     modelNameSingular: string;
-    setModelName: React.Dispatch<React.SetStateAction<string>>;
+    setModelNameSingular: React.Dispatch<React.SetStateAction<string>>;
     modelURI: string;
     setModelURI: React.Dispatch<React.SetStateAction<string>>;
     apiEndpoint: string;
@@ -14,7 +14,7 @@ type Props = {
 
 const BasicInfoComponent: React.FC<Props> = ({
     modelNameSingular,
-    setModelName,
+    setModelNameSingular,
     modelURI,
     setModelURI,
     apiEndpoint,
@@ -26,14 +26,43 @@ const BasicInfoComponent: React.FC<Props> = ({
     const isInvalidField = (field: string): boolean => {
         switch (field) {
             case 'modelNameSingular':
-                return hasDoneSubmission && !isValid && modelNameSingular.trim() == '';
+                return hasDoneSubmission && (
+                    !isValid ||
+                    modelNameSingular.trim() === '' ||
+                    /[\/\s]/.test(modelNameSingular) ||
+                    /^\d+$/.test(modelNameSingular) ||
+                    /^\d/.test(modelNameSingular)
+                );
             case 'modelURI':
-                return hasDoneSubmission && !isValid && modelURI.trim() == '';
+                return hasDoneSubmission && (!isValid || modelURI.trim() === '');
             case 'apiEndpoint':
-                return hasDoneSubmission && !isValid && apiEndpoint.trim() == '';
+                return hasDoneSubmission && (!isValid || apiEndpoint.trim() === '');
             default:
                 return true; // Default to true if field name is not recognized
         }
+    };
+
+    const getHelperText = (field: string): string => {
+        switch (field) {
+            case 'modelNameSingular':
+                if (modelNameSingular.trim() === '') {
+                    return 'The field is required';
+                } else if (/[\/\s]/.test(modelNameSingular)) {
+                    return 'Model name should not contain slashes or spaces';
+                } else if (/^\d+$/.test(modelNameSingular)) {
+                    return 'Model name should not be numbers only';
+                } else if (/^\d/.test(modelNameSingular)) {
+                    return 'Model name should not start with a number';
+                }
+                break;
+            case 'modelURI':
+                return modelURI.trim() === '' ? 'The field is required' : '';
+            case 'apiEndpoint':
+                return apiEndpoint.trim() === '' ? 'The field is required' : '';
+            default:
+                return '';
+        }
+        return '';
     };
 
     return (
@@ -43,9 +72,9 @@ const BasicInfoComponent: React.FC<Props> = ({
                 fullWidth
                 variant="outlined"
                 value={modelNameSingular}
-                onChange={(e) => setModelName(e.target.value)}
+                onChange={(e) => setModelNameSingular(e.target.value)}
                 error={isInvalidField('modelNameSingular')}
-                helperText={isInvalidField('modelNameSingular') ? 'The field is required' : ''}
+                helperText={getHelperText('modelNameSingular')}
                 sx={{
                     mb: 2,
                     borderColor: isInvalidField('modelNameSingular') ? 'red' : undefined
@@ -58,7 +87,7 @@ const BasicInfoComponent: React.FC<Props> = ({
                 value={modelURI}
                 onChange={(e) => setModelURI(e.target.value)}
                 error={isInvalidField('modelURI')}
-                helperText={isInvalidField('modelURI') ? 'The field is required' : ''}
+                helperText={getHelperText('modelURI')}
                 sx={{
                     mb: 2,
                     borderColor: isInvalidField('modelURI') ? 'red' : undefined
@@ -71,7 +100,7 @@ const BasicInfoComponent: React.FC<Props> = ({
                 value={apiEndpoint}
                 onChange={(e) => setApiEndpoint(e.target.value)}
                 error={isInvalidField('apiEndpoint')}
-                helperText={isInvalidField('apiEndpoint') ? 'The field is required' : ''}
+                helperText={getHelperText('apiEndpoint')}
                 sx={{
                     mb: 2,
                     borderColor: isInvalidField('apiEndpoint') ? 'red' : undefined

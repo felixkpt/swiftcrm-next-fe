@@ -94,6 +94,7 @@ async function generateModel(data: any, fields: any, modelNameSingular: string, 
     // Add and commit changes
     await git.add('.');
     const commitMessage = `Autobuilder: ${actionType} ${data.modelNameSingular.toLowerCase()} model and related files`;
+    console.log('should commit:', commitMessage)
     await git.commit(commitMessage);
 
   } catch (error: any) {

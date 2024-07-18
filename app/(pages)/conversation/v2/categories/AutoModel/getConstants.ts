@@ -3,11 +3,11 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelNameSingular = 'categories';
+const modelNameSingular = 'Categories';
 const modelURI = 'conversation/v2/categories';
 const apiEndpoint = 'conversation/v2/categories/';
 
-// Define fillable fields for the categories model
+// Define fillable fields for the Categories model
 const fillableFields = [
   {
     name: "name",
@@ -71,10 +71,18 @@ const actionLabelsActions: ActionLabelsActionsType = {
   editRecord: {
     actionType: "modal",
     label: ""
+  },
+  updateRecordStatus: {
+    actionType: "modal",
+    label: ""
+  },
+  deleteRecord: {
+    actionType: "modal",
+    label: ""
   }
 };
 
-// Create categories constants using the createModelConstants function
+// Create Categories constants using the createModelConstants function
 const getConstants = createModelConstants(
   modelNameSingular,          // modelNameSingular: Name of the model/page
   modelURI,           // modelURI: API endpoint for mode/page

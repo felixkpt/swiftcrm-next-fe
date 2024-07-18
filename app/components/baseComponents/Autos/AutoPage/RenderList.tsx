@@ -78,7 +78,7 @@ const Renderer: React.FC<Props> = ({
       if (hasMetaData) {
         setHeaderTitle(data.metadata.title);
         setMetaData(data.metadata);
-        setRecords(mapRecords(data.results || [], componentId, apiEndpoint, actionLabels, actionType));
+        setRecords(mapRecords(data.records || [], componentId, apiEndpoint, actionLabels, actionType));
       } else {
         setRecords(mapRecords(data || [], componentId, apiEndpoint, actionLabels, actionType));
         setMetaData(null);

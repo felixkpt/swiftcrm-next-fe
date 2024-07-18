@@ -109,7 +109,7 @@ const actionLabelsActions: ActionLabelsActionsType = {
     label: ""
   },
   editRecord: {
-    actionType: "navigation",
+    actionType: "modal",
     label: ""
   }
 };

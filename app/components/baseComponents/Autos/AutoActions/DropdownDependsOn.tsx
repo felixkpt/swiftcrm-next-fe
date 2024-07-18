@@ -33,7 +33,7 @@ const DropdownDependsOn: React.FC<Props> = ({
 
             if (!response.ok) throw new Error('Failed to fetch options');
             const data = await response.json();
-            setOptions(data);
+            setOptions(data.records || []);
         } catch (error: any) {
             setError(error.message || 'An error occurred while fetching options.');
         } finally {

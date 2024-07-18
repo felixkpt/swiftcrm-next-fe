@@ -32,7 +32,7 @@ const fillableFields = [
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: "conversation-app/v3/categories/sub-categories",
+    dropdownSource: "conversation/v3/categories/sub-categories",
     dropdownDependsOn: [
       "conversation/v3/categories"
     ]

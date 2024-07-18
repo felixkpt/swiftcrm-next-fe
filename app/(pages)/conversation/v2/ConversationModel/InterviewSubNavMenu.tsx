@@ -31,8 +31,9 @@ const InterviewSubNavMenu: React.FC<SubNavMenuProps> = ({
     // Fetch conversation messages based on selected category and sub-category
     useEffect(() => {
         const fetchConversation = async () => {
-            if (!selectedCategory?.id || !selectedSubCategory?.id || !currentSessionId) return;
 
+            console.log('GETTING>>>>',currentSessionId)
+            if (!selectedCategory?.id || !selectedSubCategory?.id || !currentSessionId) return;
             try {
                 const uri = `/conversation/v2/sub-categories/${selectedSubCategory.id}/conversation?mode=${mode}&interview_id=${currentSessionId}`
                 const response = await axios.get<ResultsMetaDataType>(appConfig.api.url(uri));

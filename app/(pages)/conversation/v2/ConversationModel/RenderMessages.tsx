@@ -45,7 +45,7 @@ const RenderMessages = ({ messages = [], isLoading, hasDoneAnyRecording, convers
                     if (audioElements.length > 0) {
                         const lastAudio = audioElements[audioElements.length - 1];
                         if (lastAudio instanceof HTMLAudioElement) {
-                            lastAudio.volume = 0.5;
+                            lastAudio.volume = 0.2;
                             lastAudio.play().catch((error: any) => console.error('Audio playback error:', error));
                         }
                     }

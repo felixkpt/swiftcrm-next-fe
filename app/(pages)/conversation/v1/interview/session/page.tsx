@@ -23,7 +23,7 @@ const Page = () => {
     const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategoryType | undefined>();
     const [uploadFailed, setUploadFailed] = useState<boolean>(false);
     const [hasDoneAnyRecording, setHasDoneAnyRecording] = useState(false); // State to track if user has done any recording
-
+    const [questionsCount, setQuestionsCount] = useState<number>(0);
 
     const handleStop = async (blobUrl: string) => {
         setIsLoading(true);
@@ -104,6 +104,18 @@ const Page = () => {
 
     useEffect(() => {
         setHasDoneAnyRecording(false);
+
+        if (selectedSubCategory) {
+            // Fetch the questions count
+            axios.get(appConfig.api.url(`/categories/sub-categories/questions/counts?sub_category_id=${selectedSubCategory.id}`))
+                .then(response => {
+                    setQuestionsCount(response.data.count);
+                })
+                .catch(error => {
+                    console.error('Error fetching questions count', error);
+                    setQuestionsCount(0);
+                });
+        }
     }, [selectedSubCategory]);
 
     useEffect(() => {
@@ -118,11 +130,19 @@ const Page = () => {
                     selectedSubCategory &&
                     <p className="text-center my-3 text-lg border-base-300 border-b-2 px-2 text-success">{selectedSubCategory.learn_instructions}</p>
                 }
-                <RenderMessages messages={messages} isLoading={isLoading} hasDoneAnyRecording={hasDoneAnyRecording} conversationsContainer={conversationsContainer} />
+                {
+                    questionsCount === 0 ? (
+                        <p className="text-center my-3 text-lg text-warning">No questions available.</p>
+                    ) : (
+                        <RenderMessages messages={messages} isLoading={isLoading} hasDoneAnyRecording={hasDoneAnyRecording} conversationsContainer={conversationsContainer} />
+                    )
+                }
             </div>
-            <div className="sticky bottom-0 left-0 right-0 shadow-lg z-50 min-h-32">
-                <RecordMessage handleStop={handleStop} messagesMetadata={messagesMetadata} isLoading={isLoading} uploadFailed={uploadFailed} conversationsContainer={conversationsContainer} />
-            </div>
+            {questionsCount > 0 && (
+                <div className="sticky bottom-0 left-0 right-0 shadow-lg z-50 min-h-32">
+                    <RecordMessage handleStop={handleStop} messagesMetadata={messagesMetadata} isLoading={isLoading} uploadFailed={uploadFailed} conversationsContainer={conversationsContainer} />
+                </div>
+            )}
         </div>
     );
 };

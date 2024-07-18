@@ -8,12 +8,13 @@ import { appConfig } from "@/app/components/baseComponents/utils/helpers";
 import RenderMessages from "../../ConversationModel/RenderMessages";
 import RecordMessage from "../../ConversationModel/Recorder/RecordMessage";
 import InterviewSubNavMenu from "../../ConversationModel/InterviewSubNavMenu";
+import Link from "next/link";
 
 const Page = () => {
     const mode = 'interview'
 
     const [reloadKey, setReloadKey] = useState<number>(0);
-    
+
     const conversationsContainer = useRef<HTMLDivElement>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [messages, setMessages] = useState<MessageType[]>([]);
@@ -23,7 +24,8 @@ const Page = () => {
     const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategoryType | undefined>();
     const [uploadFailed, setUploadFailed] = useState<boolean>(false);
     const [hasDoneAnyRecording, setHasDoneAnyRecording] = useState(false); // State to track if user has done any recording
-
+    const [questionsCount, setQuestionsCount] = useState<number>(0);
+    const [checkedQuestionsCount, setCheckedQuestionsCount] = useState<boolean>(false);
 
     const handleStop = async (blobUrl: string) => {
         setIsLoading(true);
@@ -104,6 +106,22 @@ const Page = () => {
 
     useEffect(() => {
         setHasDoneAnyRecording(false);
+        setCheckedQuestionsCount(false);
+
+        if (selectedSubCategory) {
+            // Fetch the questions count
+            axios.get(appConfig.api.url(`/conversation/v2/categories/sub-categories/questions/counts?sub_category_id=${selectedSubCategory.id}`))
+                .then(response => {
+                    setQuestionsCount(response.data);
+                })
+                .catch(error => {
+                    console.error('Error fetching questions count', error);
+                    setQuestionsCount(0);
+                })
+                .finally(() => {
+                    setCheckedQuestionsCount(true);
+                });
+        }
     }, [selectedSubCategory]);
 
     useEffect(() => {
@@ -118,11 +136,25 @@ const Page = () => {
                     selectedSubCategory &&
                     <p className="text-center my-3 text-lg border-base-300 border-b-2 px-2 text-success">{selectedSubCategory.learn_instructions}</p>
                 }
-                <RenderMessages messages={messages} isLoading={isLoading} hasDoneAnyRecording={hasDoneAnyRecording} conversationsContainer={conversationsContainer} />
+                {
+                    checkedQuestionsCount ? (
+                        questionsCount === 0 ?
+                            <p className="text-center my-3 text-lg"><span className="text-warning">No questions available.</span><br /> <Link href={`/conversation/v2/categories/sub-categories/questions/?category_id=${selectedCategory.id}&sub_category_id=${selectedSubCategory.id}&model_action=create`} className="text-primary">Add questions</Link></p>
+                            :
+                            <p className="text-center my-3 text-lg"><span className="text-primary">Questions counts:</span> <span className="text-primary">{questionsCount}</span></p>
+
+                    ) : null
+                }
+                {
+                    questionsCount > 0 &&
+                    <RenderMessages messages={messages} isLoading={isLoading} hasDoneAnyRecording={hasDoneAnyRecording} conversationsContainer={conversationsContainer} />
+                }
             </div>
-            <div className="sticky bottom-0 left-0 right-0 shadow-lg z-50 min-h-32">
-                <RecordMessage handleStop={handleStop} messagesMetadata={messagesMetadata} isLoading={isLoading} uploadFailed={uploadFailed} conversationsContainer={conversationsContainer} />
-            </div>
+            {questionsCount > 0 && checkedQuestionsCount && (
+                <div className="sticky bottom-0 left-0 right-0 shadow-lg z-50 min-h-32">
+                    <RecordMessage handleStop={handleStop} messagesMetadata={messagesMetadata} isLoading={isLoading} uploadFailed={uploadFailed} conversationsContainer={conversationsContainer} />
+                </div>
+            )}
         </div>
     );
 };

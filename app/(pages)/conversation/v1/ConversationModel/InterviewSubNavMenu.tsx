@@ -28,9 +28,11 @@ const InterviewSubNavMenu: React.FC<SubNavMenuProps> = ({
     const { subCategories } = useSubCategories({ selectedCategory, setSelectedSubCategory });
     const [currentSessionId, setCurrentSessionId] = useState<number | ''>('');
 
+    console.log('CAAA')
     // Fetch conversation messages based on selected category and sub-category
     useEffect(() => {
         const fetchConversation = async () => {
+            console.log('RRRRR', selectedCategory, selectedSubCategory)
             if (!selectedCategory?.id || !selectedSubCategory?.id || !currentSessionId) return;
 
             try {

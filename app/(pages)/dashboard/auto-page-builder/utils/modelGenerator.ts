@@ -1,6 +1,6 @@
-// app/(pages)/dashboard/auto-page-builder/utils/modelGenerator.ts
 import path from 'path';
 import Pluralize from 'pluralize';
+import simpleGit from 'simple-git';
 import { processTemplate, capitalize, inferTypeFromValue, getFieldsAndHeaders, getActionLabels } from './helpers';
 import { createDirectoryIfNotExists, writeFileSync } from './fileOperations';
 import { listPageTemplate } from '@/app/components/baseComponents/Autos/AutoPageBuilderTemplate/listPageTemplate';
@@ -31,15 +31,17 @@ export async function saveAndGenerateModel(dataRaw: any) {
   const results = await makeApiRequest(data)
 
   if (results.ok) {
-    generateModel(data, fields, modelNameSingular, modelURI)
+    generateModel(data, fields, modelNameSingular, modelURI, dataRaw.id)
   }
 
   return results
 
 }
 
-function generateModel(data: any, fields: any, modelNameSingular: string, modelURI: string) {
+async function generateModel(data: any, fields: any, modelNameSingular: string, modelURI: string, id: number | null) {
   const singularModelName = Pluralize.singular(modelNameSingular)
+  const actionType = id === null ? 'create' : 'edit';
+  const git = simpleGit();
 
   try {
     const actionLabels: ActionLabelsActionsType | any = {}
@@ -49,9 +51,8 @@ function generateModel(data: any, fields: any, modelNameSingular: string, modelU
       const label = act.label
 
       actionLabels[key] = { actionType, label }
-
     })
-    
+
     data.actionLabels = actionLabels
 
     const processedListPage = processTemplate(listPageTemplate, data);
@@ -90,8 +91,21 @@ function generateModel(data: any, fields: any, modelNameSingular: string, modelU
     writeFileSync(path.join(autoModelPath, 'mapRecords.tsx'), processedMapRecords);
     writeFileSync(path.join(autoModelPath, 'types.ts'), typeContent);
 
-  } catch (error) {
-    console.error('Error generating model files:', error);
-  }
+    // Add and commit changes
+    await git.add('.');
+    const commitMessage = `Autobuilder: ${actionType} ${data.modelNameSingular.toLowerCase()} model and related files`;
+    await git.commit(commitMessage);
 
+  } catch (error: any) {
+    console.error('Error generating model files:', error);
+
+    // Stash changes if any step fails
+    try {
+      const stashMessage = `Autobuilder: Stash changes due to ${actionType} failure - ${error.message}`;
+      await git.stash(['push', '-m', stashMessage]);
+      console.log(`Changes stashed: ${stashMessage}`);
+    } catch (stashError) {
+      console.error('Error stashing changes:', stashError);
+    }
+  }
 }

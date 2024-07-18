@@ -1,5 +1,5 @@
 
-type Sub_categoryType = {
+type Sub-categoryType = {
 id: any;
   created_at: any;
   updated_at: any;
@@ -8,4 +8,4 @@ id: any;
   learn_instructions: any;
 }
 
-export default Sub_categoryType;
+export default Sub-categoryType;

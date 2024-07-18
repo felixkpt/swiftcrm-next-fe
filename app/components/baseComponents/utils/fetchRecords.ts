@@ -30,7 +30,7 @@ const fetchRecords = async (apiEndpoint: string, tags: string[] = []): Promise<F
   
       if (hasMetadata) {
         metadata = data.metadata;
-        records = data.results || [];
+        records = data.records || [];
       } else {
         records = data || [];
       }

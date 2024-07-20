@@ -2,17 +2,21 @@
 
 import Pagination from "../Pagination/Index";
 import { GeneralResultType, MetadataType } from "../types";
-import { HeaderType } from "./BaseAutoModel/types";
+import { FillableType, HeaderType } from "./BaseAutoModel/types";
 type Props = {
     headers: HeaderType[];
     records: GeneralResultType[]
-    metadata: MetadataType
+    fillableFields: FillableType[];
     componentId: string
+    apiEndpoint: string
+    metadata: MetadataType
     onPageNumberChange: (page: number) => void;
     AutoTableHeaderActions?: React.ElementType
+    handleSearch: (filters: Record<string, any>) => void;
+    handleExport: (filters: Record<string, any>) => void;
 };
 
-const AutoTable = ({ records, metadata, headers, componentId, onPageNumberChange, AutoTableHeaderActions }: Props) => {
+const AutoTable = ({ headers, records, fillableFields, apiEndpoint, componentId, metadata, onPageNumberChange, AutoTableHeaderActions, handleSearch, handleExport }: Props) => {
 
     const currentPage = metadata?.page
     const perPage = metadata?.per_page
@@ -24,7 +28,7 @@ const AutoTable = ({ records, metadata, headers, componentId, onPageNumberChange
         <div className="autotableWrapper" id={componentId}>
             {AutoTableHeaderActions
                 &&
-                <AutoTableHeaderActions componentId={componentId} records={records} />
+                <AutoTableHeaderActions headers={headers} fillableFields={fillableFields} apiEndpoint={apiEndpoint} componentId={componentId} handleSearch={handleSearch} handleExport={handleExport} />
             }
             <table className="table shadow">
                 <thead>

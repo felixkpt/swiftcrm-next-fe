@@ -1,4 +1,5 @@
-'use client'
+'use client';
+
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
@@ -24,9 +25,9 @@ type Props = {
   headers: HeaderType[];
   AutoTableHeaderActions?: React.ElementType;
   ActionHandlers?: new (componentId: string, apiEndpoint: string) => ActionHandlersInterface;
-  serverRecords: GeneralResultType[]
-  revalidateServerRecords:any
-  serverMetadata:any
+  serverRecords: GeneralResultType[];
+  revalidateServerRecords: any;
+  serverMetadata: any;
   actionLabels: Partial<ActionListType>;
   actionType: any;
   createUri?: string;
@@ -49,36 +50,33 @@ const Renderer: React.FC<Props> = ({
   createUri,
 }) => {
   const defaultActionHandlers = ActionHandlers ? new ActionHandlers(componentId, apiEndpoint) : new DefaultActionHandlers(componentId, apiEndpoint);
-
   apiEndpoint = useAutoResolveEndPointPlaceholders({ apiEndpoint });
 
-  const [localApiEndpoint, setLocalApiEndpoint] = useState(apiEndpoint)
-
-  const [headerTitle, setHeaderTitle] = useState(`${modelNamePlural.charAt(0).toUpperCase() + modelNamePlural.slice(1)} list`)
-
-  const router = useRouter();
-  serverRecords = mapRecords(serverRecords, componentId, apiEndpoint, actionLabels, actionType);
-
+  const [headerTitle, setHeaderTitle] = useState(`${modelNamePlural.charAt(0).toUpperCase() + modelNamePlural.slice(1)} list`);
   const [records, setRecords] = useState<GeneralResultType[]>(serverRecords);
   const [metadata, setMetaData] = useState<MetadataType>(serverMetadata);
+  const [filters, setFilters] = useState<Record<string, any>>({});
   const { response } = useAutoPostDone({ componentId });
+  const router = useRouter();
 
   const onPageNumberChange = (page: number) => {
-    setLocalApiEndpoint(`${apiEndpoint}?page=` + page)
-  }
+    setFilters({ ...filters, page });
+  };
 
   const fetchRecords = async () => {
-    if (!localApiEndpoint) return
+    if (!apiEndpoint) return;
 
     try {
-      const response = await axios.get(appConfig.api.url(localApiEndpoint));
+      const response = await axios.get(appConfig.api.url(apiEndpoint), { params: filters });
+      const data = response?.data;
+      const hasMetaData = typeof data?.metadata !== 'undefined';
 
-      const hasMetaData = response?.data?.metadata
-      const data = response?.data
       if (hasMetaData) {
-        setHeaderTitle(data.metadata.title);
-        setMetaData(data.metadata);
         setRecords(mapRecords(data.records || [], componentId, apiEndpoint, actionLabels, actionType));
+        if (data.metadata) {
+          setHeaderTitle(data.metadata?.title || headerTitle);
+          setMetaData(data.metadata);
+        }
       } else {
         setRecords(mapRecords(data || [], componentId, apiEndpoint, actionLabels, actionType));
         setMetaData(null);
@@ -90,23 +88,18 @@ const Renderer: React.FC<Props> = ({
   };
 
   useEffect(() => {
-    if (apiEndpoint !== localApiEndpoint) {
-      console.log('fetching only....')
-      fetchRecords();
-    }
-  }, [localApiEndpoint]);
-  
+    fetchRecords();
+  }, [apiEndpoint, filters]);
+
   useEffect(() => {
     if (response && response.status === 200) {
-      console.log('fetching and revalidating....')
       fetchRecords();
-      revalidateServerRecords()
+      revalidateServerRecords();
     }
   }, [response]);
 
   const handleRecordAction = useCallback((e: Event) => {
     const target = e.target as HTMLElement;
-
     const action = target.getAttribute('data-action') as KnownActionsType;
     const dataTarget = target.getAttribute('data-target') as KnownActionsType;
     const recordId = target.getAttribute('data-id');
@@ -128,9 +121,8 @@ const Renderer: React.FC<Props> = ({
       } else {
         console.error(`Record with ID ${recordId} not found.`);
       }
-    } else {
     }
-  }, [records, actionLabels, defaultActionHandlers, localApiEndpoint]);
+  }, [records, actionLabels, defaultActionHandlers, apiEndpoint]);
 
   useEffect(() => {
     const handleTableClick = (e: Event) => {
@@ -146,7 +138,14 @@ const Renderer: React.FC<Props> = ({
     }
   }, [records, handleRecordAction]);
 
-  // Filter out objects where singleViewOnly is true
+  const handleSearch = (searchFilters: Record<string, any>) => {
+    setFilters({ ...filters, ...searchFilters });
+  };
+
+  const handleExport = (filters: Record<string, any>) => {
+    console.log('Export filters:', filters);
+  };
+
   let filteredHeaders = headers.filter(item => item.isVisibleInList);
 
   return (
@@ -160,11 +159,15 @@ const Renderer: React.FC<Props> = ({
       />
       <AutoTable
         records={records}
-        metadata={metadata}
+        fillableFields={fillableFields}
         headers={filteredHeaders}
         componentId={componentId}
+        apiEndpoint={apiEndpoint}
+        metadata={metadata}
         onPageNumberChange={onPageNumberChange}
         AutoTableHeaderActions={AutoTableHeaderActions || DefaultAutoTableHeaderActions}
+        handleSearch={handleSearch}
+        handleExport={handleExport}
       />
       <AllActionsModals
         componentId={componentId}

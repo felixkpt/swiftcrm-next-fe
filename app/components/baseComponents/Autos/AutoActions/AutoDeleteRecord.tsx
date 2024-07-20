@@ -1,34 +1,34 @@
 'use client'
 import { useEffect, useState } from 'react';
-import { appConfig, subscribe } from '../../utils/helpers';
+import { publish, subscribe } from '../../utils/helpers';
 import { HttpVerb } from '@/app/components/baseComponents/types';
 import { FillableType } from '../BaseAutoModel/types';
-import axios from 'axios';
 
 type Props = {
     componentId: string;
     modelNameSingular: string;
     method: HttpVerb;
-    endpoint: string; // Change action to endpoint
+    endpoint: string;
     fillable: FillableType[];
 };
 
 const AutoDeleteRecord: React.FC<Props> = ({ componentId, modelNameSingular, method, endpoint, fillable }) => {
-    const [localTitle, setLocalTitle] = useState(`Delete ${modelNameSingular} record`)
+    const [localTitle, setLocalTitle] = useState(`Delete ${modelNameSingular} record`);
     const [record, setRecord] = useState<any>();
+    const [responseMessage, setResponseMessage] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         if (record) {
-            setLocalTitle(`Delete ${modelNameSingular} record #${record.id}`)
+            setLocalTitle(`Delete ${modelNameSingular} record #${record.id}`);
         } else {
-            setLocalTitle(`Delete ${modelNameSingular} record`)
+            setLocalTitle(`Delete ${modelNameSingular} record`);
         }
-    }, [record])
+    }, [record]);
 
     useEffect(() => {
         const handleRecord = ({ record }: { record: Record<string, string>; }) => {
-            setRecord(record)
-            console.log('AutoDeleteRecord:', method)
+            setRecord(record);
         };
 
         const unsubscribe = subscribe(`${componentId}_setRecord`, handleRecord);
@@ -38,40 +38,49 @@ const AutoDeleteRecord: React.FC<Props> = ({ componentId, modelNameSingular, met
         };
     }, [componentId, method, endpoint, fillable]);
 
-    const handleDelete = async () => {
-        if (!record) return;
-
-        try {
-            const response = await axios.delete(appConfig.api.url(endpoint + '/11' + record.id), {
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (response.status === 200) {
-                setRecord(null);
-                alert(`${modelNameSingular} record deleted successfully.`);
-            } else {
-                alert(`Failed to delete ${modelNameSingular} record.`);
-            }
-        } catch (error) {
-            console.error('Error deleting record:', error);
-            alert(`Error deleting ${modelNameSingular} record.`);
-        }
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        publish(`${componentId}_submit`, { method: 'delete', action: endpoint + '/' + record.id });
     };
+
+    useEffect(() => {
+        const handleResponse = ({ status, error }: any) => {
+            setLoading(false);
+            if (status !== 200) {
+                setResponseMessage('Error deleting record');
+            }
+        };
+
+        const unsubscribe = subscribe(`${componentId}_done`, handleResponse);
+
+        return () => {
+            unsubscribe();
+        };
+    }, [componentId, method, endpoint, fillable]);
 
     return (
         <>
-            <div className="border-b-2 border-b-gray-400 mb-5"><h3 className="font-bold text-lg text-gray-300">{localTitle}</h3></div>
-            <div className="flex justify-end">
-                <button
-                    className="bg-red-500 text-white px-4 py-2 rounded"
-                    onClick={handleDelete}
-                    disabled={!record}
-                >
-                    Delete
-                </button>
+            <div className="border-b-2 border-b-gray-400 mb-5">
+                <h3 className="font-bold text-lg text-gray-300">{localTitle}</h3>
             </div>
+            <form data-action={endpoint} method="post" onSubmit={handleSubmit}>
+                <div className={`${componentId}ResponseSection my-3`}>
+                    {responseMessage && (
+                        <div className="p-3 rounded bg-red-200 text-red-800">
+                            {responseMessage}
+                        </div>
+                    )}
+                </div>
+                <div className="flex justify-end">
+                    <button
+                        className={`bg-red-500 text-white px-4 py-2 rounded ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        disabled={!record || loading}
+                    >
+                        {loading ? 'Deleting...' : 'Delete'}
+                    </button>
+                </div>
+            </form>
         </>
     );
 };

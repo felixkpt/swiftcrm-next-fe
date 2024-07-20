@@ -25,7 +25,7 @@ const setInitials = (fillable: FillableType[]) => {
 
 const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingular, method, endpoint, fillable }) => {
     const [localTitle, setLocalTitle] = useState(`Create ${modelNameSingular}`);
-    const [record, setRecord] = useState<any>(null);
+    const [record, setRecord] = useState<Record<string, any> | null>(null);
     const initialfillable = fillable;
     const [formData, setFormData] = useState(setInitials(initialfillable));
     const [localEndpoint, setLocalEndpoint] = useState(endpoint);
@@ -45,7 +45,6 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingu
         }
     }, [record, modelNameSingular]);
 
-    const [dependencyValues, setDependencyValues] = useState<Record<string, string>>({});
     useEffect(() => {
 
         if (fillable && fillable.length > 0) {
@@ -73,8 +72,6 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingu
 
         }
     }, [fillable]);
-
-    console.log('fillable:::::', fillable)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -232,6 +229,7 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingu
                                 onChange={handleChange}
                                 dropdownSource={field.dropdownSource || ''}
                                 dropdownDependsOn={field.dropdownDependsOn}
+                                record={record}
                             />
                         ) :
                             field.type === 'dropdown' ? (
@@ -241,6 +239,7 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingu
                                     value={formData[field.name]}
                                     onChange={handleChange}
                                     dropdownSource={field.dropdownSource || ''}
+                                    record={record}
                                 />
                             ) : (
                                 <input

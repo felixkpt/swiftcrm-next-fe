@@ -1,4 +1,3 @@
-
 export type KnownActionsType = 'viewRecord' | 'editRecord' | 'updateRecordStatus' | 'archiveRecord' | 'deleteRecord';
 
 export type RecordType = { [key: string]: any };
@@ -11,23 +10,22 @@ export interface ActionHandlersInterface {
     deleteRecord: (record: RecordType) => void;
 }
 
-
-export type ActionType = 'dropdown' | 'buttons'
+export type ActionType = 'dropdown' | 'buttons';
 
 export type ActionItemType = {
     label: string;
     actionType: 'modal' | 'navigation';
     slug?: string | null;
     classes?: string;
-    show?: boolean
+    show?: boolean;
 };
 
 export type ActionLabelsActionsType = {
-    viewRecord?: ActionItemType
-    editRecord?: ActionItemType
-    updateRecordStatus?: ActionItemType
-    archiveRecord?: ActionItemType
-    deleteRecord?: ActionItemType
+    viewRecord?: ActionItemType;
+    editRecord?: ActionItemType;
+    updateRecordStatus?: ActionItemType;
+    archiveRecord?: ActionItemType;
+    deleteRecord?: ActionItemType;
 };
 
 export type ActionListType = {
@@ -38,8 +36,8 @@ export type HeaderType = {
     key: string;
     searchKey?: string;
     label?: string;
-    isVisibleInList?: boolean
-    isVisibleInSingleView?: boolean
+    isVisibleInList?: boolean;
+    isVisibleInSingleView?: boolean;
 };
 
 export type FillableType = {
@@ -49,15 +47,13 @@ export type FillableType = {
     isRequired?: boolean;
     dataType?: any;
     defaultValue?: any;
-    hidden?: boolean
-
-    isVisibleInList?: boolean,
-    isVisibleInSingleView?: boolean,
-    isUnique?: boolean,
-    dropdownSource?: string,
-    dropdownDependsOn?: string[]
-    onChangeUpdateList?: string[]
-
+    hidden?: boolean;
+    isVisibleInList?: boolean;
+    isVisibleInSingleView?: boolean;
+    isUnique?: boolean;
+    dropdownSource?: string;
+    dropdownDependsOn?: string[];
+    onChangeUpdateList?: string[];
 };
 
 export type CommonDataTypes =
@@ -68,4 +64,17 @@ export type CommonDataTypes =
 export type InputType = {
     name: 'input' | 'textarea' | 'dropdown';
     commonDataTypes: CommonDataTypes[];
+};
+
+export type ModelConstants = {
+    MODEL_NAME: string;
+    MODEL_NAME_PLURAL: string;
+    COMPONENT_ID: string;
+    MODEL_URI: string;
+    API_ENDPOINT: string;
+    FILLABLE_FIELDS: Array<FillableType>;
+    HEADERS: Array<{ key: string; label: string }>;
+    NEW_RECORD_DEFAULTS: Record<string, any>;
+    ACTION_LABELS: Partial<ActionListType>;
+    ACTION_TYPE: ActionType;
 };

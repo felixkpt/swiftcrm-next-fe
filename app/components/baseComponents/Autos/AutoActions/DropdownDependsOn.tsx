@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { appConfig, subscribe } from '../../utils/helpers';
-import { alertTitleClasses } from '@mui/material';
 
 type Props = {
     componentId: string;
@@ -9,6 +8,7 @@ type Props = {
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
     dropdownSource: string;
     dropdownDependsOn: string[] | null;
+    size?: 'sm' | 'md' | 'lg';
 };
 
 const DropdownDependsOn: React.FC<Props> = ({
@@ -18,6 +18,7 @@ const DropdownDependsOn: React.FC<Props> = ({
     onChange,
     dropdownSource,
     dropdownDependsOn,
+    size = 'md',
 }) => {
     const [options, setOptions] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -70,8 +71,10 @@ const DropdownDependsOn: React.FC<Props> = ({
 
     if (error) return <p className="text-red-700">{error}</p>;
 
+    const sizeClass = size === 'sm' ? 'select-sm' : size === 'lg' ? 'select-lg' : 'select-md';
+
     return (
-        <div className="mb-4">
+        <div>
             <select
                 id={name}
                 name={name}
@@ -79,7 +82,7 @@ const DropdownDependsOn: React.FC<Props> = ({
                 onChange={onChange}
                 data-dropdown-source={dropdownSource}
                 data-dropdown-depends-on={dropdownDependsOn}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-300 leading-tight focus:outline-none focus:shadow-outline"
+                className={`select select-bordered w-full ${sizeClass}`}
             >
                 <option value="">Select...</option>
                 {options.map((option) => (
@@ -88,7 +91,6 @@ const DropdownDependsOn: React.FC<Props> = ({
                     </option>
                 ))}
             </select>
-            {loading && <p>...</p>}
         </div>
     );
 };

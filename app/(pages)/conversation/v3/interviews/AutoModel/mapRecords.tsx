@@ -11,7 +11,7 @@ const mapRecords = (
   ACTION_TYPE: string,
   isSingle?: boolean,
 ) => {
-  return (records && records.length > 0) ? records.map(record => ({
+  return records.map(record => ({
     ...record,
     action: (
       <AutoRecordActionSection
@@ -23,7 +23,7 @@ const mapRecords = (
         actionType={ACTION_TYPE}
       />
     ),
-  })) : [];
+  }));
 };
 
 export default mapRecords;

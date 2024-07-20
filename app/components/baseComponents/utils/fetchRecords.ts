@@ -15,31 +15,31 @@ interface FetchRecordsResponse {
  * @throws {Error} - Throws an error if the fetch operation fails.
  */
 const fetchRecords = async (apiEndpoint: string, tags: string[] = []): Promise<FetchRecordsResponse> => {
-    let records: any[] = []; // Adjust the type if you have a specific record structure
-    let metadata: object | null = null; // Adjust the type if you have a specific metadata structure
-  
-    try {
-      const response = await fetch(apiEndpoint, { next: { tags } });
-  
-      if (!response.ok) {
-        throw new Error(`Failed to fetch data from ${apiEndpoint}`);
-      }
-  
-      const data = await response.json();
-      const hasMetadata = data?.metadata;
-  
-      if (hasMetadata) {
-        metadata = data.metadata;
-        records = data.records || [];
-      } else {
-        records = data || [];
-      }
-    } catch (error) {
-      console.error(`Error fetching records:`, error);
-      throw error;
+  let records: any[] = []; // Adjust the type if you have a specific record structure
+  let metadata: object | null = null; // Adjust the type if you have a specific metadata structure
+
+  try {
+    const response = await fetch(apiEndpoint, { next: { tags } });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data from ${apiEndpoint}`);
     }
-  
-    return { records, metadata };
+
+    const data = await response.json();
+    const hasMetadata = typeof data?.metadata !== 'undefined';
+
+    if (hasMetadata) {
+      metadata = data.metadata;
+      records = data.records || [];
+    } else {
+      records = data || [];
+    }
+  } catch (error) {
+    console.error(`Error fetching records:`, error);
+    throw error;
+  }
+
+  return { records, metadata };
 };
-  
+
 export default fetchRecords;

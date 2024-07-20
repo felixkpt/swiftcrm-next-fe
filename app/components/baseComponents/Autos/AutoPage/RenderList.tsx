@@ -64,7 +64,8 @@ const Renderer: React.FC<Props> = ({
   };
 
   const fetchRecords = async () => {
-    if (!apiEndpoint || (records.length && Object.keys(filters.page).length === 0)) return;
+
+    if (!apiEndpoint || (records.length && Object.keys(filters).length === 0)) return;
 
     try {
       const response = await axios.get(appConfig.api.url(apiEndpoint), { params: filters });

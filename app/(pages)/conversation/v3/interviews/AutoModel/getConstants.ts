@@ -19,7 +19,7 @@ const fillableFields = [
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "admin/users",
     dropdownDependsOn: null
   },
   {

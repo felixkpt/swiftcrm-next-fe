@@ -6,10 +6,6 @@ import { FillableType, HeaderType } from '../BaseAutoModel/types';
 import AutoTableSingle from '../AutoTableSingle';
 
 
-type ErrorResponse = {
-    detail: { loc: string[]; msg: string; type: string }[];
-};
-
 type Props = {
     componentId: string;
     modelNameSingular: string;

@@ -176,6 +176,7 @@ export const validateDefaultValue = (dataType: string, defaultValue: string): bo
 };
 
 export function mapExistingFields(fields: FieldSchema[]): FieldType[] {
+  console.log('fields::::',fields)
   const mapped: unknown = fields.map((field) => {
     if (field.name === 'id' || field.name === 'created_at' || field.name === 'updated_at') return null;
 
@@ -191,8 +192,8 @@ export function mapExistingFields(fields: FieldSchema[]): FieldType[] {
       isUnique: { value: field.isUnique, required: newField.isUnique.required },
       dropdownSource: { value: field.dropdownSource || '', required: newField.dropdownSource.required },
       dropdownDependsOn: { value: field.dropdownDependsOn || [], required: newField.dropdownDependsOn.required },
-      desktopWidth: { value: field.desktopWidth || [], required: newField.desktopWidth.required },
-      mobileWidth: { value: field.mobileWidth || [], required: newField.mobileWidth.required },
+      desktopWidth: { value: field.desktopWidth || 12, required: newField.desktopWidth.required },
+      mobileWidth: { value: field.mobileWidth || 12, required: newField.mobileWidth.required },
     };
   }).filter((itm) => itm !== null);
 

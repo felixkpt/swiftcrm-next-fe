@@ -1,5 +1,5 @@
 
-type Word-confidenceType = {
+type Word_confidenceType = {
 id: any;
   created_at: any;
   updated_at: any;
@@ -10,4 +10,4 @@ id: any;
   confidence: any;
 }
 
-export default Word-confidenceType;
+export default Word_confidenceType;

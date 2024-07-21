@@ -3,11 +3,11 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelNameSingular = 'word-confidences';
+const modelNameSingular = 'Word_confidences';
 const modelURI = 'conversation/v3/messages/word-confidences';
 const apiEndpoint = 'conversation/v3/messages/word-confidences/';
 
-// Define fillable fields for the word-confidences model
+// Define fillable fields for the Word_confidences model
 const fillableFields = [
   {
     name: "message_id",
@@ -131,7 +131,7 @@ const actionLabelsActions: ActionLabelsActionsType = {
   }
 };
 
-// Create word-confidences constants using the createModelConstants function
+// Create Word_confidences constants using the createModelConstants function
 const getConstants = createModelConstants(
   modelNameSingular,          // modelNameSingular: Name of the model/page
   modelURI,           // modelURI: API endpoint for mode/page

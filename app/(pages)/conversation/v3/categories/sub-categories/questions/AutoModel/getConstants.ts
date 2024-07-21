@@ -111,6 +111,10 @@ const actionLabelsActions: ActionLabelsActionsType = {
   editRecord: {
     actionType: "modal",
     label: ""
+  },
+  deleteRecord: {
+    actionType: "modal",
+    label: ""
   }
 };
 

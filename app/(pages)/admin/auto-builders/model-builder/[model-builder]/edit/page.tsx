@@ -7,7 +7,6 @@ import getDropdownSourcesList from '../../utils/getDropdownSourcesList';
 
 const Page = async () => {
   const dropdownSourcesList: RecordType[] = await getDropdownSourcesList()
-  console.log(dropdownSourcesList)
   return <Builder inputTypes={inputTypes} dropdownSourcesList={dropdownSourcesList} saveAndGenerateModel={saveAndGenerateModel} />;
 };
 

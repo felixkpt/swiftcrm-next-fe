@@ -14,7 +14,7 @@ import { AutoPageBuilderType } from './backendTypes';
 
 export async function saveAndGenerateModel(dataRaw: any) {
   'use server';
-  console.log('dataRaw::', dataRaw)
+  // console.log('dataRaw::', dataRaw)
 
   const { modelNameSingular, modelURI, fields: fieldsRaw, } = dataRaw;
 

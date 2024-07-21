@@ -109,8 +109,6 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         );
         setActionLabelValidations(actionLabelValidations);
 
-        console.log('FFD', fields, 'fieldValidations::', fieldValidations, 'actionLabelValidations:', actionLabelValidations)
-
         const isValid = isModelNameValid && isModelURIValid && isApiEndpointValid
             && fieldValidations.every(validation => Object.values(validation).every(Boolean))
             && actionLabelValidations.every(validation => Object.values(validation).every(Boolean));

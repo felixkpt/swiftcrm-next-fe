@@ -46,8 +46,6 @@ const RelationshipComponent: React.FC<RelationshipComponentProps> = ({
     setRelationships(updatedRelationships);
   };
 
-  console.log(autobuilderObjects)
-
   return (
     <>
       <Typography variant="subtitle1" gutterBottom>

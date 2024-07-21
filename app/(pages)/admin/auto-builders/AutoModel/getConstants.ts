@@ -3,71 +3,17 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelNameSingular = 'Interviews';
-const modelURI = 'conversation/v3/interviews';
-const apiEndpoint = 'conversation/v3/interviews/';
+const modelNameSingular = 'model-builders';
+const modelURI = 'admin/auto-builders';
+const apiEndpoint = 'admin/auto-builders/';
 
-// Define fillable fields for the Interviews model
+// Define fillable fields for the model-builders model
 const fillableFields = [
   {
-    name: "user_id",
-    label: "",
-    type: "dropdown",
-    dataType: "integer",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: false,
-    dropdownSource: "admin/users",
-    dropdownDependsOn: null
-  },
-  {
-    name: "category_id",
-    label: "",
-    type: "dropdown",
-    dataType: "integer",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: false,
-    dropdownSource: "conversation/v3/categories",
-    dropdownDependsOn: null
-  },
-  {
-    name: "sub_category_id",
-    label: "",
-    type: "dropdown",
-    dataType: "integer",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: false,
-    dropdownSource: "conversation/v3/categories/sub-categories",
-    dropdownDependsOn: [
-      "conversation/v3/categories"
-    ]
-  },
-  {
-    name: "question_id",
-    label: "",
-    type: "dropdown",
-    dataType: "integer",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: false,
-    dropdownSource: "conversation/v3/categories/sub-categories/questions",
-    dropdownDependsOn: null
-  },
-  {
-    name: "scores",
+    name: "name_singular",
     label: "",
     type: "input",
-    dataType: "integer",
+    dataType: "string",
     defaultValue: null,
     isRequired: true,
     isVisibleInList: true,
@@ -77,10 +23,10 @@ const fillableFields = [
     dropdownDependsOn: null
   },
   {
-    name: "max_scores",
+    name: "name_plural",
     label: "",
     type: "input",
-    dataType: "integer",
+    dataType: "string",
     defaultValue: null,
     isRequired: true,
     isVisibleInList: true,
@@ -90,10 +36,62 @@ const fillableFields = [
     dropdownDependsOn: null
   },
   {
-    name: "percentage_score",
+    name: "modelURI",
     label: "",
     type: "input",
-    dataType: "integer",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: true,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: null,
+    dropdownDependsOn: null
+  },
+  {
+    name: "apiEndpoint",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: true,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: null,
+    dropdownDependsOn: null
+  },
+  {
+    name: "table_name_singular",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: true,
+    isVisibleInList: false,
+    isVisibleInSingleView: true,
+    isUnique: true,
+    dropdownSource: null,
+    dropdownDependsOn: null
+  },
+  {
+    name: "table_name_plural",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: true,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: true,
+    dropdownSource: null,
+    dropdownDependsOn: null
+  },
+  {
+    name: "class_name",
+    label: "",
+    type: "input",
+    dataType: "string",
     defaultValue: null,
     isRequired: true,
     isVisibleInList: true,
@@ -107,43 +105,43 @@ const fillableFields = [
 // Define headers for displaying in the UI (e.g., table headers, singleViewOnly means can only be shown when viewing one item not list/table)
 const headers = [
   {
-    key: "user_id",
+    key: "name_singular",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
   },
   {
-    key: "category_id",
+    key: "name_plural",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
   },
   {
-    key: "sub_category_id",
+    key: "modelURI",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
   },
   {
-    key: "question_id",
+    key: "apiEndpoint",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
   },
   {
-    key: "scores",
+    key: "table_name_singular",
+    label: "",
+    isVisibleInList: false,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "table_name_plural",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
   },
   {
-    key: "max_scores",
-    label: "",
-    isVisibleInList: true,
-    isVisibleInSingleView: true
-  },
-  {
-    key: "percentage_score",
+    key: "class_name",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
@@ -166,16 +164,20 @@ const actionLabelsActions: ActionLabelsActionsType = {
     label: ""
   },
   editRecord: {
-    actionType: "modal",
+    actionType: "navigation",
     label: ""
   },
   updateRecordStatus: {
     actionType: "modal",
     label: ""
+  },
+  deleteRecord: {
+    actionType: "modal",
+    label: ""
   }
 };
 
-// Create Interviews constants using the createModelConstants function
+// Create model-builders constants using the createModelConstants function
 const getConstants = createModelConstants(
   modelNameSingular,          // modelNameSingular: Name of the model/page
   modelURI,           // modelURI: API endpoint for mode/page

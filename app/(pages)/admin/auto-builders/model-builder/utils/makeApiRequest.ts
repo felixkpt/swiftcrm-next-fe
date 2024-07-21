@@ -22,7 +22,8 @@ export async function makeApiRequest(data: any) {
 async function genericRequestor(endPoint: string, data: any) {
   const pageId = data?.pageId
   endPoint = pageId ? `${endPoint}/${pageId}` : endPoint
-  data.modelName = data.modelNameSingular
+  data.name_singular = data.modelNameSingular
+  data.name_plural = data.modelNameSingular
 
   console.log('DATA::', JSON.stringify(data))
 
@@ -51,7 +52,7 @@ async function genericRequestor(endPoint: string, data: any) {
         results.ok = true
       }
       // revalidateTag "auto-page-builder"
-      revalidateTag('auto-page-builder')
+      revalidateTag('model-builderr')
       return response.json()
     })
       .then((data) => {

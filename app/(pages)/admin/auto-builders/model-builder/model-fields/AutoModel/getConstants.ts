@@ -3,11 +3,11 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelNameSingular = 'model_fields';
+const modelNameSingular = 'Model_fields';
 const modelURI = 'admin/auto-builders/model-builder/model-fields';
 const apiEndpoint = 'admin/auto-builders/model-builder/model-fields/';
 
-// Define fillable fields for the model_fields model
+// Define fillable fields for the Model_fields model
 const fillableFields = [
   {
     name: "model_builder_id",
@@ -298,7 +298,7 @@ const actionLabelsActions: ActionLabelsActionsType = {
   }
 };
 
-// Create model_fields constants using the createModelConstants function
+// Create Model_fields constants using the createModelConstants function
 const getConstants = createModelConstants(
   modelNameSingular,          // modelNameSingular: Name of the model/page
   modelURI,           // modelURI: API endpoint for mode/page

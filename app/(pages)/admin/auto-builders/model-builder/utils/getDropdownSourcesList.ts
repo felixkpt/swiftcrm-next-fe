@@ -2,10 +2,10 @@ import fetchRecords from "@/app/components/baseComponents/utils/fetchRecords";
 import { appConfig } from "@/app/components/baseComponents/utils/helpers";
 
 async function getDropdownSourcesList() {
-    const COMPONENT_ID = 'auto-page-builder'
-    const MODEL_NAME_PLURAL = 'auto-page-builder'
+    const COMPONENT_ID = 'model-builder'
+    const MODEL_NAME_PLURAL = 'model-builder'
     // Define the API endpoint URL using appConfig
-    const apiEndpoint = appConfig.api.url('dashboard/auto-page-builder');
+    const apiEndpoint = appConfig.api.url('admin/auto-builders/model-builder');
 
     // Initialize variables for records and metadata
     let records = [];

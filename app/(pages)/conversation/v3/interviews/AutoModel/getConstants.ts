@@ -168,6 +168,10 @@ const actionLabelsActions: ActionLabelsActionsType = {
   editRecord: {
     actionType: "modal",
     label: ""
+  },
+  updateRecordStatus: {
+    actionType: "modal",
+    label: ""
   }
 };
 

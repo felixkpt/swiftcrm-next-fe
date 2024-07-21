@@ -14,6 +14,8 @@ export const appConfig: Config = {
     name: 'SwiftCRM',
     api: {
         url: (endpoint: string): string => {
+            endpoint = endpoint.replace(/\/+/, '/')
+
             const apiUrl = 'http://127.0.0.1:8000/';
             return `${apiUrl.replace(/\/+$/, '')}/${endpoint.replace(/^\/+/, '')}`;
         }

@@ -33,7 +33,7 @@ type Props = {
 const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGenerateModel }) => {
     const params = useParams();
     const { API_ENDPOINT } = getConstants;
-    const pageId = params?.pageId;
+    const pageId = params?.['model-builder'];
 
     const [modelNameSingular, setModelNameSingular] = useState<string>('');
     const [modelURI, setModelURI] = useState<string>('');
@@ -49,7 +49,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(appConfig.api.url(`${API_ENDPOINT}/${pageId}`));
+                const response = await axios.get(appConfig.api.url(`${API_ENDPOINT}${pageId}`));
                 const data = response.data;
                 setModelNameSingular(data.name_singular);
                 setModelURI(data.modelURI);

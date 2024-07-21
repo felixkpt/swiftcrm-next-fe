@@ -112,6 +112,10 @@ const actionLabelsActions: ActionLabelsActionsType = {
     actionType: "modal",
     label: ""
   },
+  updateRecordStatus: {
+    actionType: "modal",
+    label: ""
+  },
   deleteRecord: {
     actionType: "modal",
     label: ""

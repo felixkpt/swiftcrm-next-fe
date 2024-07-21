@@ -85,6 +85,8 @@ export function getFieldsAndHeaders(fieldsRaw: FieldType[]) {
 
     const dropdownSource = field.dropdownSource.value !== "" ? field.dropdownSource.value : null
     const dropdownDependsOn = field.dropdownDependsOn.value.length !== 0 ? field.dropdownDependsOn.value : null
+    const desktopWidth = field.desktopWidth.value !== "" ? field.desktopWidth.value : 12
+    const mobileWidth = field.mobileWidth.value !== "" ? field.mobileWidth.value : 12
 
     const newField: FieldSchema = {
       name,
@@ -100,6 +102,8 @@ export function getFieldsAndHeaders(fieldsRaw: FieldType[]) {
 
       dropdownSource,
       dropdownDependsOn,
+      desktopWidth,
+      mobileWidth,
     }
 
     newFields.push(newField)
@@ -176,7 +180,6 @@ export const validateDefaultValue = (dataType: string, defaultValue: string): bo
 };
 
 export function mapExistingFields(fields: FieldSchema[]): FieldType[] {
-  console.log('fields::::',fields)
   const mapped: unknown = fields.map((field) => {
     if (field.name === 'id' || field.name === 'created_at' || field.name === 'updated_at') return null;
 

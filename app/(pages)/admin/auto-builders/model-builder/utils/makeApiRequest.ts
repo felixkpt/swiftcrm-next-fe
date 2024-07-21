@@ -25,7 +25,7 @@ async function genericRequestor(endPoint: string, data: any) {
   data.name_singular = data.modelNameSingular
   data.name_plural = data.modelNameSingular
 
-  // console.log('DATA::', JSON.stringify(data))
+  console.log('DATA::', JSON.stringify(data))
 
   const results: ResultsType = {
     data: null,

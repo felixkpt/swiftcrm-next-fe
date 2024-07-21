@@ -86,6 +86,18 @@ const actionLabelsActions: ActionLabelsActionsType = {
   viewRecord: {
     actionType: "navigation",
     label: ""
+  },
+  editRecord: {
+    actionType: "modal",
+    label: ""
+  },
+  updateRecordStatus: {
+    actionType: "modal",
+    label: ""
+  },
+  deleteRecord: {
+    actionType: "modal",
+    label: ""
   }
 };
 

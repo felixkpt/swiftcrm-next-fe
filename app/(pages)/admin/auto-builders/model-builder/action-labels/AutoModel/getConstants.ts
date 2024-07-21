@@ -41,7 +41,7 @@ const fillableFields = [
     type: "input",
     dataType: "string",
     defaultValue: null,
-    isRequired: true,
+    isRequired: false,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,

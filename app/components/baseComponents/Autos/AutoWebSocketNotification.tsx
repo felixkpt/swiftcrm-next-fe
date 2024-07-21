@@ -13,9 +13,11 @@ export default function AutoWebSocketNotification() {
 
   useEffect(() => {
     if (data) {
-      const parsed = JSON.parse(data)
-      console.log(parsed)
-      setMessage(parsed.message)
+      try {
+        const parsed = JSON.parse(data)
+        console.log(parsed)
+        setMessage(parsed.message)
+      } catch (err) { }
     }
   }, [data])
 

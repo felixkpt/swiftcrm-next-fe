@@ -29,8 +29,8 @@ export const newField: FieldType = {
     isUnique: { value: false, required: false },
     dropdownSource: { value: '', required: false },
     dropdownDependsOn: { value: [], required: false },
-    desktopWidth: { value: 12, required: false },
-    mobileWidth: { value: 12, required: false },
+    desktopWidth: { value: 12, required: true },
+    mobileWidth: { value: 12, required: true },
 };
 
 const generateValidation = (field: FieldType): FieldValidation => {

@@ -20,7 +20,9 @@ const fillableFields = [
     isVisibleInSingleView: true,
     isUnique: false,
     dropdownSource: null,
-    dropdownDependsOn: null
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
   },
   {
     name: "sub_category_id",
@@ -33,7 +35,9 @@ const fillableFields = [
     isVisibleInSingleView: true,
     isUnique: false,
     dropdownSource: "conversation/categories",
-    dropdownDependsOn: null
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
   }
 ]
 

@@ -21,15 +21,14 @@ const AutoTable = ({ headers, records, fillableFields, apiEndpoint, componentId,
     const currentPage = metadata?.page
     const perPage = metadata?.per_page || 10
     const totalRecords = metadata?.total_records
-    console.log('metadata', metadata)
 
     componentId = componentId + 'AutoTable'
 
     return (
-        <div className="autotableWrapper" id={componentId}>
+        <div className="autotableWrapper border border-base-200 rounded-md shadow-md py-1" id={componentId}>
             {AutoTableHeaderActions
                 &&
-                <AutoTableHeaderActions headers={headers} fillableFields={fillableFields} apiEndpoint={apiEndpoint} componentId={componentId} handleSearch={handleSearch} handleExport={handleExport} />
+                <AutoTableHeaderActions headers={headers} fillableFields={fillableFields} componentId={componentId} metadata={metadata} handleSearch={handleSearch} handleExport={handleExport} />
             }
             <table className="table shadow">
                 <thead>

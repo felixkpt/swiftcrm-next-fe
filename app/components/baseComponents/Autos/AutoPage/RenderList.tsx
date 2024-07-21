@@ -60,7 +60,7 @@ const Renderer: React.FC<Props> = ({
   const router = useRouter();
 
   const onPageNumberChange = (page: number) => {
-    setFilters({ ...filters, page:1 });
+    setFilters({ ...filters, page });
   };
 
   const fetchRecords = async (revalidate = false) => {
@@ -143,7 +143,7 @@ const Renderer: React.FC<Props> = ({
   }, [records, handleRecordAction]);
 
   const handleSearch = (searchFilters: Record<string, any>) => {
-    setFilters({ ...filters, ...searchFilters });
+    setFilters({ ...filters, ...searchFilters, page: 1 });
   };
 
   const handleExport = (filters: Record<string, any>) => {

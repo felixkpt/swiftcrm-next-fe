@@ -5,15 +5,17 @@ import SubmitButton from '../../Buttons/SubmitButton';
 import { FillableType } from '../../Autos/BaseAutoModel/types';
 import DropdownDependsOn from '../../Autos/AutoActions/DropdownDependsOn';
 import DynamicDropdown from '../../Autos/AutoActions/DynamicDropdown';
+import { MetadataType } from '../../types';
 
 type Props = {
   fillableFields: FillableType[];
   componentId: string;
+  metadata: MetadataType
   handleSearch: (filters: Record<string, any>) => void;
   handleExport: (filters: Record<string, any>) => void;
 };
 
-const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, componentId, handleSearch, handleExport }) => {
+const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, componentId, metadata, handleSearch, handleExport }) => {
   const [filters, setFilters] = useState<Record<string, any>>({});
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -34,15 +36,24 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, componentId, 
   };
 
   return (
-    <div className="p-2 shadow rounded-md">
+    <div className="p-2 shadow-lg rounded-md">
       <div className="flex flex-wrap items-center gap-4 mb-4">
         <div className="flex-grow">
+          {/* records metadata */}
+          <div className='flex justify-end items-center text-sm'>
+            {metadata?.total_records !== undefined && metadata.total_records >= 0 ?
+              <>
+              {metadata?.total_records} records
+              </> :
+              <>
+              </>}
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-6 xl:grid-cols-8 gap-4 items-center">
             {fillableFields.filter(field => field.type === 'input' || field.type === 'dropdown').map((field) => (
               field.isVisibleInList && (
-                <div key={field.name} className="mb-4 flex flex-col justify-center items-center">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    {field.label || field.name}
+                <div key={field.name} className="mb-4 flex flex-col justify-center">
+                  <label className="block text-sm text-start font-medium text-gray-700 mb-2">
+                   {field.label || field.name}
                   </label>
                   {field.type === 'input' && (
                     <input
@@ -76,6 +87,8 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, componentId, 
                 </div>
               )
             ))}
+
+            {/* start action btns */}
             <div className='ml-10 mb-4 flex flex-col justify-center items-center'>
               <div className='flex gap-1'>
                 <div className="flex flex-col justify-center items-center">
@@ -92,6 +105,7 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, componentId, 
                 </div>
               </div>
             </div>
+            {/* end action btns */}
           </div>
         </div>
       </div>

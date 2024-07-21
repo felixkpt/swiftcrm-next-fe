@@ -12,6 +12,6 @@ export type GeneralResultType = any
 export type MetadataType = {
     page: number;
     per_page: number;
-    total: number;
+    total_records: number;
 
 } | null

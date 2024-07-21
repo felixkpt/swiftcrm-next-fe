@@ -60,7 +60,7 @@ const Renderer: React.FC<Props> = ({
   const router = useRouter();
 
   const onPageNumberChange = (page: number) => {
-    setFilters({ ...filters, page });
+    setFilters({ ...filters, page:1 });
   };
 
   const fetchRecords = async (revalidate = false) => {

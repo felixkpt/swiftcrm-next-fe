@@ -1,6 +1,6 @@
 'use client'
 
-import Pagination from "../Pagination/Index";
+import Pagination from "../Pagination/Paginate";
 import { GeneralResultType, MetadataType } from "../types";
 import { FillableType, HeaderType } from "./BaseAutoModel/types";
 type Props = {
@@ -19,8 +19,9 @@ type Props = {
 const AutoTable = ({ headers, records, fillableFields, apiEndpoint, componentId, metadata, onPageNumberChange, AutoTableHeaderActions, handleSearch, handleExport }: Props) => {
 
     const currentPage = metadata?.page
-    const perPage = metadata?.per_page
-    const totalPages = metadata?.total
+    const perPage = metadata?.per_page || 10
+    const totalRecords = metadata?.total_records
+    console.log('metadata', metadata)
 
     componentId = componentId + 'AutoTable'
 
@@ -49,7 +50,7 @@ const AutoTable = ({ headers, records, fillableFields, apiEndpoint, componentId,
                 </tbody>
             </table>
             <div className="flex justify-center mt-2">
-                <Pagination currentPage={currentPage} totalPages={totalPages} onPageNumberChange={onPageNumberChange} />
+                <Pagination currentPage={currentPage} perPage={perPage} totalRecords={totalRecords} onPageNumberChange={onPageNumberChange} />
             </div>
         </div>
     );

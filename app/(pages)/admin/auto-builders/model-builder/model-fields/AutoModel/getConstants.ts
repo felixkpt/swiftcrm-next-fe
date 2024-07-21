@@ -88,19 +88,6 @@ const fillableFields = [
     dropdownDependsOn: null
   },
   {
-    name: "dropdownSource",
-    label: "",
-    type: "input",
-    dataType: "string",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: false,
-    dropdownSource: null,
-    dropdownDependsOn: null
-  },
-  {
     name: "isVisibleInList",
     label: "",
     type: "input",
@@ -153,12 +140,25 @@ const fillableFields = [
     dropdownDependsOn: null
   },
   {
+    name: "dropdownSource",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: null,
+    dropdownDependsOn: null
+  },
+  {
     name: "dropdownDependsOn",
     label: "",
     type: "textarea",
     dataType: "json",
     defaultValue: null,
-    isRequired: true,
+    isRequired: false,
     isVisibleInList: false,
     isVisibleInSingleView: true,
     isUnique: false,
@@ -232,12 +232,6 @@ const headers = [
     isVisibleInSingleView: true
   },
   {
-    key: "dropdownSource",
-    label: "",
-    isVisibleInList: true,
-    isVisibleInSingleView: true
-  },
-  {
     key: "isVisibleInList",
     label: "",
     isVisibleInList: true,
@@ -257,6 +251,12 @@ const headers = [
   },
   {
     key: "isUnique",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "dropdownSource",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true

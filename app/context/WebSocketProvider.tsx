@@ -10,11 +10,12 @@ export const WebSocketProvider = ({ children }) => {
         
         ws.onmessage = (event) => {
             console.log("event", event)
+            
             setMessage(event.data);
         };
         
         return () => {
-            ws.close();
+            // ws.close();
         };
     }, []);
     

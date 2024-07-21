@@ -1,5 +1,5 @@
 
-type Action-labelType = {
+type Action_labelType = {
 id: any;
   created_at: any;
   updated_at: any;
@@ -10,4 +10,4 @@ id: any;
   show: any;
 }
 
-export default Action-labelType;
+export default Action_labelType;

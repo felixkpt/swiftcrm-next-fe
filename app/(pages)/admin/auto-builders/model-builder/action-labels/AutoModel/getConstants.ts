@@ -3,11 +3,11 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelNameSingular = 'action-labels';
+const modelNameSingular = 'Action_labels';
 const modelURI = 'admin/auto-builders/model-builder/action-labels';
 const apiEndpoint = 'admin/auto-builders/model-builder/action-labels/';
 
-// Define fillable fields for the action-labels model
+// Define fillable fields for the Action_labels model
 const fillableFields = [
   {
     name: "model_builder_id",
@@ -67,7 +67,7 @@ const fillableFields = [
     type: "input",
     dataType: "boolean",
     defaultValue: null,
-    isRequired: true,
+    isRequired: false,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
@@ -127,7 +127,7 @@ const actionLabelsActions: ActionLabelsActionsType = {
   }
 };
 
-// Create action-labels constants using the createModelConstants function
+// Create Action_labels constants using the createModelConstants function
 const getConstants = createModelConstants(
   modelNameSingular,          // modelNameSingular: Name of the model/page
   modelURI,           // modelURI: API endpoint for mode/page

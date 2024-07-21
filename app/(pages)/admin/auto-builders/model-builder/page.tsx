@@ -55,6 +55,7 @@ const page = async () => {
       serverRecords={records} // Initial fetched records to be displayed
       revalidateServerRecords={revalidateServerRecords} // Function to revalidate server records
       serverMetadata={metadata} // Metadata associated with the fetched records
+      createUri={`/admin/auto-builders/model-builder/create`} // URI for creating new records
     />
   );
 };

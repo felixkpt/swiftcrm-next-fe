@@ -53,7 +53,7 @@ const Renderer: React.FC<Props> = ({
   apiEndpoint = useAutoResolveEndPointPlaceholders({ apiEndpoint });
 
   const [headerTitle, setHeaderTitle] = useState(`${modelNamePlural.charAt(0).toUpperCase() + modelNamePlural.slice(1)} list`);
-  const [records, setRecords] = useState<GeneralResultType[]>(serverRecords);
+  const [records, setRecords] = useState<GeneralResultType[]>(mapRecords(serverRecords || [], componentId, apiEndpoint, actionLabels, actionType));
   const [metadata, setMetaData] = useState<MetadataType>(serverMetadata);
   const [filters, setFilters] = useState<Record<string, any>>({});
   const { response } = useAutoPostDone({ componentId });
@@ -63,9 +63,11 @@ const Renderer: React.FC<Props> = ({
     setFilters({ ...filters, page });
   };
 
-  const fetchRecords = async () => {
+  const fetchRecords = async (revalidate = false) => {
 
-    if (!apiEndpoint || (records.length && Object.keys(filters).length === 0)) return;
+    if (revalidate === false) {
+      if (!apiEndpoint || (records.length && Object.keys(filters).length === 0)) return;
+    }
 
     try {
       const resp = await axios.get(appConfig.api.url(apiEndpoint), { params: filters });
@@ -95,7 +97,7 @@ const Renderer: React.FC<Props> = ({
   useEffect(() => {
     if (response && response.status === 200) {
       console.log('Revalidating server records...')
-      fetchRecords();
+      fetchRecords(true);
       revalidateServerRecords();
     }
   }, [response]);

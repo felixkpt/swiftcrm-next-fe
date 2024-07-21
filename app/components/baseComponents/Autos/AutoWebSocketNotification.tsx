@@ -6,57 +6,31 @@ import { useContext, useEffect, useState } from 'react';
 import { Box, Grid } from '@mui/material';
 import { publish } from '../utils/helpers';
 
-interface ResponseType {
-  model_id: string;
-  message: string;
-}
-
 export default function AutoWebSocketNotification() {
-  const data = useContext(WebSocketContext);
-
-  const [response, setResponse] = useState<ResponseType | null>(null);
-
-  useEffect(() => {
-    if (data) {
-      try {
-        const resp: ResponseType = JSON.parse(data);
-        console.log(resp);
-        setResponse(resp);
-      } catch (err) {
-        console.error('Failed to parse WebSocket data:', err);
-      }
-    }
-  }, [data]);
-
-  useEffect(() => {
-    if (response) {
-      setOpen(true);
-    }
-  }, [response]);
-
+  const context = useContext(WebSocketContext);
   const [open, setOpen] = useState(false);
 
-  const handleReload = () => {
-    if (response) {
-      const componentId = response.model_id + 'Component';
-      publish(`${componentId}_done`, { message: 'Simulated _done event', status: 200 });
-      setResponse(null);
+  useEffect(() => {
+    if (context?.response?.client_id && context?.response?.message) {
+      setOpen(true);
     }
+  }, [context?.response]);
 
+  const handleReload = () => {
+    if (context?.response?.model_id) {
+      const componentId = context.response.model_id + 'Component';
+      publish(`${componentId}_done`, { message: 'Simulated _done event', status: 200 });
+    }
     setOpen(false);
   };
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
+  const handleClose = () => {
     setOpen(false);
   };
 
   return (
     <div>
-      <Snackbar open={open} onClose={handleClose}>
+      <Snackbar open={open}>
         <Box
           sx={{
             position: 'fixed',
@@ -69,9 +43,9 @@ export default function AutoWebSocketNotification() {
             p: 2,
           }}
         >
-          {response && (
+          {context?.response?.message && (
             <Alert
-              onClose={() => {}}
+              onClose={handleClose}
               severity="success"
               variant="filled"
               sx={{
@@ -83,10 +57,10 @@ export default function AutoWebSocketNotification() {
             >
               <Grid container alignItems="center" justifyContent="center">
                 <Grid item>
-                  <span>{response.message}</span>
+                  <span>{context.response.message}</span>
                 </Grid>
                 <Grid item>
-                  <Button color="inherit" size="medium" sx={{ ml: 2 }} onClick={handleReload}>
+                  <Button type='button' color="inherit" size="medium" sx={{ ml: 2 }} onClick={handleReload}>
                     Reload page
                   </Button>
                 </Grid>

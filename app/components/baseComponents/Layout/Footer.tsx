@@ -4,9 +4,13 @@ import AutoToastNotification from "../Autos/AutoToastNotification";
 import CookiesPolicy from "./CookiesPolicy";
 import AutoWebSocketNotification from "../Autos/AutoWebSocketNotification";
 
-const Footer = () => {
+type Props = {
+  uuid: string
+}
+const Footer = ({ uuid }: Props) => {
+
   return (
-    <WebSocketProvider>
+    <WebSocketProvider client_id={uuid}>
       <div className="relative">
         <CookiesPolicy />
         <AutoWebSocketNotification />

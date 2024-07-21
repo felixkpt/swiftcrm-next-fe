@@ -1,49 +1,56 @@
+import { v4 as uuidv4 } from 'uuid';
+
 interface ApiConfig {
     url: (endpoint: string) => string;
 }
 
 interface Config {
-    name: string
+    name: string;
     api: ApiConfig;
+    uuid: () => string;
 }
 
 export const appConfig: Config = {
     name: 'SwiftCRM',
     api: {
-        /**
-         * Constructs a full API URL by combining the base URL with the provided endpoint.
-         * It ensures there are no repeated slashes between the base URL and the endpoint.
-         *
-         * @param {string} endpoint - The API endpoint to append to the base URL.
-         * @returns {string} - The full URL constructed by combining the base URL and the endpoint.
-         */
         url: (endpoint: string): string => {
             const apiUrl = 'http://127.0.0.1:8000/';
             return `${apiUrl.replace(/\/+$/, '')}/${endpoint.replace(/^\/+/, '')}`;
         }
-    }
+    },
+    uuid: () => uuidv4()
 };
 
 type CallbackFunction = (payload: any) => void;
 
 const subscribers: Record<string, CallbackFunction[]> = {};
+let wildcardSubscribers: CallbackFunction[] = [];
 
 export const publish = (action: string, payload: any) => {
     if (subscribers[action]) {
         subscribers[action].forEach(callback => callback(payload));
     }
+    wildcardSubscribers.forEach(callback => callback({ action, ...payload }));
 };
 
 export const subscribe = (action: string, callback: CallbackFunction) => {
-    if (!subscribers[action]) {
-        subscribers[action] = [];
+    if (action === '*') {
+        wildcardSubscribers.push(callback);
+    } else {
+        if (!subscribers[action]) {
+            subscribers[action] = [];
+        }
+        subscribers[action].push(callback);
     }
-    subscribers[action].push(callback);
 
     // Return an unsubscribe function
     return () => {
-        subscribers[action] = subscribers[action].filter(cb => cb !== callback);
+        if (action === '*') {
+            wildcardSubscribers = wildcardSubscribers.filter(cb => cb !== callback);
+        } else {
+            subscribers[action] = subscribers[action].filter(cb => cb !== callback);
+        }
     };
 };
 
-export const themeOption = 'dark'
+export const themeOption = 'dark';

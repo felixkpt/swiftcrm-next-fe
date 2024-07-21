@@ -2,12 +2,14 @@ import React from 'react'
 import Sidebar from './Sidebar/Sidebar'
 import Footer from './Footer'
 import Navbar from './Navbar'
+import { appConfig } from '../utils/helpers'
 
 type Props = {
     children: React.ReactNode
 }
 
 const BaseLayout = ({ children }: Props) => {
+
     return (
         <div className="drawer lg:drawer-open">
             <input id="appLeftDrawer" type="checkbox" className="drawer-toggle hidden" />
@@ -17,7 +19,7 @@ const BaseLayout = ({ children }: Props) => {
                     <div className="flex min-h-screen">
                         <main className="flex-1 p-6">{children}</main>
                     </div>
-                    <Footer />
+                    <Footer uuid={appConfig.uuid()} />
                 </div>
 
             </div>

@@ -229,7 +229,6 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingu
                                 onChange={handleChange}
                                 dropdownSource={field.dropdownSource || ''}
                                 dropdownDependsOn={field.dropdownDependsOn}
-                                record={record}
                             />
                         ) :
                             field.type === 'dropdown' ? (

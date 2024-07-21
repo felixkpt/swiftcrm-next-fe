@@ -1,27 +1,46 @@
 import React, { createContext, useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import { publish } from '../components/baseComponents/utils/helpers';
 
-export const WebSocketContext = createContext(null);
+interface WebSocketContextType {
+    client_id: string;
+    response: {
+        client_id: string;
+        model_id: string;
+        message: string;
+    } | null;
+}
 
-export const WebSocketProvider = ({ children }) => {
-    const [message, setMessage] = useState(null);
-    const uniqueKey = uuidv4();
+export const WebSocketContext = createContext<WebSocketContextType | null>(null);
+
+type WebSocketProviderProps = {
+    children: React.ReactNode;
+    client_id: string; // Accept client_id as a prop
+};
+
+export const WebSocketProvider = ({ children, client_id }: WebSocketProviderProps) => {
+
+    const [response, setResponse] = useState<WebSocketContextType | null>(null);
 
     useEffect(() => {
-        const ws = new WebSocket(`ws://localhost:8000/ws/notifications/${uniqueKey}`);
-        
+        const ws = new WebSocket(`ws://localhost:8000/ws/notifications/${client_id}`);
+
         ws.onmessage = (event) => {
-            console.log("event", event);
-            setMessage(event.data);
+            console.log('NEW MSG event:', event.data);
+            try {
+                const parsedMessage: WebSocketContextType = JSON.parse(event.data);
+                setResponse(parsedMessage);
+            } catch (err) {
+                console.log('Failed to parse WebSocket data:', err);
+            }
         };
-        
+
         return () => {
             ws.close();
         };
-    }, [uniqueKey]);
-    
+    }, [client_id]);
+
     return (
-        <WebSocketContext.Provider value={message}>
+        <WebSocketContext.Provider value={{ client_id, response }}>
             {children}
         </WebSocketContext.Provider>
     );

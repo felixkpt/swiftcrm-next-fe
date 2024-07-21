@@ -1,9 +1,9 @@
 
-type Sub_categoryType = {
+type CategoryType = {
 id: any;
   created_at: any;
   updated_at: any;
   name: any;
 }
 
-export default Sub_categoryType;
+export default CategoryType;

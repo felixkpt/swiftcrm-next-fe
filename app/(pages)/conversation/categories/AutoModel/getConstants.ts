@@ -28,7 +28,7 @@ const fillableFields = [
     type: "textarea",
     dataType: "text",
     defaultValue: null,
-    isRequired: false,
+    isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,

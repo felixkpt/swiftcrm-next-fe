@@ -6,7 +6,8 @@ const Sidebar = () => {
             <nav>
                 <ul className="menu p-4 w-80 min-h-full">
                     <li><Link href="/">Dashboard</Link></li>
-                    <li><Link href="/conversation/v1/">Conversation App</Link></li>
+                    <li><Link href="/tickets">Tickets</Link></li>
+                    <li><Link href="/admin/auto-builders/model-builder">Model builder</Link></li>
                 </ul>
             </nav>
         </aside>

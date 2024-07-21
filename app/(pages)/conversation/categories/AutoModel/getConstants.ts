@@ -21,6 +21,19 @@ const fillableFields = [
     isUnique: false,
     dropdownSource: null,
     dropdownDependsOn: null
+  },
+  {
+    name: "description",
+    label: "",
+    type: "textarea",
+    dataType: "text",
+    defaultValue: null,
+    isRequired: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: null,
+    dropdownDependsOn: null
   }
 ]
 
@@ -28,6 +41,12 @@ const fillableFields = [
 const headers = [
   {
     key: "name",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "description",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
@@ -47,6 +66,18 @@ const newRecordDefaults = {}
 const actionLabelsActions: ActionLabelsActionsType = {
   viewRecord: {
     actionType: "navigation",
+    label: ""
+  },
+  editRecord: {
+    actionType: "modal",
+    label: ""
+  },
+  updateRecordStatus: {
+    actionType: "modal",
+    label: ""
+  },
+  deleteRecord: {
+    actionType: "modal",
     label: ""
   }
 };

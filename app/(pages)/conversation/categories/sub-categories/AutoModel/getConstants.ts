@@ -21,7 +21,7 @@ const fillableFields = [
     isUnique: false,
     dropdownSource: null,
     dropdownDependsOn: null,
-    desktopWidth: 12,
+    desktopWidth: 6,
     mobileWidth: 12
   },
   {
@@ -36,7 +36,7 @@ const fillableFields = [
     isUnique: false,
     dropdownSource: "conversation/categories",
     dropdownDependsOn: null,
-    desktopWidth: 12,
+    desktopWidth: 6,
     mobileWidth: 12
   }
 ]

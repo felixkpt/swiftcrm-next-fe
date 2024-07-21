@@ -13,8 +13,8 @@ import DefaultActionHandlers from '../BaseAutoModel/ActionHandlers';
 import AllActionsModals from '../AutoActions/AllActionsModals';
 import AllActionsAutoPosts from '../AutoActions/AllActionsAutoPosts';
 import useAutoResolveEndPointPlaceholders from '../BaseAutoModel/useAutoResolveEndPointPlaceholders';
-import mapRecords from '@/app/(pages)/dashboard/auto-page-builder/AutoModel/mapRecords';
 import { GeneralResultType, MetadataType } from '../../types';
+import mapRecords from '../BaseAutoModel/mapRecords';
 
 type Props = {
   modelNameSingular: string;

@@ -68,8 +68,8 @@ const Renderer: React.FC<Props> = ({
     if (!apiEndpoint || (records.length && Object.keys(filters).length === 0)) return;
 
     try {
-      const response = await axios.get(appConfig.api.url(apiEndpoint), { params: filters });
-      const data = response?.data;
+      const resp = await axios.get(appConfig.api.url(apiEndpoint), { params: filters });
+      const data = resp?.data;
       const hasMetaData = typeof data?.metadata !== 'undefined';
 
       if (hasMetaData) {
@@ -94,6 +94,7 @@ const Renderer: React.FC<Props> = ({
 
   useEffect(() => {
     if (response && response.status === 200) {
+      console.log('Revalidating server records...')
       fetchRecords();
       revalidateServerRecords();
     }

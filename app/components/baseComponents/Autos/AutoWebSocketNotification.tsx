@@ -6,34 +6,44 @@ import { useContext, useEffect, useState } from 'react';
 import { Box, Grid } from '@mui/material';
 import { publish } from '../utils/helpers';
 
+interface ResponseType {
+  model_id: string;
+  message: string;
+}
+
 export default function AutoWebSocketNotification() {
   const data = useContext(WebSocketContext);
 
-  const [message, setMessage] = useState(null)
+  const [response, setResponse] = useState<ResponseType | null>(null);
 
   useEffect(() => {
     if (data) {
       try {
-        const parsed = JSON.parse(data)
-        console.log(parsed)
-        setMessage(parsed.message)
-      } catch (err) { }
+        const resp: ResponseType = JSON.parse(data);
+        console.log(resp);
+        setResponse(resp);
+      } catch (err) {
+        console.error('Failed to parse WebSocket data:', err);
+      }
     }
-  }, [data])
+  }, [data]);
 
   useEffect(() => {
-    if (message) {
-      setOpen(true)
+    if (response) {
+      setOpen(true);
     }
-  }, [message])
+  }, [response]);
 
   const [open, setOpen] = useState(false);
 
   const handleReload = () => {
-    console.log('ree')
-    setOpen(false);
-    publish('', {})
+    if (response) {
+      const componentId = response.model_id + 'Component';
+      publish(`${componentId}_done`, { message: 'Simulated _done event', status: 200 });
+      setResponse(null);
+    }
 
+    setOpen(false);
   };
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
@@ -46,7 +56,7 @@ export default function AutoWebSocketNotification() {
 
   return (
     <div>
-      <Snackbar open={open} onClose={handleClose} >
+      <Snackbar open={open} onClose={handleClose}>
         <Box
           sx={{
             position: 'fixed',
@@ -59,21 +69,21 @@ export default function AutoWebSocketNotification() {
             p: 2,
           }}
         >
-          {message && (
+          {response && (
             <Alert
-              onClose={() => { }}
+              onClose={() => {}}
               severity="success"
               variant="filled"
               sx={{
                 width: 'auto',
                 maxWidth: '400px',
                 display: 'flex',
-                alignItems: 'center'
+                alignItems: 'center',
               }}
             >
               <Grid container alignItems="center" justifyContent="center">
                 <Grid item>
-                  <span>{message}</span>
+                  <span>{response.message}</span>
                 </Grid>
                 <Grid item>
                   <Button color="inherit" size="medium" sx={{ ml: 2 }} onClick={handleReload}>

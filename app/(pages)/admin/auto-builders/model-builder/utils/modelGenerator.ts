@@ -61,6 +61,7 @@ async function generateModel(data: any, fields: any, modelURI: string, id: numbe
     })
 
     data.actionLabels = actionLabels
+    console.log('print::', data)
 
     const processedListPage = processTemplate(listPageTemplate, data);
     const processedSinglePage = processTemplate(singlePageTemplate, data);

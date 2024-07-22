@@ -35,7 +35,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
     const { API_ENDPOINT } = getConstants;
     const pageId = params?.['model-builder'];
 
-    const [modelNameSingular, setModelNameSingular] = useState<string>('');
+    const [modelDisplayName, setModelDisplayName] = useState<string>('');
     const [modelURI, setModelURI] = useState<string>('');
     const [apiEndpoint, setApiEndpoint] = useState<string>('');
 
@@ -51,7 +51,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
             try {
                 const response = await axios.get(appConfig.api.url(`${API_ENDPOINT}${pageId}`));
                 const data = response.data;
-                setModelNameSingular(data.name_singular);
+                setModelDisplayName(data.display_name);
                 setModelURI(data.modelURI);
                 setApiEndpoint(data.apiEndpoint);
 
@@ -94,7 +94,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         event.preventDefault();
         setHasDoneSubmission(true);
 
-        const isModelNameValid = modelNameSingular.trim() !== '';
+        const isModelNameValid = modelDisplayName.trim() !== '';
         const isModelURIValid = modelURI.trim() !== '';
         const isApiEndpointValid = apiEndpoint.trim() !== '';
         setIsBasicInfoValid(isModelNameValid && isModelURIValid && isApiEndpointValid);
@@ -120,7 +120,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
 
         try {
             await saveAndGenerateModel({
-                modelNameSingular,
+                modelDisplayName,
                 modelURI,
                 apiEndpoint,
                 fields,
@@ -137,7 +137,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         }
     };
 
-    const [relationships, setRelationships] = useState<Relationship[]>([]);
+    const [relationships, setRelationships] = useState<any[]>([]);
 
     return (
         <div>
@@ -152,8 +152,8 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                         </Typography>
                         <form onSubmit={handleSubmit}>
                             <BasicInfoComponent
-                                modelNameSingular={modelNameSingular}
-                                setModelNameSingular={setModelNameSingular}
+                                modelDisplayName={modelDisplayName}
+                                setModelDisplayName={setModelDisplayName}
                                 modelURI={modelURI}
                                 setModelURI={setModelURI}
                                 apiEndpoint={apiEndpoint}
@@ -207,7 +207,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                 <PreviewModal
                     open={isPreviewOpen}
                     onClose={handlePreviewClose}
-                    modelNameSingular={modelNameSingular}
+                    modelDisplayName={modelDisplayName}
                     apiEndpoint={apiEndpoint}
                     fields={fields}
                     actionLabels={actionLabels}

@@ -10,7 +10,7 @@ import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderSingl
 
 const page = () => {
   const {
-    MODEL_NAME,
+    MODEL_NAME_SINGULAR,
     MODEL_NAME_PLURAL,
     COMPONENT_ID,
     ACTION_LABELS,
@@ -27,7 +27,7 @@ const page = () => {
   return (
     <>
       <Renderer
-        modelNameSingular={MODEL_NAME}
+        modelNameSingular={MODEL_NAME_SINGULAR}
         modelNamePlural={MODEL_NAME_PLURAL}
         componentId={COMPONENT_ID}
         apiEndpoint={apiEndpoint}

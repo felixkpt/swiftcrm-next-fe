@@ -2,8 +2,8 @@ import React from 'react';
 import { TextField } from '@mui/material';
 
 type Props = {
-    modelNameSingular: string;
-    setModelNameSingular: React.Dispatch<React.SetStateAction<string>>;
+    modelDisplayName: string;
+    setModelDisplayName: React.Dispatch<React.SetStateAction<string>>;
     modelURI: string;
     setModelURI: React.Dispatch<React.SetStateAction<string>>;
     apiEndpoint: string;
@@ -13,8 +13,8 @@ type Props = {
 };
 
 const BasicInfoComponent: React.FC<Props> = ({
-    modelNameSingular,
-    setModelNameSingular,
+    modelDisplayName,
+    setModelDisplayName,
     modelURI,
     setModelURI,
     apiEndpoint,
@@ -25,13 +25,13 @@ const BasicInfoComponent: React.FC<Props> = ({
 
     const isInvalidField = (field: string): boolean => {
         switch (field) {
-            case 'modelNameSingular':
+            case 'modelDisplayName':
                 return hasDoneSubmission && (
                     !isValid ||
-                    modelNameSingular.trim() === '' ||
-                    /[\/\s]/.test(modelNameSingular) ||
-                    /^\d+$/.test(modelNameSingular) ||
-                    /^\d/.test(modelNameSingular)
+                    modelDisplayName.trim() === '' ||
+                    /[\/\s]/.test(modelDisplayName) ||
+                    /^\d+$/.test(modelDisplayName) ||
+                    /^\d/.test(modelDisplayName)
                 );
             case 'modelURI':
                 return hasDoneSubmission && (!isValid || modelURI.trim() === '');
@@ -44,14 +44,14 @@ const BasicInfoComponent: React.FC<Props> = ({
 
     const getHelperText = (field: string): string => {
         switch (field) {
-            case 'modelNameSingular':
-                if (modelNameSingular.trim() === '') {
+            case 'modelDisplayName':
+                if (modelDisplayName.trim() === '') {
                     return 'The field is required';
-                } else if (/[\/\s]/.test(modelNameSingular)) {
+                } else if (/[\/\s]/.test(modelDisplayName)) {
                     return 'Model name should not contain slashes or spaces';
-                } else if (/^\d+$/.test(modelNameSingular)) {
+                } else if (/^\d+$/.test(modelDisplayName)) {
                     return 'Model name should not be numbers only';
-                } else if (/^\d/.test(modelNameSingular)) {
+                } else if (/^\d/.test(modelDisplayName)) {
                     return 'Model name should not start with a number';
                 }
                 break;
@@ -71,13 +71,13 @@ const BasicInfoComponent: React.FC<Props> = ({
                 label="Model/Page Name"
                 fullWidth
                 variant="outlined"
-                value={modelNameSingular}
-                onChange={(e) => setModelNameSingular(e.target.value)}
-                error={isInvalidField('modelNameSingular')}
-                helperText={getHelperText('modelNameSingular')}
+                value={modelDisplayName}
+                onChange={(e) => setModelDisplayName(e.target.value)}
+                error={isInvalidField('modelDisplayName')}
+                helperText={getHelperText('modelDisplayName')}
                 sx={{
                     mb: 2,
-                    borderColor: isInvalidField('modelNameSingular') ? 'red' : undefined
+                    borderColor: isInvalidField('modelDisplayName') ? 'red' : undefined
                 }}
             />
             <TextField

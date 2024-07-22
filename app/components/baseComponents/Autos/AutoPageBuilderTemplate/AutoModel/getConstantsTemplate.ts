@@ -4,6 +4,7 @@ import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/B
 
 // Define variables for model name and API endpoint
 const modelNameSingular = '{autoPageBuilder_modelNameSingular}';
+const modelNamePlural = '{autoPageBuilder_modelNamePlural}';
 const modelURI = '{autoPageBuilder_modelURI}';
 const apiEndpoint = '{autoPageBuilder_apiEndpoint}';
 
@@ -22,6 +23,7 @@ const actionLabelsActions: ActionLabelsActionsType = {autoPageBuilder_actionLabe
 // Create {autoPageBuilder_modelNameSingular} constants using the createModelConstants function
 const getConstants = createModelConstants(
   modelNameSingular,          // modelNameSingular: Name of the model/page
+  modelNamePlural,          // modelNamePlural: Plural name of the model/page
   modelURI,           // modelURI: API endpoint for mode/page
   apiEndpoint,        // apiEndpoint: API endpoint for mode/page
   fillableFields,     // fillableFields: Fields that can be filled when creating or updating records

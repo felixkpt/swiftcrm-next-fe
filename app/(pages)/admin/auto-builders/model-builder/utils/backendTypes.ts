@@ -31,7 +31,9 @@ export interface HeaderSchema {
 }
 
 export interface AutoPageBuilderType {
-  modelNameSingular: string;
+  modelDisplayName: string;
+  name_singular?: string;
+  name_plural?: string;
   modelURI: string;
   apiEndpoint: string;
   fields: FieldSchema[];
@@ -39,4 +41,5 @@ export interface AutoPageBuilderType {
   headers: HeaderSchema[];
   table_name_singular?: string;
   table_name_plural?: string;
+  class_name?: string;
 }

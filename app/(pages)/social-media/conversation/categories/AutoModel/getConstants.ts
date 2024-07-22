@@ -1,16 +1,16 @@
 
 import createModelConstants from "@/app/components/baseComponents/Autos/BaseAutoModel/constants";
-import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
+import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = 'af36754e-4e52-4dab-a8d8-8cf89db8290f';
+const modelID = 'ed1c30db-875e-4aa9-99a3-034d73a4a318';
 const modelNameSingular = 'Category';
 const modelNamePlural = 'Categories';
 const modelURI = 'social-media/conversation/categories';
 const apiEndpoint = 'social-media/conversation/categories/';
 
 // Define fillable fields for the Category model
-const fillableFields = [
+const fillableFields: Array<FillableType> = [
   {
     name: "name",
     label: "",
@@ -44,7 +44,7 @@ const fillableFields = [
 ]
 
 // Define headers for displaying in the UI (e.g., table headers, singleViewOnly means can only be shown when viewing one item not list/table)
-const headers = [
+const headers: HeaderType[] = [
   {
     key: "name",
     label: "",

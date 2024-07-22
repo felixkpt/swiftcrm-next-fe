@@ -1,6 +1,6 @@
 export const getConstantsTemplate = `
 import createModelConstants from "@/app/components/baseComponents/Autos/BaseAutoModel/constants";
-import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
+import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
 const modelID = '{autoPageBuilder_modelID}';
@@ -10,10 +10,10 @@ const modelURI = '{autoPageBuilder_modelURI}';
 const apiEndpoint = '{autoPageBuilder_apiEndpoint}';
 
 // Define fillable fields for the {autoPageBuilder_modelNameSingular} model
-const fillableFields = {autoPageBuilder_fillableFields}
+const fillableFields: Array<FillableType> = {autoPageBuilder_fillableFields}
 
 // Define headers for displaying in the UI (e.g., table headers, singleViewOnly means can only be shown when viewing one item not list/table)
-const headers = {autoPageBuilder_headers}
+const headers: HeaderType[] = {autoPageBuilder_headers}
 
 // Define default values for creating a new record
 const newRecordDefaults = {autoPageBuilder_newRecordDefaults}

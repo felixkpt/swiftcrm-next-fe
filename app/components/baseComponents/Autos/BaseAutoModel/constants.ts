@@ -1,4 +1,4 @@
-import { ActionListType, ActionLabelsActionsType, FillableType, ModelConstants } from "./types";
+import { ActionListType, ActionLabelsActionsType, FillableType, ModelConstants, HeaderType } from "./types";
 
 // Function to create constants specific to a model
 const createModelConstants = (
@@ -8,7 +8,7 @@ const createModelConstants = (
   modelURI: string,
   apiEndpoint: string,
   fillableFields: Array<FillableType>,
-  headers: Array<{ key: string, label: string }>,
+  headers: Array<HeaderType>,
   newRecordDefaults: Record<string, any>,
   actionLabelsActions: ActionLabelsActionsType
 ): ModelConstants => {

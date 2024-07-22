@@ -1,14 +1,16 @@
 
 import createModelConstants from "@/app/components/baseComponents/Autos/BaseAutoModel/constants";
-import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
+import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelNameSingular = 'Model_builders';
+const modelID = 'af36754e-4e52-4dab-a8d8-8cf89db8290f';
+const modelNameSingular = 'Model_builder';
+const modelNamePlural = 'Model_builders';
 const modelURI = 'admin/auto-builders/model-builder';
 const apiEndpoint = 'admin/auto-builders/model-builder/';
 
 // Define fillable fields for the Model_builders model
-const fillableFields = [
+const fillableFields: Array<FillableType> = [
   {
     name: "name_singular",
     label: "",
@@ -103,7 +105,7 @@ const fillableFields = [
 ]
 
 // Define headers for displaying in the UI (e.g., table headers, singleViewOnly means can only be shown when viewing one item not list/table)
-const headers = [
+const headers: HeaderType[] = [
   {
     key: "name_singular",
     label: "",
@@ -179,7 +181,9 @@ const actionLabelsActions: ActionLabelsActionsType = {
 
 // Create Model_builders constants using the createModelConstants function
 const getConstants = createModelConstants(
+  modelID,          // modelID: UNIQUE ID of the model/page
   modelNameSingular,          // modelNameSingular: Name of the model/page
+  modelNamePlural,          // modelNamePlural: Plural name of the model/page
   modelURI,           // modelURI: API endpoint for mode/page
   apiEndpoint,        // apiEndpoint: API endpoint for mode/page
   fillableFields,     // fillableFields: Fields that can be filled when creating or updating records

@@ -3,6 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
+const modelID = 'af36754e-4e52-4dab-a8d8-8cf89db8290f';
 const modelNameSingular = 'Category';
 const modelNamePlural = 'Categories';
 const modelURI = 'social-media/conversation/categories';
@@ -85,6 +86,7 @@ const actionLabelsActions: ActionLabelsActionsType = {
 
 // Create Category constants using the createModelConstants function
 const getConstants = createModelConstants(
+  modelID,          // modelID: UNIQUE ID of the model/page
   modelNameSingular,          // modelNameSingular: Name of the model/page
   modelNamePlural,          // modelNamePlural: Plural name of the model/page
   modelURI,           // modelURI: API endpoint for mode/page

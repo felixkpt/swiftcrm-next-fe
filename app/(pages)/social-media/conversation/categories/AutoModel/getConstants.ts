@@ -4,7 +4,7 @@ import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/B
 
 // Define variables for model name and API endpoint
 const modelNameSingular = 'undefined';
-const modelNamePlural = '{autoPageBuilder_modelNamePlural}';
+const modelNamePlural = 'undefined';
 const modelURI = 'social-media/conversation/categories';
 const apiEndpoint = 'social-media/conversation/categories/';
 

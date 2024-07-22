@@ -1,5 +1,4 @@
 // app/(pages)/dashboard/auto-page-builder/utils/helpers.ts
-import Pluralize from 'pluralize';
 import { ActionLabelType, ActionLabelTypeValidation, FieldType, FieldValidation } from "../types";
 import { ActionLabelSchema, AutoPageBuilderType, FieldSchema, HeaderSchema } from "./backendTypes";
 import { newActionLabel, newField } from "./constants";

@@ -22,7 +22,10 @@ const fillableFields: Array<FillableType> = [
     isVisibleInSingleView: true,
     isUnique: false,
     dropdownSource: null,
-    dropdownDependsOn: null
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12,
+
   },
   {
     name: "name_plural",
@@ -35,7 +38,10 @@ const fillableFields: Array<FillableType> = [
     isVisibleInSingleView: true,
     isUnique: false,
     dropdownSource: null,
-    dropdownDependsOn: null
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12,
+
   },
   {
     name: "modelURI",
@@ -48,7 +54,10 @@ const fillableFields: Array<FillableType> = [
     isVisibleInSingleView: true,
     isUnique: false,
     dropdownSource: null,
-    dropdownDependsOn: null
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12,
+
   },
   {
     name: "apiEndpoint",
@@ -61,7 +70,10 @@ const fillableFields: Array<FillableType> = [
     isVisibleInSingleView: true,
     isUnique: false,
     dropdownSource: null,
-    dropdownDependsOn: null
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12,
+
   },
   {
     name: "table_name_singular",
@@ -74,7 +86,10 @@ const fillableFields: Array<FillableType> = [
     isVisibleInSingleView: true,
     isUnique: true,
     dropdownSource: null,
-    dropdownDependsOn: null
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12,
+
   },
   {
     name: "table_name_plural",
@@ -87,7 +102,10 @@ const fillableFields: Array<FillableType> = [
     isVisibleInSingleView: true,
     isUnique: true,
     dropdownSource: null,
-    dropdownDependsOn: null
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12,
+
   },
   {
     name: "class_name",
@@ -100,7 +118,10 @@ const fillableFields: Array<FillableType> = [
     isVisibleInSingleView: true,
     isUnique: false,
     dropdownSource: null,
-    dropdownDependsOn: null
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12,
+
   }
 ]
 

@@ -51,9 +51,11 @@ export type FillableType = {
     isVisibleInList?: boolean;
     isVisibleInSingleView?: boolean;
     isUnique?: boolean;
-    dropdownSource?: string;
-    dropdownDependsOn?: string[];
+    dropdownSource?: string | null;
+    dropdownDependsOn?: string[] | null;
     onChangeUpdateList?: string[];
+    desktopWidth: number;
+    mobileWidth: number;
 };
 
 export type CommonDataTypes =

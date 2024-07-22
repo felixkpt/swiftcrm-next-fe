@@ -19,7 +19,7 @@ const AllActionsModals: React.FC<Props> = ({ componentId, modelNameSingular, api
     const fillableFieldsFiltered = fillableFields.filter((v) => !v.hidden)
     return (
         <div>
-            <AutoModal componentId={`${componentId}CreateOrUpdate`} title={modelNameSingular.charAt(0).toUpperCase() + modelNameSingular.slice(1)}>
+            <AutoModal componentId={`${componentId}CreateOrUpdate`} title={modelNameSingular}>
                 <AutoCreateOrUpdateRecord
                     componentId={`${componentId}CreateOrUpdate`}
                     modelNameSingular={modelNameSingular}
@@ -28,7 +28,7 @@ const AllActionsModals: React.FC<Props> = ({ componentId, modelNameSingular, api
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal componentId={`${componentId}View`} title={modelNameSingular.charAt(0).toUpperCase() + modelNameSingular.slice(1)}>
+            <AutoModal componentId={`${componentId}View`} title={modelNameSingular}>
                 <AutoViewRecord
                     componentId={`${componentId}View`}
                     modelNameSingular={modelNameSingular}
@@ -37,7 +37,7 @@ const AllActionsModals: React.FC<Props> = ({ componentId, modelNameSingular, api
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal componentId={`${componentId}UpdateStatus`} title={modelNameSingular.charAt(0).toUpperCase() + modelNameSingular.slice(1)}>
+            <AutoModal componentId={`${componentId}UpdateStatus`} title={modelNameSingular}>
                 <AutoUpdateStatus
                     componentId={`${componentId}UpdateStatus`}
                     modelNameSingular={modelNameSingular}
@@ -46,7 +46,7 @@ const AllActionsModals: React.FC<Props> = ({ componentId, modelNameSingular, api
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal componentId={`${componentId}Archive`} title={modelNameSingular.charAt(0).toUpperCase() + modelNameSingular.slice(1)}>
+            <AutoModal componentId={`${componentId}Archive`} title={modelNameSingular}>
                 <AutoArchiveRecord
                     componentId={`${componentId}Archive`}
                     modelNameSingular={modelNameSingular}
@@ -55,7 +55,7 @@ const AllActionsModals: React.FC<Props> = ({ componentId, modelNameSingular, api
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal componentId={`${componentId}Delete`} title={modelNameSingular.charAt(0).toUpperCase() + modelNameSingular.slice(1)}>
+            <AutoModal componentId={`${componentId}Delete`} title={modelNameSingular}>
                 <AutoDeleteRecord
                     componentId={`${componentId}Delete`}
                     modelNameSingular={modelNameSingular}

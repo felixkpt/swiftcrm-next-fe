@@ -33,7 +33,7 @@ const createModelConstants = (
 
   return {
     MODEL_ID: modelId,
-    MODEL_NAME: modelNameSingular,
+    MODEL_NAME_SINGULAR: modelNameSingular,
     MODEL_NAME_PLURAL: modelNamePlural,
     MODEL_URI: modelURI,
     API_ENDPOINT: apiEndpoint,

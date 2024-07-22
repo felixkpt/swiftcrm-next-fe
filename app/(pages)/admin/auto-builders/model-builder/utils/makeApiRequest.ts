@@ -14,7 +14,7 @@ type ResultsType = {
 
 const uri = 'admin/auto-builders/model-builder'
 export async function makeApiRequest(data: any) {
-
+  data = {...data}
   return genericRequestor(uri, data)
 
 }
@@ -22,8 +22,6 @@ export async function makeApiRequest(data: any) {
 async function genericRequestor(endPoint: string, data: any) {
   const pageId = data?.pageId
   endPoint = pageId ? `${endPoint}/${pageId}` : endPoint
-  data.name_singular = data.modelNameSingular
-  data.name_plural = data.modelNameSingular
 
   console.log('DATA::', JSON.stringify(data))
 

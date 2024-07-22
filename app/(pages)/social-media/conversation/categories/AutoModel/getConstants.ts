@@ -3,12 +3,12 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelNameSingular = 'undefined';
-const modelNamePlural = 'undefined';
+const modelNameSingular = 'Category';
+const modelNamePlural = 'Categories';
 const modelURI = 'social-media/conversation/categories';
 const apiEndpoint = 'social-media/conversation/categories/';
 
-// Define fillable fields for the undefined model
+// Define fillable fields for the Category model
 const fillableFields = [
   {
     name: "name",
@@ -83,7 +83,7 @@ const actionLabelsActions: ActionLabelsActionsType = {
   }
 };
 
-// Create undefined constants using the createModelConstants function
+// Create Category constants using the createModelConstants function
 const getConstants = createModelConstants(
   modelNameSingular,          // modelNameSingular: Name of the model/page
   modelNamePlural,          // modelNamePlural: Plural name of the model/page

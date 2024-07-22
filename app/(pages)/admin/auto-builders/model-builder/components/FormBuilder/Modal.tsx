@@ -86,7 +86,7 @@ const Modal: React.FC<ModalProps> = ({
             setDropdownSource(newSource);
             const found = dropdownSourcesList.find((item) => item.apiEndpoint == newSource);
             if (found) {
-                const newName = Pluralize.singular(found.name_singular.toLowerCase().replace(/[^a-zA-Z0-9]/g, '_')) + '_id';
+                const newName = found.name_singular.toLowerCase().replace(/[^a-zA-Z0-9]/g, '_') + '_id';
                 const updatedField = {
                     ...field,
                     name: { value: newName, required: true },

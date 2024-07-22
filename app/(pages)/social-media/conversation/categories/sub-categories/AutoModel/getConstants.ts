@@ -36,7 +36,7 @@ const fillableFields: Array<FillableType> = [
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: "conversation/categories",
+    dropdownSource: "social-media/conversation/categories",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12

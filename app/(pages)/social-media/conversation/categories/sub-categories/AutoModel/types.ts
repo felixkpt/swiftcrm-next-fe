@@ -3,8 +3,8 @@ type SubCategoryType = {
 id: any;
   created_at: any;
   updated_at: any;
-  sub_category_id: any;
   name: any;
+  sub_category_id: any;
   learn_instructions: any;
 }
 

@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = '03821d92-3454-49ad-bdb9-fe6f95250e73';
+const modelID = '176ee608-71a7-49fd-8d24-8a48c91c6b2d';
 const modelNameSingular = 'sub-category';
 const modelNamePlural = 'sub-categories';
 const modelURI = 'social-media/conversation/categories/sub-categories';
@@ -11,21 +11,6 @@ const apiEndpoint = 'social-media/conversation/categories/sub-categories/';
 
 // Define fillable fields for the sub-category model
 const fillableFields: Array<FillableType> = [
-  {
-    name: "sub_category_id",
-    label: "",
-    type: "dropdown",
-    dataType: "integer",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: false,
-    dropdownSource: "conversation/categories",
-    dropdownDependsOn: null,
-    desktopWidth: 12,
-    mobileWidth: 12
-  },
   {
     name: "name",
     label: "",
@@ -37,6 +22,21 @@ const fillableFields: Array<FillableType> = [
     isVisibleInSingleView: true,
     isUnique: false,
     dropdownSource: null,
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "sub_category_id",
+    label: "",
+    type: "dropdown",
+    dataType: "integer",
+    defaultValue: null,
+    isRequired: true,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: "conversation/categories",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -61,13 +61,13 @@ const fillableFields: Array<FillableType> = [
 // Define headers for displaying in the UI (e.g., table headers, singleViewOnly means can only be shown when viewing one item not list/table)
 const headers: HeaderType[] = [
   {
-    key: "sub_category_id",
+    key: "name",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
   },
   {
-    key: "name",
+    key: "sub_category_id",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
@@ -96,10 +96,6 @@ const actionLabelsActions: ActionLabelsActionsType = {
     label: ""
   },
   editRecord: {
-    actionType: "modal",
-    label: ""
-  },
-  deleteRecord: {
     actionType: "modal",
     label: ""
   }

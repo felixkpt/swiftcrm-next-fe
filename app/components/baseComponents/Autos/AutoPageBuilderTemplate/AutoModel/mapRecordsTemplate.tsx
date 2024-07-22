@@ -5,7 +5,7 @@ import { ActionListType } from '@/app/components/baseComponents/Autos/BaseAutoMo
 
 const mapRecords = (
   records: ModelType[],
-  COMPONENT_ID: string,
+  MODEL_ID: string,
   apiEndpoint: string,
   ACTION_LABELS: Partial<ActionListType>,
   ACTION_TYPE: string,
@@ -16,7 +16,7 @@ const mapRecords = (
     action: (
       <AutoRecordActionSection
         key={record.id}
-        componentId={COMPONENT_ID}
+        componentId={MODEL_ID}
         record={record}
         recordEndpoint={isSingle ? apiEndpoint : \`\${apiEndpoint}/\${record.id}/\`}
         actionLabels={ACTION_LABELS}

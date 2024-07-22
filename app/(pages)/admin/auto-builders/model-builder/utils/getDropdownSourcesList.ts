@@ -2,7 +2,7 @@ import fetchRecords from "@/app/components/baseComponents/utils/fetchRecords";
 import { appConfig } from "@/app/components/baseComponents/utils/helpers";
 
 async function getDropdownSourcesList() {
-    const COMPONENT_ID = 'model-builder'
+    const MODEL_ID = 'model-builder'
     const MODEL_NAME_PLURAL = 'model-builder'
     // Define the API endpoint URL using appConfig
     const apiEndpoint = appConfig.api.url('admin/auto-builders/model-builder');
@@ -13,7 +13,7 @@ async function getDropdownSourcesList() {
 
     try {
         // Fetch records using the fetchRecords helper function
-        const { records: fetchedRecords, metadata: fetchedMetadata } = await fetchRecords(apiEndpoint, [COMPONENT_ID]);
+        const { records: fetchedRecords, metadata: fetchedMetadata } = await fetchRecords(apiEndpoint, [MODEL_ID]);
         records = fetchedRecords;
         metadata = fetchedMetadata;
     } catch (error) {

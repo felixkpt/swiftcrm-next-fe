@@ -3,6 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
+const modelID = '{autoPageBuilder_modelID}';
 const modelNameSingular = '{autoPageBuilder_modelNameSingular}';
 const modelNamePlural = '{autoPageBuilder_modelNamePlural}';
 const modelURI = '{autoPageBuilder_modelURI}';
@@ -22,6 +23,7 @@ const actionLabelsActions: ActionLabelsActionsType = {autoPageBuilder_actionLabe
 
 // Create {autoPageBuilder_modelNameSingular} constants using the createModelConstants function
 const getConstants = createModelConstants(
+  modelID,          // modelID: UNIQUE ID of the model/page
   modelNameSingular,          // modelNameSingular: Name of the model/page
   modelNamePlural,          // modelNamePlural: Plural name of the model/page
   modelURI,           // modelURI: API endpoint for mode/page

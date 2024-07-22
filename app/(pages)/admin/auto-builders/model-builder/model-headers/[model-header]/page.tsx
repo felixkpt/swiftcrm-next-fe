@@ -12,7 +12,7 @@ const page = () => {
   const {
     MODEL_NAME,
     MODEL_NAME_PLURAL,
-    COMPONENT_ID,
+    MODEL_ID,
     ACTION_LABELS,
     HEADERS,
     FILLABLE_FIELDS
@@ -29,11 +29,11 @@ const page = () => {
       <Renderer
         modelNameSingular={MODEL_NAME}
         modelNamePlural={MODEL_NAME_PLURAL}
-        componentId={COMPONENT_ID}
+        componentId={MODEL_ID}
         apiEndpoint={apiEndpoint}
         fillableFields={FILLABLE_FIELDS}
         headers={HEADERS}
-        mapRecords={records => mapRecords(records, COMPONENT_ID, apiEndpoint, actionLabels, actionType, isSingle)}
+        mapRecords={records => mapRecords(records, MODEL_ID, apiEndpoint, actionLabels, actionType, isSingle)}
         actionLabels={actionLabels}
         isSingle={isSingle}
       />

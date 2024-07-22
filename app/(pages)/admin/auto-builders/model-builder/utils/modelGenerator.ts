@@ -12,10 +12,10 @@ import { makeApiRequest } from './makeApiRequest';
 import { singlePageTemplate } from '@/app/components/baseComponents/Autos/AutoPageBuilderTemplate/singlePageTemplate';
 import { AutoPageBuilderType } from './backendTypes';
 import { startCase, camelCase } from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function saveAndGenerateModel(dataRaw: any) {
   'use server';
-  // console.log('dataRaw::', dataRaw)
 
   const { modelDisplayName, modelURI, fields: fieldsRaw, } = dataRaw;
 
@@ -26,6 +26,10 @@ export async function saveAndGenerateModel(dataRaw: any) {
   data.modelDisplayName = Pluralize(modelDisplayName)
 
   const { nameSingular, namePlural, className } = getModelNames(modelDisplayName)
+
+  if (!dataRaw.id || !data.uuid) {
+    data.uuid = uuidv4()
+  }
 
   data.name_singular = nameSingular
   data.name_plural = namePlural
@@ -38,7 +42,7 @@ export async function saveAndGenerateModel(dataRaw: any) {
   // make be request if successful then continue
   const results = await makeApiRequest(data)
 
-  if (results.ok) {  
+  if (results.ok) {
     generateModel(data, fields, modelURI, dataRaw.id)
   }
 
@@ -61,7 +65,6 @@ async function generateModel(data: any, fields: any, modelURI: string, id: numbe
     })
 
     data.actionLabels = actionLabels
-    console.log('print::', data)
 
     const processedListPage = processTemplate(listPageTemplate, data);
     const processedSinglePage = processTemplate(singlePageTemplate, data);

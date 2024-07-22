@@ -31,6 +31,7 @@ export interface HeaderSchema {
 }
 
 export interface AutoPageBuilderType {
+  uuid: string
   modelDisplayName: string;
   name_singular: string;
   name_plural: string;

@@ -1,9 +1,10 @@
-import { ActionListType, ActionType, ActionLabelsActionsType, FillableType, ModelConstants } from "./types";
-import Pluralize from 'pluralize';
+import { ActionListType, ActionLabelsActionsType, FillableType, ModelConstants } from "./types";
 
 // Function to create constants specific to a model
 const createModelConstants = (
+  modelId: string,
   modelNameSingular: string,
+  modelNamePlural: string,
   modelURI: string,
   apiEndpoint: string,
   fillableFields: Array<FillableType>,
@@ -11,7 +12,6 @@ const createModelConstants = (
   newRecordDefaults: Record<string, any>,
   actionLabelsActions: ActionLabelsActionsType
 ): ModelConstants => {
-  const modelNamePlural = Pluralize(modelNameSingular, true);
 
   // Define default action labels with action type
   for (const key in actionLabelsActions) {
@@ -32,9 +32,9 @@ const createModelConstants = (
   }
 
   return {
+    MODEL_ID: modelId,
     MODEL_NAME: modelNameSingular,
     MODEL_NAME_PLURAL: modelNamePlural,
-    COMPONENT_ID: `${modelNameSingular}Component`,
     MODEL_URI: modelURI,
     API_ENDPOINT: apiEndpoint,
     FILLABLE_FIELDS: fillableFields,

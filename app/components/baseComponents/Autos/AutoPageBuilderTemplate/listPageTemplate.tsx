@@ -12,7 +12,7 @@ const page = async () => {
   const {
     MODEL_NAME_SINGULAR,
     MODEL_NAME_PLURAL,
-    COMPONENT_ID,
+    MODEL_ID,
     API_ENDPOINT,
     ACTION_LABELS,
     ACTION_TYPE,
@@ -29,7 +29,7 @@ const page = async () => {
 
   try {
     // Fetch records using the fetchRecords helper function
-    const { records: fetchedRecords, metadata: fetchedMetadata } = await fetchRecords(apiEndpoint, [COMPONENT_ID]);
+    const { records: fetchedRecords, metadata: fetchedMetadata } = await fetchRecords(apiEndpoint, [MODEL_ID]);
     records = fetchedRecords;
     metadata = fetchedMetadata;
   } catch (error) {
@@ -39,14 +39,14 @@ const page = async () => {
   // Function to revalidate server records
   async function revalidateServerRecords() {
     'use server';
-    revalidateTag(COMPONENT_ID);
+    revalidateTag(MODEL_ID);
   }
 
   return (
     <Renderer
       modelNameSingular={MODEL_NAME_SINGULAR} // Model name for display purposes
       modelNamePlural={MODEL_NAME_PLURAL} // Plural model name for API and display
-      componentId={COMPONENT_ID} // Unique component identifier
+      componentId={MODEL_ID} // Unique component identifier
       fillableFields={FILLABLE_FIELDS} // Fields that are fillable
       headers={HEADERS} // HTTP headers for API requests
       actionLabels={ACTION_LABELS} // Labels for different actions (e.g., create, update)

@@ -51,7 +51,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
             try {
                 const response = await axios.get(appConfig.api.url(`${API_ENDPOINT}${pageId}`));
                 const data = response.data;
-                setModelDisplayName(data.display_name);
+                setModelDisplayName(data.modelDisplayName);
                 setModelURI(data.modelURI);
                 setApiEndpoint(data.apiEndpoint);
 

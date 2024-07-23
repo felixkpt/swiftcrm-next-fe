@@ -3,14 +3,14 @@ import { RequestResponseType } from '../types';
 import { subscribe } from '../utils/helpers';
 
 type Props = {
-    componentId: string;
+    modelID: string;
 };
 
-const useAutoPostDone = ({ componentId }: Props) => {
+const useAutoPostDone = ({ modelID }: Props) => {
     const [response, setResponse] = useState<RequestResponseType>();
 
     useEffect(() => {
-        // Factory function to generate subscription handlers based on componentId
+        // Factory function to generate subscription handlers based on modelID
         const subscribeToDoneEvent = (eventName: string) => {
             const handleResponse = (response: RequestResponseType) => {
                 setResponse(response);
@@ -21,11 +21,11 @@ const useAutoPostDone = ({ componentId }: Props) => {
 
         // List of event names to subscribe to
         const eventNames = [
-            `${componentId}_done`,
-            `${componentId}CreateOrUpdate_done`,
-            `${componentId}UpdateStatus_done`,
-            `${componentId}Archive_done`,
-            `${componentId}Delete_done`,
+            `${modelID}_done`,
+            `${modelID}CreateOrUpdate_done`,
+            `${modelID}UpdateStatus_done`,
+            `${modelID}Archive_done`,
+            `${modelID}Delete_done`,
         ];
 
         // Subscribe to all specified events
@@ -37,7 +37,7 @@ const useAutoPostDone = ({ componentId }: Props) => {
         return () => {
             unsubscribeFunctions.forEach((unsubscribe) => unsubscribe());
         };
-    }, [componentId]);
+    }, [modelID]);
 
     return { response };
 };

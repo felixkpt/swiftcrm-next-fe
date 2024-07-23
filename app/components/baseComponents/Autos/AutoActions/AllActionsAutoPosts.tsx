@@ -2,16 +2,16 @@ import React from 'react'
 import AutoPost from '../AutoPost'
 
 type Props = {
-    componentId: string
+    modelID: string
 }
 
-const AllActionsAutoPosts = ({ componentId }: Props) => {
+const AllActionsAutoPosts = ({ modelID }: Props) => {
     return (
         <>
-            <AutoPost componentId={`${componentId}CreateOrUpdate`} />
-            <AutoPost componentId={`${componentId}UpdateStatus`} />
-            <AutoPost componentId={`${componentId}Archive`} />
-            <AutoPost componentId={`${componentId}Delete`} />
+            <AutoPost modelID={`${modelID}CreateOrUpdate`} />
+            <AutoPost modelID={`${modelID}UpdateStatus`} />
+            <AutoPost modelID={`${modelID}Archive`} />
+            <AutoPost modelID={`${modelID}Delete`} />
         </>
     )
 }

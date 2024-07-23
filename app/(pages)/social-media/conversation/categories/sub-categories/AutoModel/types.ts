@@ -4,7 +4,7 @@ id: any;
   created_at: any;
   updated_at: any;
   name: any;
-  sub_category_id: any;
+  category_id: any;
   learn_instructions: any;
 }
 

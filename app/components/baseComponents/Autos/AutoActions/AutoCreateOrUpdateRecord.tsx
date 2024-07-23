@@ -9,7 +9,7 @@ import DynamicDropdown from './DynamicDropdown';
 import DropdownDependsOn from './DropdownDependsOn';
 
 type Props = {
-    componentId: string;
+    modelID: string;
     modelNameSingular: string;
     method: HttpVerb;
     endpoint: string;
@@ -23,7 +23,7 @@ const setInitials = (fillable: FillableType[]) => {
     }, {} as Record<string, string>);
 };
 
-const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingular, method, endpoint, fillable }) => {
+const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular, method, endpoint, fillable }) => {
     const [localTitle, setLocalTitle] = useState(`Create ${modelNameSingular}`);
     const [record, setRecord] = useState<Record<string, any> | null>(null);
     const initialfillable = fillable;
@@ -88,8 +88,8 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingu
         const field = fillable.find((f) => f.name === name);
         if (field?.onChangeUpdateList) {
             field.onChangeUpdateList.forEach((updateField) => {
-                console.log(`${componentId}_update_${updateField}`, value)
-                publish(`${componentId}_update_${updateField}`, { [field.name]: value });
+                console.log(`${modelID}_update_${updateField}`, value)
+                publish(`${modelID}_update_${updateField}`, { [field.name]: value });
             });
         }
     };
@@ -100,7 +100,7 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingu
         setMessage(null);
         setErrors({});
         setGeneralError(null);
-        publish(`${componentId}_submit`, { method: localMethod, action: localEndpoint, formData });
+        publish(`${modelID}_submit`, { method: localMethod, action: localEndpoint, formData });
     };
 
     useEffect(() => {
@@ -136,11 +136,11 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingu
             }
         };
 
-        const unsubscribe = subscribe(`${componentId}_done`, handleResponse);
+        const unsubscribe = subscribe(`${modelID}_done`, handleResponse);
         return () => {
             unsubscribe();
         };
-    }, [componentId, method]);
+    }, [modelID, method]);
 
     useEffect(() => {
         const handleEditRecord = ({ record, endpoint, method }: { record: Record<string, string>; endpoint: string, method: HttpVerb }) => {
@@ -167,14 +167,14 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingu
             setLocalEndpoint(endpoint);
         };
 
-        const unsubscribeNew = subscribe(`${componentId}_newRecord`, handleNewRecord);
-        const unsubscribeEdit = subscribe(`${componentId}_editRecord`, handleEditRecord);
+        const unsubscribeNew = subscribe(`${modelID}_newRecord`, handleNewRecord);
+        const unsubscribeEdit = subscribe(`${modelID}_editRecord`, handleEditRecord);
 
         return () => {
             unsubscribeNew();
             unsubscribeEdit();
         };
-    }, [componentId, method, endpoint, fillable]);
+    }, [modelID, method, endpoint, fillable]);
 
     useEffect(() => {
         if (record) {
@@ -223,7 +223,7 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingu
                             />
                         ) : field.type === 'dropdown' && field.dropdownDependsOn ? (
                             <DropdownDependsOn
-                                componentId={componentId}
+                                modelID={modelID}
                                 name={field.name}
                                 value={formData[field.name]}
                                 onChange={handleChange}
@@ -233,7 +233,7 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ componentId, modelNameSingu
                         ) :
                             field.type === 'dropdown' ? (
                                 <DynamicDropdown
-                                    componentId={componentId}
+                                    modelID={modelID}
                                     name={field.name}
                                     value={formData[field.name]}
                                     onChange={handleChange}

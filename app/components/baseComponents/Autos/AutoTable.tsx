@@ -7,7 +7,7 @@ type Props = {
     headers: HeaderType[];
     records: GeneralResultType[]
     fillableFields: FillableType[];
-    componentId: string
+    modelID: string
     apiEndpoint: string
     metadata: MetadataType
     onPageNumberChange: (page: number) => void;
@@ -16,25 +16,25 @@ type Props = {
     handleExport: (filters: Record<string, any>) => void;
 };
 
-const AutoTable = ({ headers, records, fillableFields, apiEndpoint, componentId, metadata, onPageNumberChange, AutoTableHeaderActions, handleSearch, handleExport }: Props) => {
+const AutoTable = ({ headers, records, fillableFields, apiEndpoint, modelID, metadata, onPageNumberChange, AutoTableHeaderActions, handleSearch, handleExport }: Props) => {
 
     const currentPage = metadata?.page
     const perPage = metadata?.per_page || 10
     const totalRecords = metadata?.total_records
 
-    componentId = componentId + 'AutoTable'
+    modelID = modelID + 'AutoTable'
 
     return (
-        <div className="autotableWrapper border border-base-200 rounded-md shadow-md py-1" id={componentId}>
+        <div className="autotableWrapper border border-base-200 rounded-md shadow-md py-1" id={modelID}>
             {AutoTableHeaderActions
                 &&
-                <AutoTableHeaderActions headers={headers} fillableFields={fillableFields} componentId={componentId} metadata={metadata} handleSearch={handleSearch} handleExport={handleExport} />
+                <AutoTableHeaderActions headers={headers} fillableFields={fillableFields} modelID={modelID} metadata={metadata} handleSearch={handleSearch} handleExport={handleExport} />
             }
             <table className="table shadow">
                 <thead>
                     <tr>
                         {headers.map((column, index) => (
-                            <th key={index} className={`${componentId} heading-${column.key}`}>{column.label || column.key}</th>
+                            <th key={index} className={`${modelID} heading-${column.key}`}>{column.label || column.key}</th>
                         ))}
                     </tr>
                 </thead>
@@ -42,7 +42,7 @@ const AutoTable = ({ headers, records, fillableFields, apiEndpoint, componentId,
                     {records.map((record, rowIndex) => (
                         <tr key={rowIndex}>
                             {headers.map((column, colIndex) => (
-                                <td key={colIndex} className={`${componentId} data-${column.key}`}>{record[column.key]}</td>
+                                <td key={colIndex} className={`${modelID} data-${column.key}`}>{record[column.key]}</td>
                             ))}
                         </tr>
                     ))}

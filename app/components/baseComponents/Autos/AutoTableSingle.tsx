@@ -5,13 +5,13 @@ import { HeaderType, RecordType } from "./BaseAutoModel/types";
 type Props = {
     headers: HeaderType[];
     record: RecordType | undefined;
-    componentId: string;
-    AutoTableHeaderActions?: React.ElementType<{ componentId: string, record: RecordType }>;
+    modelID: string;
+    AutoTableHeaderActions?: React.ElementType<{ modelID: string, record: RecordType }>;
     isFromAutoView?: boolean
 };
 
-const AutoTableSingle = ({ record, headers = [], componentId, AutoTableHeaderActions, isFromAutoView }: Props) => {
-    const tableComponentId = `${componentId}AutoTable`;
+const AutoTableSingle = ({ record, headers = [], modelID, AutoTableHeaderActions, isFromAutoView }: Props) => {
+    const tableComponentId = `${modelID}AutoTable`;
 
     const actionHeader = !isFromAutoView && headers.find(header => header.key === 'action');
 

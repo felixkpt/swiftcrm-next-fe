@@ -46,7 +46,7 @@ const page = async () => {
     <Renderer
       modelNameSingular={MODEL_NAME_SINGULAR} // Model name for display purposes
       modelNamePlural={MODEL_NAME_PLURAL} // Plural model name for API and display
-      componentId={MODEL_ID} // Unique component identifier
+      modelID={MODEL_ID} // Unique component identifier
       fillableFields={FILLABLE_FIELDS} // Fields that are fillable
       headers={HEADERS} // HTTP headers for API requests
       actionLabels={ACTION_LABELS} // Labels for different actions (e.g., create, update)

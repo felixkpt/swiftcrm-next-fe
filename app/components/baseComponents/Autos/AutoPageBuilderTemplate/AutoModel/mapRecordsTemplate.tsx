@@ -16,7 +16,7 @@ const mapRecords = (
     action: (
       <AutoRecordActionSection
         key={record.id}
-        componentId={MODEL_ID}
+        modelID={MODEL_ID}
         record={record}
         recordEndpoint={isSingle ? apiEndpoint : \`\${apiEndpoint}/\${record.id}/\`}
         actionLabels={ACTION_LABELS}

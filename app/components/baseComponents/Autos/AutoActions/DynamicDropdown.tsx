@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { appConfig } from '../../utils/helpers';
 
 type Props = {
-    componentId: string;
+    modelID: string;
     name: string;
     value: string;
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;

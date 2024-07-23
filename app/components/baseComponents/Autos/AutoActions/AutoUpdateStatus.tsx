@@ -6,14 +6,14 @@ import { FillableType } from '../BaseAutoModel/types';
 
 
 type Props = {
-    componentId: string;
+    modelID: string;
     modelNameSingular: string;
     method: HttpVerb;
     endpoint: string; // Change action to endpoint
     fillable: FillableType[];
 };
 
-const AutoUpdateStatus: React.FC<Props> = ({ componentId, modelNameSingular, method, endpoint, fillable }) => {
+const AutoUpdateStatus: React.FC<Props> = ({ modelID, modelNameSingular, method, endpoint, fillable }) => {
     const [localTitle, setLocalTitle] = useState(`Update Status of ${modelNameSingular}`)
     const [record, setRecord] = useState<any>();
     const [responseMessage, setResponseMessage] = useState<string | null>(null);
@@ -33,17 +33,17 @@ const AutoUpdateStatus: React.FC<Props> = ({ componentId, modelNameSingular, met
             console.log('AutoUpdateStatus:', method)
         };
 
-        const unsubscribe = subscribe(`${componentId}_setRecord`, handleRecord);
+        const unsubscribe = subscribe(`${modelID}_setRecord`, handleRecord);
 
         return () => {
             unsubscribe();
         };
-    }, [componentId, method, endpoint, fillable]);
+    }, [modelID, method, endpoint, fillable]);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-        publish(`${componentId}_submit`, { method: 'put', action: endpoint + '/' + record.id });
+        publish(`${modelID}_submit`, { method: 'put', action: endpoint + '/' + record.id });
     };
 
     useEffect(() => {
@@ -54,12 +54,12 @@ const AutoUpdateStatus: React.FC<Props> = ({ componentId, modelNameSingular, met
             }
         };
 
-        const unsubscribe = subscribe(`${componentId}_done`, handleResponse);
+        const unsubscribe = subscribe(`${modelID}_done`, handleResponse);
 
         return () => {
             unsubscribe();
         };
-    }, [componentId, method, endpoint, fillable]);
+    }, [modelID, method, endpoint, fillable]);
 
     return (
         <>
@@ -67,7 +67,7 @@ const AutoUpdateStatus: React.FC<Props> = ({ componentId, modelNameSingular, met
                 <h3 className="font-bold text-lg text-gray-300">{localTitle}</h3>
             </div>
             <form data-action={endpoint} method="post" onSubmit={handleSubmit}>
-                <div className={`${componentId}ResponseSection my-3`}>
+                <div className={`${modelID}ResponseSection my-3`}>
                     {responseMessage && (
                         <div className="p-3 rounded bg-red-200 text-red-800">
                             {responseMessage}

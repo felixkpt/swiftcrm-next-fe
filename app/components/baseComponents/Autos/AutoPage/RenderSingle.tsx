@@ -14,12 +14,12 @@ import AllActionsAutoPosts from '../AutoActions/AllActionsAutoPosts';
 type Props = {
   modelNameSingular: string;
   modelNamePlural: string;
-  componentId: string;
+  modelID: string;
   apiEndpoint: string;
   fillableFields: FillableType[];
   headers: HeaderType[];
   AutoTableHeaderActions?: React.ElementType;
-  ActionHandlers?: new (componentId: string, apiEndpoint: string, isSingle?: boolean) => ActionHandlersInterface;
+  ActionHandlers?: new (modelID: string, apiEndpoint: string, isSingle?: boolean) => ActionHandlersInterface;
   mapRecords: (record: any[]) => any[];
   actionLabels: Partial<ActionListType>;
   isSingle?: boolean
@@ -28,7 +28,7 @@ type Props = {
 const Renderer: React.FC<Props> = ({
   modelNameSingular,
   modelNamePlural,
-  componentId,
+  modelID,
   apiEndpoint,
   fillableFields,
   headers,
@@ -38,11 +38,11 @@ const Renderer: React.FC<Props> = ({
   actionLabels,
   isSingle,
 }) => {
-  const defaultActionHandlers = ActionHandlers ? new ActionHandlers(componentId, apiEndpoint, isSingle) : new DefaultActionHandlers(componentId, apiEndpoint, isSingle);
+  const defaultActionHandlers = ActionHandlers ? new ActionHandlers(modelID, apiEndpoint, isSingle) : new DefaultActionHandlers(modelID, apiEndpoint, isSingle);
 
   const router = useRouter();
   const [record, setRecord] = useState<RecordType>();
-  const { response } = useAutoPostDone({ componentId });
+  const { response } = useAutoPostDone({ modelID });
 
   const fetchRecord = async () => {
     try {
@@ -94,7 +94,7 @@ const Renderer: React.FC<Props> = ({
       handleRecordAction(target);
     };
 
-    const componentTable = document.getElementById(`${componentId}AutoTable`);
+    const componentTable = document.getElementById(`${modelID}AutoTable`);
     if (componentTable) {
       componentTable.addEventListener('click', handleTableClick);
       return () => {
@@ -108,21 +108,21 @@ const Renderer: React.FC<Props> = ({
       <AutoHeader
         headerTitle={`${modelNameSingular.charAt(0).toUpperCase() + modelNameSingular.slice(1)} ${record?.id ? '#' + record.id : ''}`}
         description=""
-        componentId={`${componentId}CreateOrUpdate`}
+        modelID={`${modelID}CreateOrUpdate`}
       />
       <AutoTableSingle
         record={record}
         headers={headers}
-        componentId={componentId}
+        modelID={modelID}
         AutoTableHeaderActions={AutoTableHeaderActions || DefaultAutoTableHeaderActions}
       />
       <AllActionsModals
-        componentId={componentId}
+        modelID={modelID}
         modelNameSingular={modelNameSingular}
         apiEndpoint={apiEndpoint}
         fillableFields={fillableFields}
       />
-      <AllActionsAutoPosts componentId={componentId} />
+      <AllActionsAutoPosts modelID={modelID} />
 
     </div>
   );

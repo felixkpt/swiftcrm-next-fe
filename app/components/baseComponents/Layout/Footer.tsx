@@ -1,19 +1,15 @@
 'use client'
-import { WebSocketProvider } from "@/app/context/WebSocketProvider";
-import AutoToastNotification from "../Autos/AutoToastNotification";
 import CookiesPolicy from "./CookiesPolicy";
-import AutoWebSocketNotification from "../Autos/AutoWebSocketNotification";
+import AutoWebSocketNotification from "../Autos/AppNotifications/AutoWebSocketNotification";
+import EventsTable from "../Autos/AppNotifications/EventsTable";
 
-type Props = {
-  uuid: string
-}
-const Footer = ({ uuid }: Props) => {
+const Footer = () => {
 
   return (
-    <WebSocketProvider client_id={uuid}>
       <div className="relative">
         <CookiesPolicy />
         <AutoWebSocketNotification />
+        <EventsTable />
         <footer className="footer p-10 bg-base-200 text-base-content">
           <nav>
             <h6 className="footer-title">Services</h6>
@@ -49,9 +45,7 @@ const Footer = ({ uuid }: Props) => {
             </div>
           </nav>
         </footer>
-        <AutoToastNotification />
       </div>
-    </WebSocketProvider>
   );
 };
 

@@ -9,13 +9,13 @@ import { MetadataType } from '../../types';
 
 type Props = {
   fillableFields: FillableType[];
-  componentId: string;
+  modelID: string;
   metadata: MetadataType
   handleSearch: (filters: Record<string, any>) => void;
   handleExport: (filters: Record<string, any>) => void;
 };
 
-const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, componentId, metadata, handleSearch, handleExport }) => {
+const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, modelID, metadata, handleSearch, handleExport }) => {
   const [filters, setFilters] = useState<Record<string, any>>({});
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -29,8 +29,8 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, componentId, 
     const field = fillableFields.find((f) => f.name === name);
     if (field?.onChangeUpdateList) {
       field.onChangeUpdateList.forEach((updateField) => {
-        console.log(`${componentId}_update_${updateField}`, value)
-        publish(`${componentId}_update_${updateField}`, { [field.name]: value });
+        console.log(`${modelID}_update_${updateField}`, value)
+        publish(`${modelID}_update_${updateField}`, { [field.name]: value });
       });
     }
   };
@@ -66,7 +66,7 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, componentId, 
                   )}
                   {field.type === 'dropdown' && field.dropdownDependsOn ? (
                     <DropdownDependsOn
-                      componentId={componentId}
+                      modelID={modelID}
                       name={field.name}
                       value={filters[field.name] || ''}
                       onChange={handleInputChange}
@@ -76,7 +76,7 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, componentId, 
                     />
                   ) : field.type === 'dropdown' ? (
                     <DynamicDropdown
-                      componentId={componentId}
+                      modelID={modelID}
                       name={field.name}
                       value={filters[field.name] || ''}
                       onChange={handleInputChange}

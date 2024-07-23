@@ -15,16 +15,17 @@ import AllActionsAutoPosts from '../AutoActions/AllActionsAutoPosts';
 import useAutoResolveEndPointPlaceholders from '../BaseAutoModel/useAutoResolveEndPointPlaceholders';
 import { GeneralResultType, MetadataType } from '../../types';
 import mapRecords from '../BaseAutoModel/mapRecords';
+import { AppStateProvider } from '@/app/context/AppStateProvider';
 
 type Props = {
+  modelID: string;
   modelNameSingular: string;
   modelNamePlural: string;
-  componentId: string;
   apiEndpoint: string;
   fillableFields: FillableType[];
   headers: HeaderType[];
   AutoTableHeaderActions?: React.ElementType;
-  ActionHandlers?: new (componentId: string, apiEndpoint: string) => ActionHandlersInterface;
+  ActionHandlers?: new (modelID: string, apiEndpoint: string) => ActionHandlersInterface;
   serverRecords: GeneralResultType[];
   revalidateServerRecords: any;
   serverMetadata: any;
@@ -34,9 +35,9 @@ type Props = {
 };
 
 const Renderer: React.FC<Props> = ({
+  modelID,
   modelNameSingular,
   modelNamePlural,
-  componentId,
   apiEndpoint,
   fillableFields,
   headers,
@@ -49,14 +50,14 @@ const Renderer: React.FC<Props> = ({
   actionType,
   createUri,
 }) => {
-  const defaultActionHandlers = ActionHandlers ? new ActionHandlers(componentId, apiEndpoint) : new DefaultActionHandlers(componentId, apiEndpoint);
+  const defaultActionHandlers = ActionHandlers ? new ActionHandlers(modelID, apiEndpoint) : new DefaultActionHandlers(modelID, apiEndpoint);
   apiEndpoint = useAutoResolveEndPointPlaceholders({ apiEndpoint });
 
   const [headerTitle, setHeaderTitle] = useState(`${modelNamePlural.charAt(0).toUpperCase() + modelNamePlural.slice(1)} list`);
-  const [records, setRecords] = useState<GeneralResultType[]>(mapRecords(serverRecords || [], componentId, apiEndpoint, actionLabels, actionType));
+  const [records, setRecords] = useState<GeneralResultType[]>(mapRecords(serverRecords || [], modelID, apiEndpoint, actionLabels, actionType));
   const [metadata, setMetaData] = useState<MetadataType>(serverMetadata);
   const [filters, setFilters] = useState<Record<string, any>>({});
-  const { response } = useAutoPostDone({ componentId });
+  const { response } = useAutoPostDone({ modelID });
   const router = useRouter();
 
   const onPageNumberChange = (page: number) => {
@@ -75,13 +76,13 @@ const Renderer: React.FC<Props> = ({
       const hasMetaData = typeof data?.metadata !== 'undefined';
 
       if (hasMetaData) {
-        setRecords(mapRecords(data.records || [], componentId, apiEndpoint, actionLabels, actionType));
+        setRecords(mapRecords(data.records || [], modelID, apiEndpoint, actionLabels, actionType));
         if (data.metadata) {
           setHeaderTitle(data.metadata?.title || headerTitle);
           setMetaData(data.metadata);
         }
       } else {
-        setRecords(mapRecords(data || [], componentId, apiEndpoint, actionLabels, actionType));
+        setRecords(mapRecords(data || [], modelID, apiEndpoint, actionLabels, actionType));
         setMetaData(null);
       }
 
@@ -133,7 +134,7 @@ const Renderer: React.FC<Props> = ({
       handleRecordAction(e);
     };
 
-    const componentTable = document.getElementById(`${componentId}AutoTable`);
+    const componentTable = document.getElementById(`${modelID}AutoTable`);
     if (componentTable) {
       componentTable.addEventListener('click', handleTableClick);
       return () => {
@@ -152,34 +153,37 @@ const Renderer: React.FC<Props> = ({
 
   let filteredHeaders = headers.filter(item => item.isVisibleInList);
 
+  const client_id = '234'
   return (
     <div>
-      <AutoHeader
-        headerTitle={headerTitle}
-        description=""
-        componentId={`${componentId}CreateOrUpdate`}
-        showCreateButton
-        createUri={createUri}
-      />
-      <AutoTable
-        records={records}
-        fillableFields={fillableFields}
-        headers={filteredHeaders}
-        componentId={componentId}
-        apiEndpoint={apiEndpoint}
-        metadata={metadata}
-        onPageNumberChange={onPageNumberChange}
-        AutoTableHeaderActions={AutoTableHeaderActions || DefaultAutoTableHeaderActions}
-        handleSearch={handleSearch}
-        handleExport={handleExport}
-      />
-      <AllActionsModals
-        componentId={componentId}
-        modelNameSingular={modelNameSingular}
-        apiEndpoint={apiEndpoint}
-        fillableFields={fillableFields}
-      />
-      <AllActionsAutoPosts componentId={componentId} />
+      <AppStateProvider client_id={client_id}>
+        <AutoHeader
+          headerTitle={headerTitle}
+          description=""
+          modelID={`${modelID}CreateOrUpdate`}
+          showCreateButton
+          createUri={createUri}
+        />
+        <AutoTable
+          records={records}
+          fillableFields={fillableFields}
+          headers={filteredHeaders}
+          modelID={modelID}
+          apiEndpoint={apiEndpoint}
+          metadata={metadata}
+          onPageNumberChange={onPageNumberChange}
+          AutoTableHeaderActions={AutoTableHeaderActions || DefaultAutoTableHeaderActions}
+          handleSearch={handleSearch}
+          handleExport={handleExport}
+        />
+        <AllActionsModals
+          modelID={modelID}
+          modelNameSingular={modelNameSingular}
+          apiEndpoint={apiEndpoint}
+          fillableFields={fillableFields}
+        />
+        <AllActionsAutoPosts modelID={modelID} />
+      </AppStateProvider>
     </div>
   );
 };

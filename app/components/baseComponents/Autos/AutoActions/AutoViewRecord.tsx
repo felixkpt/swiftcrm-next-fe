@@ -7,14 +7,14 @@ import AutoTableSingle from '../AutoTableSingle';
 
 
 type Props = {
-    componentId: string;
+    modelID: string;
     modelNameSingular: string;
     method: HttpVerb;
     endpoint: string; // Change action to endpoint
     fillable: FillableType[];
 };
 
-const AutoViewRecord: React.FC<Props> = ({ componentId, modelNameSingular, method, endpoint, fillable }) => {
+const AutoViewRecord: React.FC<Props> = ({ modelID, modelNameSingular, method, endpoint, fillable }) => {
     const [localTitle, setLocalTitle] = useState(`Viewing ${modelNameSingular}`)
     const [record, setRecord] = useState<any>();
     const [headers, setHeaders] = useState<any>();
@@ -34,12 +34,12 @@ const AutoViewRecord: React.FC<Props> = ({ componentId, modelNameSingular, metho
             console.log('handleRecord:', method)
         };
 
-        const unsubscribe = subscribe(`${componentId}_setRecord`, handleRecord);
+        const unsubscribe = subscribe(`${modelID}_setRecord`, handleRecord);
 
         return () => {
             unsubscribe();
         };
-    }, [componentId, method, endpoint, fillable]);
+    }, [modelID, method, endpoint, fillable]);
 
     return (
         <>
@@ -47,7 +47,7 @@ const AutoViewRecord: React.FC<Props> = ({ componentId, modelNameSingular, metho
             <AutoTableSingle
                 record={record}
                 headers={headers}
-                componentId={componentId}
+                modelID={modelID}
                 isFromAutoView={true}
             />
         </>

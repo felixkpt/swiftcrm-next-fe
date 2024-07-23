@@ -1,16 +1,20 @@
+'use client'
 import React from 'react'
 import Sidebar from './Sidebar/Sidebar'
 import Footer from './Footer'
 import Navbar from './Navbar'
 import { appConfig } from '../utils/helpers'
+import { AppStateProvider } from '@/app/context/AppStateProvider'
 
 type Props = {
     children: React.ReactNode
 }
 
 const BaseLayout = ({ children }: Props) => {
+    const client_id = appConfig.uuid()
 
     return (
+        <AppStateProvider client_id={client_id}>
         <div className="drawer lg:drawer-open">
             <input id="appLeftDrawer" type="checkbox" className="drawer-toggle hidden" />
             <div className="drawer-content">
@@ -19,15 +23,15 @@ const BaseLayout = ({ children }: Props) => {
                     <div className="flex min-h-screen">
                         <main className="flex-1 p-6">{children}</main>
                     </div>
-                    <Footer uuid={appConfig.uuid()} />
+                    <Footer />
                 </div>
-
             </div>
             <div className="drawer-side z-[500]">
                 <label htmlFor="appLeftDrawer" aria-label="close sidebar" className="drawer-overlay"></label>
                 <Sidebar />
             </div>
         </div>
+        </AppStateProvider>
     )
 }
 

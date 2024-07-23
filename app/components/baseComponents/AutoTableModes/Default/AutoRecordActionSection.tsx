@@ -5,14 +5,14 @@ import Link from "next/link";
 import { getEndpoint } from "../../Autos/BaseAutoModel/autoFunctions";
 
 type Props = {
-    componentId: string;
+    modelID: string;
     record: any;
     actionLabels: Partial<ActionListType>;
     recordEndpoint: string;
     actionType?: ActionType;
 };
 
-const AutoRecordActionSection = ({ componentId, record, recordEndpoint, actionLabels, actionType = 'dropdown' }: Props) => {
+const AutoRecordActionSection = ({ modelID, record, recordEndpoint, actionLabels, actionType = 'dropdown' }: Props) => {
 
     console.log('actionsList',actionLabels)
     if (Object.keys(actionLabels).length === 0) return
@@ -58,7 +58,7 @@ const AutoRecordActionSection = ({ componentId, record, recordEndpoint, actionLa
 
                     </>
                     :
-                    <div className={`buttons ${componentId}AutoRecordActionSection`}>
+                    <div className={`buttons ${modelID}AutoRecordActionSection`}>
                         {
                             actionsList.map(actionKey => (
                                 <Link

@@ -8,56 +8,56 @@ import AutoArchiveRecord from './AutoArchiveRecord';
 import { FillableType } from '../BaseAutoModel/types';
 
 type Props = {
-    componentId: string;
+    modelID: string;
     modelNameSingular: string;
     apiEndpoint: string;
     fillableFields: FillableType[];
 };
 
-const AllActionsModals: React.FC<Props> = ({ componentId, modelNameSingular, apiEndpoint, fillableFields }) => {
+const AllActionsModals: React.FC<Props> = ({ modelID, modelNameSingular, apiEndpoint, fillableFields }) => {
 
     const fillableFieldsFiltered = fillableFields.filter((v) => !v.hidden)
     return (
         <div>
-            <AutoModal componentId={`${componentId}CreateOrUpdate`} title={modelNameSingular}>
+            <AutoModal modelID={`${modelID}CreateOrUpdate`} title={modelNameSingular}>
                 <AutoCreateOrUpdateRecord
-                    componentId={`${componentId}CreateOrUpdate`}
+                    modelID={`${modelID}CreateOrUpdate`}
                     modelNameSingular={modelNameSingular}
                     method="POST"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal componentId={`${componentId}View`} title={modelNameSingular}>
+            <AutoModal modelID={`${modelID}View`} title={modelNameSingular}>
                 <AutoViewRecord
-                    componentId={`${componentId}View`}
+                    modelID={`${modelID}View`}
                     modelNameSingular={modelNameSingular}
                     method="GET"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal componentId={`${componentId}UpdateStatus`} title={modelNameSingular}>
+            <AutoModal modelID={`${modelID}UpdateStatus`} title={modelNameSingular}>
                 <AutoUpdateStatus
-                    componentId={`${componentId}UpdateStatus`}
+                    modelID={`${modelID}UpdateStatus`}
                     modelNameSingular={modelNameSingular}
                     method="GET"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal componentId={`${componentId}Archive`} title={modelNameSingular}>
+            <AutoModal modelID={`${modelID}Archive`} title={modelNameSingular}>
                 <AutoArchiveRecord
-                    componentId={`${componentId}Archive`}
+                    modelID={`${modelID}Archive`}
                     modelNameSingular={modelNameSingular}
                     method="POST"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal componentId={`${componentId}Delete`} title={modelNameSingular}>
+            <AutoModal modelID={`${modelID}Delete`} title={modelNameSingular}>
                 <AutoDeleteRecord
-                    componentId={`${componentId}Delete`}
+                    modelID={`${modelID}Delete`}
                     modelNameSingular={modelNameSingular}
                     method="DELETE"
                     endpoint={apiEndpoint}

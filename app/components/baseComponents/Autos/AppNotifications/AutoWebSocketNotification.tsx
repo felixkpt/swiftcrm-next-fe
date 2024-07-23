@@ -1,28 +1,28 @@
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
-import { WebSocketContext } from '@/app/context/WebSocketProvider';
-import { useContext, useEffect, useState } from 'react';
-import { Box, Grid } from '@mui/material';
-import { publish } from '../utils/helpers';
+import { useAppState } from '@/app/context/AppStateProvider';
+import { useEffect, useState } from 'react';
+import { Box, Grid, Table, TableBody, TableCell, TableHead, TableRow, Typography } from '@mui/material';
+import { publish } from '../../utils/helpers';
 
 export default function AutoWebSocketNotification() {
-  const context = useContext(WebSocketContext);
+  const { events, client_id } = useAppState();
   const [open, setOpen] = useState(false);
 
-  useEffect(() => {
-    if (context?.response?.client_id && context?.response?.message) {
-      setOpen(true);
-    }
-  }, [context?.response]);
+  // useEffect(() => {
+  //   if (response?.client_id && response?.message) {
+  //     setOpen(true);
+  //   }
+  // }, [response]);
 
-  const handleReload = () => {
-    if (context?.response?.model_id) {
-      const componentId = context.response.model_id + 'Component';
-      publish(`${componentId}_done`, { message: 'Simulated _done event', status: 200 });
-    }
-    setOpen(false);
-  };
+  // const handleReload = () => {
+  //   if (response?.model_id) {
+  //     const modelID = response.model_id;
+  //     publish(`${modelID}_done`, { message: 'Simulated _done event', status: 200 });
+  //   }
+  //   setOpen(false);
+  // };
 
   const handleClose = () => {
     setOpen(false);
@@ -43,7 +43,7 @@ export default function AutoWebSocketNotification() {
             p: 2,
           }}
         >
-          {context?.response?.message && (
+          {/* {response?.message && (
             <Alert
               onClose={handleClose}
               severity="success"
@@ -57,7 +57,7 @@ export default function AutoWebSocketNotification() {
             >
               <Grid container alignItems="center" justifyContent="center">
                 <Grid item>
-                  <span>{context.response.message}</span>
+                  <span>{response.message}</span>
                 </Grid>
                 <Grid item>
                   <Button type='button' color="inherit" size="medium" sx={{ ml: 2 }} onClick={handleReload}>
@@ -66,7 +66,7 @@ export default function AutoWebSocketNotification() {
                 </Grid>
               </Grid>
             </Alert>
-          )}
+          )} */}
         </Box>
       </Snackbar>
     </div>

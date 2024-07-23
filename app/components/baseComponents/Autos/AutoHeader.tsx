@@ -4,15 +4,15 @@ import { publish } from "../utils/helpers";
 type AutoHeaderProps = {
     headerTitle: string;
     description?: string;
-    componentId: string;
+    modelID: string;
     showCreateButton?: boolean;
     createUri?: string; // Optional parameter for the create page URI
 };
 
-const AutoHeader = ({ headerTitle, description, componentId, showCreateButton, createUri }: AutoHeaderProps) => {
+const AutoHeader = ({ headerTitle, description, modelID, showCreateButton, createUri }: AutoHeaderProps) => {
     const handleCreateClick = () => {
-        publish(`${componentId}_newRecord`, null);
-        publish(`${componentId}_showModal`, null);
+        publish(`${modelID}_newRecord`, null);
+        publish(`${modelID}_showModal`, null);
     };
 
     return (

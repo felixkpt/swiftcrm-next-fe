@@ -29,7 +29,7 @@ const page = () => {
       <Renderer
         modelNameSingular={MODEL_NAME}
         modelNamePlural={MODEL_NAME_PLURAL}
-        componentId={MODEL_ID}
+        modelID={MODEL_ID}
         apiEndpoint={apiEndpoint}
         fillableFields={FILLABLE_FIELDS}
         headers={HEADERS}

@@ -4,12 +4,12 @@ import { subscribe } from "../utils/helpers";
 import { RequestResponseType } from "../types";
 
 type Props = {
-    componentId: string;
+    modelID: string;
     title?: string;
     children: React.ReactNode;
 };
 
-const AutoModal = ({ componentId, title, children }: Props) => {
+const AutoModal = ({ modelID, title, children }: Props) => {
     const modalRef = useRef<HTMLDialogElement>(null);
 
     useEffect(() => {
@@ -19,12 +19,12 @@ const AutoModal = ({ componentId, title, children }: Props) => {
             }
         };
 
-        const unsubscribeShowModal = subscribe(`${componentId}_showModal`, handleShowModal);
+        const unsubscribeShowModal = subscribe(`${modelID}_showModal`, handleShowModal);
 
         return () => {
             unsubscribeShowModal();
         };
-    }, [componentId]);
+    }, [modelID]);
 
     useEffect(() => {
         const handleResponse = ({ status }: RequestResponseType) => {
@@ -33,12 +33,12 @@ const AutoModal = ({ componentId, title, children }: Props) => {
             }
         };
 
-        const unsubscribe = subscribe(`${componentId}_done`, handleResponse);
+        const unsubscribe = subscribe(`${modelID}_done`, handleResponse);
 
         return () => {
             unsubscribe();
         };
-    }, [componentId]);
+    }, [modelID]);
 
     const closeModal = () => {
         if (modalRef.current) {
@@ -48,7 +48,7 @@ const AutoModal = ({ componentId, title, children }: Props) => {
 
     return (
         <div>
-            <dialog ref={modalRef} id={`${componentId}Modal`} className="modal">
+            <dialog ref={modalRef} id={`${modelID}Modal`} className="modal">
                 <div className="modal-box">
                     <form method="dialog">
                         <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={closeModal}>✕</button>

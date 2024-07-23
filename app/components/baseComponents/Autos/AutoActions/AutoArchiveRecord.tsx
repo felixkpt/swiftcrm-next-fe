@@ -10,14 +10,14 @@ type ErrorResponse = {
 };
 
 type Props = {
-    componentId: string;
+    modelID: string;
     modelNameSingular: string;
     method: HttpVerb;
     endpoint: string; // Change action to endpoint
     fillable: FillableType[];
 };
 
-const AutoArchiveRecord: React.FC<Props> = ({ componentId, modelNameSingular, method, endpoint, fillable }) => {
+const AutoArchiveRecord: React.FC<Props> = ({ modelID, modelNameSingular, method, endpoint, fillable }) => {
     const [localTitle, setLocalTitle] = useState(`Archive ${modelNameSingular} record`)
     const [record, setRecord] = useState<any>();
 
@@ -35,12 +35,12 @@ const AutoArchiveRecord: React.FC<Props> = ({ componentId, modelNameSingular, me
             console.log('AutoArchiveRocord:', method)
         };
 
-        const unsubscribe = subscribe(`${componentId}_setRecord`, handleRecord);
+        const unsubscribe = subscribe(`${modelID}_setRecord`, handleRecord);
 
         return () => {
             unsubscribe();
         };
-    }, [componentId, method, endpoint, fillable]);
+    }, [modelID, method, endpoint, fillable]);
 
     return (
         <>

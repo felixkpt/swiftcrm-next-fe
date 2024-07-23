@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { appConfig, subscribe } from '../../utils/helpers';
 
 type Props = {
-    componentId: string;
+    modelID: string;
     name: string;
     value: string;
     onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const DropdownDependsOn: React.FC<Props> = ({
-    componentId,
+    modelID,
     name,
     value,
     onChange,
@@ -52,7 +52,7 @@ const DropdownDependsOn: React.FC<Props> = ({
     useEffect(() => {
         if (dropdownDependsOn) {
             const listeners = dropdownDependsOn.map(dep => {
-                const listenerId = `${componentId}_update_${dep}`;
+                const listenerId = `${modelID}_update_${dep}`;
                 const unsubscribe = subscribe(listenerId, dependenciesHandler);
                 return unsubscribe;
             });
@@ -61,7 +61,7 @@ const DropdownDependsOn: React.FC<Props> = ({
                 listeners.forEach(unsub => unsub());
             };
         }
-    }, [componentId, dropdownSource, dropdownDependsOn]);
+    }, [modelID, dropdownSource, dropdownDependsOn]);
 
     useEffect(() => {
         if (Object.keys(currentDependencies).length > 0) {

@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = 'fa56a070-5089-4a05-a8ee-a4fcd93de282';
+const modelID = 'f3318011-5208-49d5-a81b-e28089cf3a13';
 const modelNameSingular = 'sub-category';
 const modelNamePlural = 'sub-categories';
 const modelURI = 'social-media/conversation/categories/sub-categories';
@@ -27,7 +27,7 @@ const fillableFields: Array<FillableType> = [
     mobileWidth: 12
   },
   {
-    name: "sub_category_id",
+    name: "category_id",
     label: "",
     type: "dropdown",
     dataType: "integer",
@@ -36,7 +36,7 @@ const fillableFields: Array<FillableType> = [
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: "conversation/categories",
+    dropdownSource: "social-media/conversation/categories",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -67,7 +67,7 @@ const headers: HeaderType[] = [
     isVisibleInSingleView: true
   },
   {
-    key: "sub_category_id",
+    key: "category_id",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true

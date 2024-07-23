@@ -35,6 +35,7 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, modelID, meta
     }
   };
 
+  console.log(fillableFields.filter(field => field.type === 'input' || field.type === 'dropdown'))
   return (
     <div className="p-2 shadow-lg rounded-md">
       <div className="flex flex-wrap items-center gap-4 mb-4">

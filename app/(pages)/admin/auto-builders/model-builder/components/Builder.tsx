@@ -12,7 +12,7 @@ import {
 import BasicInfoComponent from './BasicInfoComponent';
 import FieldsComponent from './FormBuilder/FieldsComponent';
 import PreviewModal from './PreviewModal';
-import { appConfig, publish } from '@/app/components/baseComponents/utils/helpers';
+import { appConfig } from '@/app/components/baseComponents/utils/helpers';
 import { ActionLabelTypeValidation, FieldValidation } from '../types';
 import useFieldState from '../hooks/useFieldState';
 import ActionLabelsComponent from './ActionLabelsComponent';
@@ -23,6 +23,7 @@ import { mapExistingFields, mapExistingActionLables, makeFieldValidation, makeAc
 import useActionLabelState from '../hooks/useActionLabelState';
 import { InputType, RecordType } from '@/app/components/baseComponents/Autos/BaseAutoModel/types';
 import RelationshipComponent from './RelationshipComponent';
+import { publish } from '@/app/components/baseComponents/utils/pubSub';
 
 type Props = {
     inputTypes: InputType[];

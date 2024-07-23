@@ -16,16 +16,16 @@ type Props = {
     handleExport: (filters: Record<string, any>) => void;
 };
 
-const AutoTable = ({ headers, records, fillableFields, apiEndpoint, modelID, metadata, onPageNumberChange, AutoTableHeaderActions, handleSearch, handleExport }: Props) => {
+const AutoTable = ({ headers, records, fillableFields, modelID, metadata, onPageNumberChange, AutoTableHeaderActions, handleSearch, handleExport }: Props) => {
 
     const currentPage = metadata?.page
     const perPage = metadata?.per_page || 10
-    const totalRecords = metadata?.total_records
+    const totalRecords = metadata?.total_records || 0
 
-    modelID = modelID + 'AutoTable'
+    const modelIDLocal = modelID + '_AutoTable'
 
     return (
-        <div className="border border-base-200 rounded-md shadow-md py-1" id={modelID}>
+        <div className="border border-base-200 rounded-md shadow-md py-1" id={modelIDLocal}>
             {AutoTableHeaderActions
                 &&
                 <AutoTableHeaderActions headers={headers} fillableFields={fillableFields} modelID={modelID} metadata={metadata} handleSearch={handleSearch} handleExport={handleExport} />
@@ -34,7 +34,7 @@ const AutoTable = ({ headers, records, fillableFields, apiEndpoint, modelID, met
                 <thead>
                     <tr>
                         {headers.map((column, index) => (
-                            <th key={index} className={`${modelID} heading-${column.key}`}>{column.label || column.key}</th>
+                            <th key={index} className={`${modelIDLocal} heading-${column.key}`}>{column.label || column.key}</th>
                         ))}
                     </tr>
                 </thead>
@@ -42,7 +42,7 @@ const AutoTable = ({ headers, records, fillableFields, apiEndpoint, modelID, met
                     {records.map((record, rowIndex) => (
                         <tr key={rowIndex}>
                             {headers.map((column, colIndex) => (
-                                <td key={colIndex} className={`${modelID} data-${column.key}`}>{record[column.key]}</td>
+                                <td key={colIndex} className={`${modelIDLocal} data-${column.key}`}>{record[column.key]}</td>
                             ))}
                         </tr>
                     ))}

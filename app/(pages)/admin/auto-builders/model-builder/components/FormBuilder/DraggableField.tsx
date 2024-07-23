@@ -2,9 +2,9 @@ import { Grid, IconButton, MenuItem, Select, TextField } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import Modal from "./Modal";
 import { CommonDataTypes, InputType, RecordType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 import { AutoPageBuilderType } from "../../utils/backendTypes";
+import Modal from "./Modal/Modal";
 
 const ItemTypes = {
     FIELD: 'field',

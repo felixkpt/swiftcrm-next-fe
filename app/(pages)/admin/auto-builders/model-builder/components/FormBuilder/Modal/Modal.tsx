@@ -1,18 +1,18 @@
-import Pluralize from 'pluralize';
 import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
-import { FormControl, Grid, InputLabel, MenuItem, Select, Typography, SelectChangeEvent } from '@mui/material';
+import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { FieldType, FieldValidation } from '../../types';
-import { validateDefaultValue } from '../../utils/helpers';
+import { FieldType, FieldValidation } from '../../../types';
+import { validateDefaultValue } from '../../../utils/helpers';
 import { CommonDataTypes, RecordType } from '@/app/components/baseComponents/Autos/BaseAutoModel/types';
+import TextFieldWithValidation from './TextFieldWithValidation';
+import DropdownWithValidation from './DropdownWithValidation';
+import CheckboxGroup from './CheckboxGroup';
 
 interface ModalProps {
     inputType: string;
@@ -139,63 +139,24 @@ const Modal: React.FC<ModalProps> = ({
                 <DialogContent>
                     <Grid container spacing={2} mt={2}>
                         <Grid item xs={12}>
-                            <TextField
-                                label="Name"
-                                fullWidth
-                                variant="outlined"
-                                value={field.name.value}
-                                onChange={(e) =>
-                                    handleFieldChange(index, {
-                                        ...field,
-                                        name: { value: e.target.value, required: field.name.required },
-                                    })
-                                }
-                                error={
-                                    hasDoneSubmission &&
-                                    typeof fieldValidation.name === 'boolean' &&
-                                    !fieldValidation.name &&
-                                    field.name.required &&
-                                    !(field.name.value && field.name.value.trim())
-                                }
-                                helperText={
-                                    hasDoneSubmission &&
-                                        typeof fieldValidation.name === 'boolean' &&
-                                        !fieldValidation.name &&
-                                        field.name.required &&
-                                        !(field.name.value && field.name.value.trim())
-                                        ? 'Name is required'
-                                        : ''
-                                }
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
+
+                            <TextFieldWithValidation
                                 label="Label"
-                                fullWidth
-                                variant="outlined"
-                                value={field.label.value}
-                                onChange={(e) =>
-                                    handleFieldChange(index, {
-                                        ...field,
-                                        label: { value: e.target.value, required: field.label.required },
-                                    })
-                                }
-                                error={
-                                    hasDoneSubmission &&
-                                    typeof fieldValidation.label === 'boolean' &&
-                                    !fieldValidation.label &&
-                                    field.label.required &&
-                                    !(field.label.value && field.label.value.trim())
-                                }
-                                helperText={
-                                    hasDoneSubmission &&
-                                        typeof fieldValidation.label === 'boolean' &&
-                                        !fieldValidation.label &&
-                                        field.label.required &&
-                                        !(field.label.value && field.label.value.trim())
-                                        ? 'Label is required'
-                                        : ''
-                                }
+                                field={field}
+                                fieldKey="label"
+                                index={index}
+                                handleFieldChange={handleFieldChange}
+                                fieldValidation={fieldValidation}
+                                hasDoneSubmission={hasDoneSubmission}
+                            />
+                            <TextFieldWithValidation
+                                label="Default Value"
+                                field={field}
+                                fieldKey="defaultValue"
+                                index={index}
+                                handleFieldChange={handleFieldChange}
+                                fieldValidation={fieldValidation}
+                                hasDoneSubmission={hasDoneSubmission}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -277,14 +238,14 @@ const Modal: React.FC<ModalProps> = ({
                                 label="Width"
                                 name="width"
                                 fullWidth
-                                value={field.desktopWidth.value}
+                                value={field.desktopWidth.value.toString()}
                                 onChange={(e) =>
                                     handleFieldChange(index, {
                                         ...field,
-                                        desktopWidth: { value: parseInt(e.target.value ?? 0), required: field.desktopWidth.required },
+                                        desktopWidth: { value: parseInt(e.target.value), required: field.desktopWidth.required },
                                     })
-                                }                            >
-                                {[...Array(12).keys()].map((value) => (
+                                }>
+                                {Array.from(Array(10).keys()).map((value) => (
                                     <MenuItem key={value + 1} value={value + 1}>
                                         {value + 1}
                                     </MenuItem>
@@ -293,97 +254,20 @@ const Modal: React.FC<ModalProps> = ({
                         </Grid>
                         {inputType === 'dropdown' && (
                             <>
-                                <Grid item xs={12}>
-                                    <Typography variant="subtitle1" gutterBottom>
-                                        Data source
-                                    </Typography>
-                                    <FormControl fullWidth variant="outlined">
-                                        <InputLabel>Source</InputLabel>
-                                        <Select
-                                            value={dropdownSource}
-                                            onChange={handleSourceChange}
-                                            label="Source"
-                                            error={dropdownSourceError}
-                                            renderValue={(selected) => selected}
-                                        >
-                                            {dropdownSourcesList.map((dep, idx) => (
-                                                <MenuItem key={idx} value={dep.apiEndpoint}>
-                                                    {dep.apiEndpoint}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                        {dropdownSourceError && (
-                                            <Typography variant="caption" color="error">
-                                                Data source is required
-                                            </Typography>
-                                        )}
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Typography variant="subtitle1" gutterBottom>
-                                        Depends On
-                                    </Typography>
-                                    <FormControl fullWidth variant="outlined">
-                                        <InputLabel>Dependencies</InputLabel>
-                                        <Select
-                                            multiple
-                                            value={dropdownDependencies}
-                                            onChange={handleDependencyChange}
-                                            label="Dependencies"
-                                            renderValue={(selected) => (selected as string[]).join(', ')}
-                                        >
-                                            {dropdownSourcesList.filter((itm) => itm !== dropdownSource.apiEndpoint).map((dep, idx) => (
-                                                <MenuItem key={idx} value={dep.apiEndpoint}>
-                                                    {dep.apiEndpoint}
-                                                </MenuItem>
-                                            ))}
-                                        </Select>
-                                    </FormControl>
-                                </Grid>
+                                <DropdownWithValidation
+                                    dropdownSource={dropdownSource}
+                                    handleSourceChange={handleSourceChange}
+                                    dropdownDependencies={dropdownDependencies}
+                                    handleDependencyChange={handleDependencyChange}
+                                    dropdownSourcesList={dropdownSourcesList}
+                                    dropdownSourceError={dropdownSourceError}
+                                />
                             </>
                         )}
-                        <Grid item xs={6}>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={field.isRequired.value}
-                                        onChange={(e) => handleCheckboxChange('isRequired', e.target.checked)}
-                                    />
-                                }
-                                label="Is Required"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={field.isVisibleInList.value}
-                                        onChange={(e) => handleCheckboxChange('isVisibleInList', e.target.checked)}
-                                    />
-                                }
-                                label="Visible in List"
-                            />
-                        </Grid>
-                        <Grid item xs={6}>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={field.isVisibleInSingleView.value}
-                                        onChange={(e) =>
-                                            handleCheckboxChange('isVisibleInSingleView', e.target.checked)
-                                        }
-                                    />
-                                }
-                                label="Visible in Single View"
-                            />
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={field.isUnique.value}
-                                        onChange={(e) => handleCheckboxChange('isUnique', e.target.checked)}
-                                    />
-                                }
-                                label="Is Unique"
-                            />
-                        </Grid>
+                        <CheckboxGroup
+                            field={field}
+                            handleCheckboxChange={handleCheckboxChange}
+                        />
                     </Grid>
                 </DialogContent>
                 <DialogActions>

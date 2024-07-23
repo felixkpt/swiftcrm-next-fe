@@ -64,7 +64,7 @@ export type CommonDataTypes =
     | 'timestamp' | 'time' | 'uuid' | 'longtext' | 'json';
 
 export type InputType = {
-    name: 'input' | 'textarea' | 'dropdown';
+    name: 'input' | 'textarea' | 'dropdown' | 'password' | 'image' | 'checkbox';
     commonDataTypes: CommonDataTypes[];
 };
 

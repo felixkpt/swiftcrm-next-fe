@@ -5,7 +5,10 @@ import { ActionLabelType, FieldType, FieldValidation } from "../types";
 export const inputTypes: InputType[] = [
     {
         name: 'input',
-        commonDataTypes: ['string', 'integer', 'biginteger', 'boolean', 'float', 'double', 'decimal', 'date', 'datetime', 'timestamp', 'time', 'uuid']
+        commonDataTypes: [
+            'string', 'integer', 'biginteger', 'boolean', 'float', 'double',
+            'decimal', 'date', 'datetime', 'timestamp', 'time', 'uuid'
+        ]
     },
     {
         name: 'textarea',
@@ -14,6 +17,18 @@ export const inputTypes: InputType[] = [
     {
         name: 'dropdown',
         commonDataTypes: ['boolean', 'integer', 'uuid']
+    },
+    {
+        name: 'password',
+        commonDataTypes: ['string']
+    },
+    {
+        name: 'image',
+        commonDataTypes: ['string']
+    },
+    {
+        name: 'checkbox',
+        commonDataTypes: ['boolean']
     }
 ];
 

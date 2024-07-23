@@ -5,6 +5,8 @@ import DateRangeIcon from '@mui/icons-material/DateRange';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 import ImageIcon from '@mui/icons-material/Image';
+import LockIcon from '@mui/icons-material/Lock';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 type Props = {
     onAddField: (type: string, fieldType: string, name: string) => void;
@@ -98,6 +100,28 @@ const SideNav = ({ onAddField }: Props) => {
                         Image
                     </Button>
                 </Grid>
+                <Grid xs={'auto'} md={12}>
+                    <Button
+                        variant="outlined"
+                        fullWidth
+                        onClick={() => handleOpen('input', 'password')}
+                        startIcon={<LockIcon />}
+                        sx={{ mb: 2, display: 'flex', justifyContent: 'start' }}
+                    >
+                        Password
+                    </Button>
+                </Grid>
+                <Grid xs={'auto'} md={12}>
+                    <Button
+                        variant="outlined"
+                        fullWidth
+                        onClick={() => handleOpen('input', 'checkbox')}
+                        startIcon={<CheckBoxIcon />}
+                        sx={{ mb: 2, display: 'flex', justifyContent: 'start' }}
+                    >
+                        Checkbox
+                    </Button>
+                </Grid>
             </Grid>
             <Modal
                 open={open}
@@ -119,7 +143,7 @@ const SideNav = ({ onAddField }: Props) => {
                     }}
                 >
                     <h2 id="field-name-modal-title">
-                        Enter Name for the {fieldType?.type}
+                        Enter Name for the {fieldType?.type === 'checkbox' ? 'Checkbox' : fieldType?.type}
                     </h2>
                     <TextField
                         fullWidth

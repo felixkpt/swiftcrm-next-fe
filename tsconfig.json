@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(pages)/dashboard/auto-page-builder/components/FormBuilder/FormBuilder.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(pages)/dashboard/auto-page-builder/components/FormBuilder/FormBuilder.tsx", "app/components/baseComponents/Layout/Sidebar/Messages.txs"],
   "exclude": ["node_modules"]
 }

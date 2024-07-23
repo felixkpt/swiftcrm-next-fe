@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { appConfig, subscribe } from '../../utils/helpers';
+import { appConfig } from '../../utils/helpers';
+import { subscribe } from '@/app/components/baseComponents/utils/pubSub';
 
 type Props = {
     modelID: string;

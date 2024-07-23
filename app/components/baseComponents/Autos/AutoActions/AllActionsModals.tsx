@@ -19,45 +19,45 @@ const AllActionsModals: React.FC<Props> = ({ modelID, modelNameSingular, apiEndp
     const fillableFieldsFiltered = fillableFields.filter((v) => !v.hidden)
     return (
         <div>
-            <AutoModal modelID={`${modelID}CreateOrUpdate`} title={modelNameSingular}>
+            <AutoModal modelID={`${modelID}_CreateOrUpdate`} title={modelNameSingular}>
                 <AutoCreateOrUpdateRecord
-                    modelID={`${modelID}CreateOrUpdate`}
+                    modelID={`${modelID}_CreateOrUpdate`}
                     modelNameSingular={modelNameSingular}
                     method="POST"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal modelID={`${modelID}View`} title={modelNameSingular}>
+            <AutoModal modelID={`${modelID}_View`} title={modelNameSingular}>
                 <AutoViewRecord
-                    modelID={`${modelID}View`}
+                    modelID={`${modelID}_View`}
                     modelNameSingular={modelNameSingular}
                     method="GET"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal modelID={`${modelID}UpdateStatus`} title={modelNameSingular}>
+            <AutoModal modelID={`${modelID}_UpdateStatus`} title={modelNameSingular}>
                 <AutoUpdateStatus
-                    modelID={`${modelID}UpdateStatus`}
+                    modelID={`${modelID}_UpdateStatus`}
                     modelNameSingular={modelNameSingular}
                     method="GET"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal modelID={`${modelID}Archive`} title={modelNameSingular}>
+            <AutoModal modelID={`${modelID}_Archive`} title={modelNameSingular}>
                 <AutoArchiveRecord
-                    modelID={`${modelID}Archive`}
+                    modelID={`${modelID}_Archive`}
                     modelNameSingular={modelNameSingular}
                     method="POST"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
-            <AutoModal modelID={`${modelID}Delete`} title={modelNameSingular}>
+            <AutoModal modelID={`${modelID}_Delete`} title={modelNameSingular}>
                 <AutoDeleteRecord
-                    modelID={`${modelID}Delete`}
+                    modelID={`${modelID}_Delete`}
                     modelNameSingular={modelNameSingular}
                     method="DELETE"
                     endpoint={apiEndpoint}

@@ -8,10 +8,10 @@ type Props = {
 const AllActionsAutoPosts = ({ modelID }: Props) => {
     return (
         <>
-            <AutoPost modelID={`${modelID}CreateOrUpdate`} />
-            <AutoPost modelID={`${modelID}UpdateStatus`} />
-            <AutoPost modelID={`${modelID}Archive`} />
-            <AutoPost modelID={`${modelID}Delete`} />
+            <AutoPost modelID={`${modelID}_CreateOrUpdate`} />
+            <AutoPost modelID={`${modelID}_UpdateStatus`} />
+            <AutoPost modelID={`${modelID}_Archive`} />
+            <AutoPost modelID={`${modelID}_Delete`} />
         </>
     )
 }

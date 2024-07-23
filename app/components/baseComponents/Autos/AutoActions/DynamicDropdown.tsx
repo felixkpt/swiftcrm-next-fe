@@ -43,7 +43,7 @@ const DynamicDropdown: React.FC<Props> = ({ name, value, onChange, dropdownSourc
                 onChange({ target: { name, value: exists.id } as React.ChangeEvent<HTMLSelectElement> });
             }
         }
-    }, [record, options, onChange, name, value]);
+    }, [record, options, name, value]);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p className="text-red-700">{error}</p>;

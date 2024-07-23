@@ -25,7 +25,7 @@ const AutoTable = ({ headers, records, fillableFields, apiEndpoint, modelID, met
     modelID = modelID + 'AutoTable'
 
     return (
-        <div className="autotableWrapper border border-base-200 rounded-md shadow-md py-1" id={modelID}>
+        <div className="border border-base-200 rounded-md shadow-md py-1" id={modelID}>
             {AutoTableHeaderActions
                 &&
                 <AutoTableHeaderActions headers={headers} fillableFields={fillableFields} modelID={modelID} metadata={metadata} handleSearch={handleSearch} handleExport={handleExport} />

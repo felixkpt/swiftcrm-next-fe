@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { publish, subscribe } from '../../utils/helpers';
+import { publish, subscribe } from '@/app/components/baseComponents/utils/pubSub';
 import { formatErrors } from '../../utils/formatErrors';
 import SubmitButton from '../../Buttons/SubmitButton';
 import { HttpVerb } from '@/app/components/baseComponents/types';
@@ -100,7 +100,7 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular,
         setMessage(null);
         setErrors({});
         setGeneralError(null);
-        publish(`${modelID}_submit`, { method: localMethod, action: localEndpoint, formData });
+        publish(`${modelID}_submit`, { method: localMethod, action: localEndpoint, formData, modelID });
     };
 
     useEffect(() => {

@@ -1,7 +1,7 @@
 // components/AutoPost.tsx
 
 import React, { useEffect } from 'react';
-import { subscribe, publish } from '../utils/helpers';
+import { publish, subscribe } from '@/app/components/baseComponents/utils/pubSub';
 import { AutoResponseType, autoRequest } from '../utils/autoRequest';
 import { useAppState } from '@/app/context/AppStateProvider';
 

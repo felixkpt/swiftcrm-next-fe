@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { publish } from "../utils/helpers";
+import { publish } from '@/app/components/baseComponents/utils/pubSub';
 
 type AutoHeaderProps = {
     headerTitle: string;

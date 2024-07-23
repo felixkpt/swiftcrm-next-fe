@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RequestResponseType } from '../types';
-import { subscribe } from '../utils/helpers';
+import { subscribe } from '@/app/components/baseComponents/utils/pubSub';
 
 type Props = {
     modelID: string;
@@ -22,10 +22,10 @@ const useAutoPostDone = ({ modelID }: Props) => {
         // List of event names to subscribe to
         const eventNames = [
             `${modelID}_done`,
-            `${modelID}CreateOrUpdate_done`,
-            `${modelID}UpdateStatus_done`,
-            `${modelID}Archive_done`,
-            `${modelID}Delete_done`,
+            `${modelID}_CreateOrUpdate_done`,
+            `${modelID}_UpdateStatus_done`,
+            `${modelID}_Archive_done`,
+            `${modelID}_Delete_done`,
         ];
 
         // Subscribe to all specified events

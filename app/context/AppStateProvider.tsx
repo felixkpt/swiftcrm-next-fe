@@ -1,16 +1,19 @@
 import React, { createContext, useEffect, useState, useContext } from 'react';
+import { subscribe } from '@/app/components/baseComponents/utils/pubSub';
 
-// Define the shape of the global state
-interface EventState {
-    [key: string]: {
-        status: 'pending' | 'done';
-        data: any;
-    };
+interface Event {
+    name: string;
+    status: 'pending' | 'done';
+    data: any;
 }
 
+interface EventState {
+    [key: string]: Event[]; // Array of events for each UUID/model ID
+}
 interface AppStateContextType {
     client_id: string;
     events: EventState;
+    hasPendingEvents: boolean;
     updateEvent: (event: string, status: 'pending' | 'done', data?: any) => void;
 }
 
@@ -35,34 +38,64 @@ export const AppStateProvider = ({ children, client_id }: AppStateProviderProps)
     const [events, setEvents] = useState<EventState>({});
 
     // Function to update the state of an event
-    const updateEvent = (event: string, status: 'pending' | 'done', data: any = null) => {
-        setEvents(prev => ({
-            ...prev,
-            [event]: { status, data },
-        }));
+    const updateEvent = (event: string, status: 'pending' | 'done' | 'failed', data: any = null) => {
+        setEvents(prev => {
+            const [uuid, eventName] = event.split('_', 2);
+
+            if (!eventName) return prev
+
+            // Check if the event already exists
+            const existingEvents = prev[uuid] || [];
+
+            let updatedEvents: any = []
+            if (status === 'done') {
+                // Add the done event
+                updatedEvents.push({ name: eventName, status, data });
+            } else {
+                // For pending or failed events
+                updatedEvents = existingEvents.filter(e => e.name !== eventName); // Remove any previous entries with the same name
+                updatedEvents.push({ name: eventName, status, data });
+            }
+
+            const reslvdEvents = updatedEvents.length > 0 ? updatedEvents : existingEvents
+            return { ...prev, [uuid]: reslvdEvents };
+
+
+        });
     };
 
     useEffect(() => {
         const ws = new WebSocket(`ws://localhost:8000/ws/notifications/${client_id}`);
 
         ws.onmessage = (event) => {
-            console.log('NEW MSG event:', event.data);
             try {
                 const parsedMessage = JSON.parse(event.data);
                 const { model_id, message } = parsedMessage;
-                updateEvent(`${model_id}_done`, 'done', message);
+                setTimeout(() => {
+                    updateEvent(`${model_id}_done`, 'done', message);
+                }, 3000);
             } catch (err) {
                 console.log('Failed to parse WebSocket data:', err);
             }
         };
 
+        // Subscribe to *_submit events
+        const unsubscribeSubmit = subscribe('*_submit', (payload: any) => {
+            const { modelID, method, formData } = payload;
+            updateEvent(modelID, 'pending');
+        });
+
         return () => {
             ws.close();
+            unsubscribeSubmit();
         };
     }, [client_id]);
 
+    // Check for any pending events
+    const hasPendingEvents = Object.values(events).flat().some(event => event.status === 'pending');
+
     return (
-        <AppStateContext.Provider value={{ client_id, events, updateEvent }}>
+        <AppStateContext.Provider value={{ client_id, events, hasPendingEvents, updateEvent }}>
             {children}
         </AppStateContext.Provider>
     );

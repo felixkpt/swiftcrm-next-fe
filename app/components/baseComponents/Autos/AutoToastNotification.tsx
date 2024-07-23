@@ -2,7 +2,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { subscribe } from '../utils/helpers';
+import { subscribe } from '../utils/pubSub';
 
 type NotificationEvent = CustomEvent & {
     status?: number;

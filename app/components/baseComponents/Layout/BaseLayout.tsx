@@ -2,7 +2,7 @@
 import React from 'react'
 import Sidebar from './Sidebar/Sidebar'
 import Footer from './Footer'
-import Navbar from './Navbar'
+import Navbar from './Navbar/Navbar'
 import { appConfig } from '../utils/helpers'
 import { AppStateProvider } from '@/app/context/AppStateProvider'
 
@@ -17,7 +17,7 @@ const BaseLayout = ({ children }: Props) => {
         <AppStateProvider client_id={client_id}>
         <div className="drawer lg:drawer-open">
             <input id="appLeftDrawer" type="checkbox" className="drawer-toggle hidden" />
-            <div className="drawer-content">
+            <div className="drawer-content w-[calc(100%)] overflow-auto">
                 <Navbar />
                 <div>
                     <div className="flex min-h-screen">

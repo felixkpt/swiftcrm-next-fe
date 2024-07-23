@@ -15,7 +15,6 @@ import AllActionsAutoPosts from '../AutoActions/AllActionsAutoPosts';
 import useAutoResolveEndPointPlaceholders from '../BaseAutoModel/useAutoResolveEndPointPlaceholders';
 import { GeneralResultType, MetadataType } from '../../types';
 import mapRecords from '../BaseAutoModel/mapRecords';
-import { AppStateProvider } from '@/app/context/AppStateProvider';
 
 type Props = {
   modelID: string;
@@ -153,37 +152,34 @@ const Renderer: React.FC<Props> = ({
 
   let filteredHeaders = headers.filter(item => item.isVisibleInList);
 
-  const client_id = '234'
   return (
-    <div>
-      <AppStateProvider client_id={client_id}>
-        <AutoHeader
-          headerTitle={headerTitle}
-          description=""
-          modelID={`${modelID}CreateOrUpdate`}
-          showCreateButton
-          createUri={createUri}
-        />
-        <AutoTable
-          records={records}
-          fillableFields={fillableFields}
-          headers={filteredHeaders}
-          modelID={modelID}
-          apiEndpoint={apiEndpoint}
-          metadata={metadata}
-          onPageNumberChange={onPageNumberChange}
-          AutoTableHeaderActions={AutoTableHeaderActions || DefaultAutoTableHeaderActions}
-          handleSearch={handleSearch}
-          handleExport={handleExport}
-        />
-        <AllActionsModals
-          modelID={modelID}
-          modelNameSingular={modelNameSingular}
-          apiEndpoint={apiEndpoint}
-          fillableFields={fillableFields}
-        />
-        <AllActionsAutoPosts modelID={modelID} />
-      </AppStateProvider>
+    <div className='autotableWrapper w-[calc(100%)] overflow-auto'>
+      <AutoHeader
+        headerTitle={headerTitle}
+        description=""
+        modelID={`${modelID}_CreateOrUpdate`}
+        showCreateButton
+        createUri={createUri}
+      />
+      <AutoTable
+        records={records}
+        fillableFields={fillableFields}
+        headers={filteredHeaders}
+        modelID={modelID}
+        apiEndpoint={apiEndpoint}
+        metadata={metadata}
+        onPageNumberChange={onPageNumberChange}
+        AutoTableHeaderActions={AutoTableHeaderActions || DefaultAutoTableHeaderActions}
+        handleSearch={handleSearch}
+        handleExport={handleExport}
+      />
+      <AllActionsModals
+        modelID={modelID}
+        modelNameSingular={modelNameSingular}
+        apiEndpoint={apiEndpoint}
+        fillableFields={fillableFields}
+      />
+      <AllActionsAutoPosts modelID={modelID} />
     </div>
   );
 };

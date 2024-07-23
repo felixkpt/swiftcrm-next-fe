@@ -69,7 +69,7 @@ export type InputType = {
 };
 
 export type ModelConstants = {
-    MODEL_NAME: string;
+    MODEL_NAME_SINGULAR: string;
     MODEL_NAME_PLURAL: string;
     MODEL_ID: string;
     MODEL_URI: string;

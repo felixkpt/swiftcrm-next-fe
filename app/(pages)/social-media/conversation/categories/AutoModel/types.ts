@@ -1,10 +1,6 @@
 
 type CategoryType = {
-id: any;
-  user_id: any;
-  updated_at: any;
-  updated_at: any;
-  name: any;
+name: any;
   description: any;
 }
 

@@ -64,7 +64,8 @@ export function capitalize(str: string): string {
 export function getFieldsAndHeaders(fieldsRaw: FieldType[]) {
   const defaultFields: FieldSchema[] = [
     { name: 'id', type: 'integer', label: 'id', isRequired: false, dataType: 'integer' },
-    { name: 'created_at', type: 'datetime', label: 'Created', isRequired: false, dataType: 'string' },
+    { name: 'user_id', type: 'integer', label: 'Creator', isRequired: false, dataType: 'string' },
+    { name: 'updated_at', type: 'datetime', label: 'Updated', isRequired: false, dataType: 'string' },
     { name: 'updated_at', type: 'datetime', label: 'Updated', isRequired: false, dataType: 'string' },
   ];
 

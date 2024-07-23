@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = '0f511926-8fe3-49e8-b826-b146a8830632';
+const modelID = '0b117664-8bf5-41b2-bbb4-c9a5623d2cc0';
 const modelNameSingular = 'Category';
 const modelNamePlural = 'Categories';
 const modelURI = 'social-media/conversation/categories';

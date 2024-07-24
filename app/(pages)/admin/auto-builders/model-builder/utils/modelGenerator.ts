@@ -30,7 +30,7 @@ export async function saveAndGenerateModel(dataRaw: any) {
   }
 
   // i want to dump the incoming request dataRaw to
-  if (dataRaw.modelDisplayName.toLowerCase() == 'model-builder') {
+  if (dataRaw.modelDisplayName.toLowerCase() == 'model-builder2') {
     // Path to save the JSON file
     const jsonFilePath = path.join(process.cwd(), 'app', '(pages)', 'admin', 'auto-builders', 'model-builder', 'utils', 'seeders', 'model_builder_model.json');
 

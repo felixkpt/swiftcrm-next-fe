@@ -1,7 +1,7 @@
 {
-  "modelDisplayName": "model-builder",
-  "modelURI": "admin/auto-builders/model-builder",
-  "apiEndpoint": "admin/auto-builders/model-builder",
+  "modelDisplayName": "model-builder2",
+  "modelURI": "admin/auto-builders/model-builders2",
+  "apiEndpoint": "admin/auto-builders/model-builders2",
   "fields": [
     {
       "name": {

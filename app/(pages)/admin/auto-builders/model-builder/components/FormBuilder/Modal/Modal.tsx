@@ -245,7 +245,7 @@ const Modal: React.FC<ModalProps> = ({
                                         desktopWidth: { value: parseInt(e.target.value), required: field.desktopWidth.required },
                                     })
                                 }>
-                                {Array.from(Array(10).keys()).map((value) => (
+                                {Array.from(Array(12).keys()).map((value) => (
                                     <MenuItem key={value + 1} value={value + 1}>
                                         {value + 1}
                                     </MenuItem>

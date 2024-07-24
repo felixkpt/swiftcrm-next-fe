@@ -1,8 +1,7 @@
 
-type Model_builderType = {
-id: any;
-  created_at: any;
-  updated_at: any;
+type ModelBuilderType = {
+uuid: any;
+  modelDisplayName: any;
   name_singular: any;
   name_plural: any;
   modelURI: any;
@@ -12,4 +11,4 @@ id: any;
   class_name: any;
 }
 
-export default Model_builderType;
+export default ModelBuilderType;

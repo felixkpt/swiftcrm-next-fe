@@ -10,7 +10,7 @@ import { revalidateTag } from 'next/cache';
 const page = async () => {
   // Destructure constants from getConstants
   const {
-    MODEL_NAME,
+    MODEL_NAME_SINGULAR,
     MODEL_NAME_PLURAL,
     MODEL_ID,
     API_ENDPOINT,
@@ -44,7 +44,7 @@ const page = async () => {
 
   return (
     <Renderer
-      modelNameSingular={MODEL_NAME} // Model name for display purposes
+      modelNameSingular={MODEL_NAME_SINGULAR} // Model name for display purposes
       modelNamePlural={MODEL_NAME_PLURAL} // Plural model name for API and display
       modelID={MODEL_ID} // Unique component identifier
       fillableFields={FILLABLE_FIELDS} // Fields that are fillable
@@ -55,8 +55,6 @@ const page = async () => {
       serverRecords={records} // Initial fetched records to be displayed
       revalidateServerRecords={revalidateServerRecords} // Function to revalidate server records
       serverMetadata={metadata} // Metadata associated with the fetched records
-      createUri={`/admin/auto-builders/model-builder/create`} // URI for creating new records
-
     />
   );
 };

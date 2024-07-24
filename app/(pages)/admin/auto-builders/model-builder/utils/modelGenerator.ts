@@ -1,4 +1,6 @@
+import fs from 'fs';
 import path from 'path';
+
 import Pluralize from 'pluralize';
 import simpleGit from 'simple-git';
 import { processTemplate, inferTypeFromValue, getFieldsAndHeaders, getActionLabels } from './helpers';
@@ -16,6 +18,26 @@ import { v4 as uuidv4 } from 'uuid';
 
 export async function saveAndGenerateModel(dataRaw: any) {
   'use server';
+
+  // i want to dump the incoming request dataRaw to
+  if (dataRaw.modelDisplayName.toLowerCase() == 'users') {
+    // Path to save the JSON file
+    const jsonFilePath = path.join(process.cwd(), 'app', '(pages)', 'admin', 'auto-builders', 'model-builder', 'utils', 'seeders', 'user_model.json');
+
+    // Write the incoming request data to a JSON file
+    fs.writeFileSync(jsonFilePath, JSON.stringify(dataRaw, null, 2));
+
+  }
+
+  // i want to dump the incoming request dataRaw to
+  if (dataRaw.modelDisplayName.toLowerCase() == 'model-builder') {
+    // Path to save the JSON file
+    const jsonFilePath = path.join(process.cwd(), 'app', '(pages)', 'admin', 'auto-builders', 'model-builder', 'utils', 'seeders', 'model_builder_model.json');
+
+    // Write the incoming request data to a JSON file
+    fs.writeFileSync(jsonFilePath, JSON.stringify(dataRaw, null, 2));
+
+  }
 
   const { modelDisplayName, modelURI, fields: fieldsRaw, } = dataRaw;
 

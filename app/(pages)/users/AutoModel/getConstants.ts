@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = '922c0add-374d-444a-91c7-94f8f59085db';
+const modelID = 'fc5a78ce-4dfe-4f73-8085-69b4767d722f';
 const modelNameSingular = 'user';
 const modelNamePlural = 'users';
 const modelURI = 'users';
@@ -53,7 +53,7 @@ const fillableFields: Array<FillableType> = [
     isUnique: true,
     dropdownSource: null,
     dropdownDependsOn: null,
-    desktopWidth: 12,
+    desktopWidth: 6,
     mobileWidth: 12
   },
   {
@@ -62,13 +62,13 @@ const fillableFields: Array<FillableType> = [
     type: "input",
     dataType: "string",
     defaultValue: null,
-    isRequired: false,
+    isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
     dropdownSource: null,
     dropdownDependsOn: null,
-    desktopWidth: 12,
+    desktopWidth: 6,
     mobileWidth: 12
   },
   {
@@ -78,12 +78,12 @@ const fillableFields: Array<FillableType> = [
     dataType: "password",
     defaultValue: null,
     isRequired: true,
-    isVisibleInList: false,
-    isVisibleInSingleView: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
     isUnique: false,
     dropdownSource: null,
     dropdownDependsOn: null,
-    desktopWidth: 12,
+    desktopWidth: 6,
     mobileWidth: 12
   },
   {
@@ -93,12 +93,12 @@ const fillableFields: Array<FillableType> = [
     dataType: "password",
     defaultValue: null,
     isRequired: true,
-    isVisibleInList: false,
-    isVisibleInSingleView: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
     isUnique: false,
     dropdownSource: null,
     dropdownDependsOn: null,
-    desktopWidth: 12,
+    desktopWidth: 6,
     mobileWidth: 12
   }
 ]
@@ -130,6 +130,18 @@ const headers: HeaderType[] = [
     isVisibleInSingleView: true
   },
   {
+    key: "password",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "password_confirmation",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
     key: "action",
     label: "Action",
     isVisibleInList: true,
@@ -147,10 +159,6 @@ const actionLabelsActions: ActionLabelsActionsType = {
     label: ""
   },
   editRecord: {
-    actionType: "modal",
-    label: ""
-  },
-  updateRecordStatus: {
     actionType: "modal",
     label: ""
   },

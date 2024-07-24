@@ -64,7 +64,7 @@ export async function saveAndGenerateModel(dataRaw: any) {
   // make be request if successful then continue
   const results = await makeApiRequest(data)
 
-  if (results.ok) {
+  if (results.ok && data.createFrontendViews) {
     generateModel(data, fields, modelURI, dataRaw.id)
   }
 

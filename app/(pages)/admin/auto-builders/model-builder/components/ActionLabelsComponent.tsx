@@ -72,7 +72,7 @@ const ActionLabelsComponent: React.FC<ActionLabelsProps> = ({
   return (
     <>
       <Typography variant="subtitle1" gutterBottom>
-        Action Labels
+        Record Action Labels
       </Typography>
 
       {actionLabels.map((label, index) => {

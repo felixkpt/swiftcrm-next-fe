@@ -43,4 +43,5 @@ export interface AutoPageBuilderType {
   table_name_singular?: string;
   table_name_plural?: string;
   class_name?: string;
+  createFrontendViews: boolean;
 }

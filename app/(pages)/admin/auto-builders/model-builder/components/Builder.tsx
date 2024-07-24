@@ -39,6 +39,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
     const [modelDisplayName, setModelDisplayName] = useState<string>('');
     const [modelURI, setModelURI] = useState<string>('');
     const [apiEndpoint, setApiEndpoint] = useState<string>('');
+    const [createFrontendViews, setCreateFrontendViews] = useState<boolean>(false); // New state
 
     const { fields, setFields, fieldValidations, setFieldValidations, handleAddField } = useFieldState();
     const { actionLabels, setActionLabels, actionLabelValidations, setActionLabelValidations } = useActionLabelState();
@@ -110,9 +111,11 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         );
         setActionLabelValidations(actionLabelValidations);
 
+        const actionsValid = !createFrontendViews || actionLabelValidations.every(validation => Object.values(validation).every(Boolean))
+
         const isValid = isModelNameValid && isModelURIValid && isApiEndpointValid
             && fieldValidations.every(validation => Object.values(validation).every(Boolean))
-            && actionLabelValidations.every(validation => Object.values(validation).every(Boolean));
+            && actionsValid;
 
         if (!isValid) {
             publish('autoNotification', { error: { message: 'Please fill in all required fields.' }, type: 'error' });
@@ -127,9 +130,9 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                 fields,
                 actionLabels,
                 pageId,
+                createFrontendViews,
             });
 
-            // Optional success notification if needed
             publish('autoNotification', { message: 'Model saved successfully.', type: 'success' });
 
         } catch (error) {
@@ -161,6 +164,8 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                                 setApiEndpoint={setApiEndpoint}
                                 isValid={isBasicInfoValid}
                                 hasDoneSubmission={hasDoneSubmission}
+                                createFrontendViews={createFrontendViews}
+                                setCreateFrontendViews={setCreateFrontendViews}
                             />
                             <Divider sx={{ my: 2 }} />
                             <FieldsComponent
@@ -174,16 +179,21 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                                 setFieldValidations={setFieldValidations}
                                 onAddField={handleAddField}
                             />
-                            <Divider sx={{ my: 2 }} />
-                            <Box mb={2}>
-                                <ActionLabelsComponent
-                                    actionLabels={actionLabels}
-                                    setActionLabels={setActionLabels}
-                                    hasDoneSubmission={hasDoneSubmission}
-                                    updateActionLabelValidations={setActionLabelValidations}
-                                    actionLabelValidations={actionLabelValidations}
-                                />
-                            </Box>
+                            {
+                                createFrontendViews &&
+                                <>
+                                    <Divider sx={{ my: 2 }} />
+                                    <Box mb={2}>
+                                        <ActionLabelsComponent
+                                            actionLabels={actionLabels}
+                                            setActionLabels={setActionLabels}
+                                            hasDoneSubmission={hasDoneSubmission}
+                                            updateActionLabelValidations={setActionLabelValidations}
+                                            actionLabelValidations={actionLabelValidations}
+                                        />
+                                    </Box>
+                                </>
+                            }
                             <Divider sx={{ my: 2 }} />
                             <Typography variant="h6" gutterBottom>
                                 Define Relationships
@@ -215,7 +225,6 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                 />
             </Grid>
         </div>
-
     );
 };
 

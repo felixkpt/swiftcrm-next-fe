@@ -1,5 +1,5 @@
-import React from 'react';
-import { TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { TextField, Checkbox, FormControlLabel, Grid } from '@mui/material';
 
 type Props = {
     modelDisplayName: string;
@@ -10,6 +10,8 @@ type Props = {
     setApiEndpoint: React.Dispatch<React.SetStateAction<string>>;
     isValid: boolean; // Validation state
     hasDoneSubmission: boolean;
+    createFrontendViews: boolean; // New state for checkbox
+    setCreateFrontendViews: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const BasicInfoComponent: React.FC<Props> = ({
@@ -21,6 +23,8 @@ const BasicInfoComponent: React.FC<Props> = ({
     setApiEndpoint,
     isValid,
     hasDoneSubmission,
+    createFrontendViews,
+    setCreateFrontendViews
 }) => {
 
     const isInvalidField = (field: string): boolean => {
@@ -38,7 +42,7 @@ const BasicInfoComponent: React.FC<Props> = ({
             case 'apiEndpoint':
                 return hasDoneSubmission && (!isValid || apiEndpoint.trim() === '');
             default:
-                return true; // Default to true if field name is not recognized
+                return true;
         }
     };
 
@@ -65,6 +69,10 @@ const BasicInfoComponent: React.FC<Props> = ({
         return '';
     };
 
+    const handleCheckboxChange = (checked: boolean) => {
+        setCreateFrontendViews(checked);
+    };
+
     return (
         <div>
             <TextField
@@ -77,7 +85,6 @@ const BasicInfoComponent: React.FC<Props> = ({
                 helperText={getHelperText('modelDisplayName')}
                 sx={{
                     mb: 2,
-                    borderColor: isInvalidField('modelDisplayName') ? 'red' : undefined
                 }}
             />
             <TextField
@@ -90,7 +97,6 @@ const BasicInfoComponent: React.FC<Props> = ({
                 helperText={getHelperText('modelURI')}
                 sx={{
                     mb: 2,
-                    borderColor: isInvalidField('modelURI') ? 'red' : undefined
                 }}
             />
             <TextField
@@ -103,9 +109,19 @@ const BasicInfoComponent: React.FC<Props> = ({
                 helperText={getHelperText('apiEndpoint')}
                 sx={{
                     mb: 2,
-                    borderColor: isInvalidField('apiEndpoint') ? 'red' : undefined
                 }}
             />
+            <Grid item xs={6}>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={createFrontendViews}
+                            onChange={(e) => handleCheckboxChange(e.target.checked)}
+                        />
+                    }
+                    label="Create Frontend views"
+                />
+            </Grid>
         </div>
     );
 };

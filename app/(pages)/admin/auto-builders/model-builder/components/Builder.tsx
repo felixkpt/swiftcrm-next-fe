@@ -39,7 +39,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
     const [modelDisplayName, setModelDisplayName] = useState<string>('');
     const [modelURI, setModelURI] = useState<string>('');
     const [apiEndpoint, setApiEndpoint] = useState<string>('');
-    const [createFrontendViews, setCreateFrontendViews] = useState<boolean>(false); // New state
+    const [createFrontendViews, setCreateFrontendViews] = useState<boolean>(true);
 
     const { fields, setFields, fieldValidations, setFieldValidations, handleAddField } = useFieldState();
     const { actionLabels, setActionLabels, actionLabelValidations, setActionLabelValidations } = useActionLabelState();
@@ -146,15 +146,12 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
     return (
         <div>
             <div>
-                <h1>Form Builder</h1>
+                <h1>Model Builder</h1>
             </div>
             <Grid justifyContent="center" mt={4}>
                 <Grid item xs={10}>
                     <Paper elevation={3} sx={{ padding: 3 }}>
-                        <Typography variant="h5" gutterBottom>
-                            Auto Page Builder
-                        </Typography>
-                        <form onSubmit={handleSubmit}>
+                       <form onSubmit={handleSubmit}>
                             <BasicInfoComponent
                                 modelDisplayName={modelDisplayName}
                                 setModelDisplayName={setModelDisplayName}

@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = 'cc4eb550-b42a-4f48-a502-d627156423e9';
+const modelID = 'ad1465ab-bbcc-4d2d-a18e-10d529ff37de';
 const modelNameSingular = 'model-builder';
 const modelNamePlural = 'model-builders';
 const modelURI = 'auto-builders/model-builder';
@@ -12,10 +12,145 @@ const apiEndpoint = 'auto-builders/model-builder/';
 // Define fillable fields for the model-builder model
 const fillableFields: Array<FillableType> = [
   {
-    name: "name",
+    name: "uuid",
     label: "",
     type: "input",
     dataType: "string",
+    defaultValue: null,
+    isRequired: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: true,
+    dropdownSource: null,
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "modelDisplayName",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: true,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: null,
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "name_singular",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: null,
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "name_plural",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: null,
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "modelURI",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: true,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: true,
+    dropdownSource: null,
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "apiEndpoint",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: true,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: true,
+    dropdownSource: null,
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "table_name_singular",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: true,
+    dropdownSource: null,
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "table_name_plural",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: true,
+    dropdownSource: null,
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "class_name",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: null,
+    isRequired: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: null,
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "createFrontendViews",
+    label: "",
+    type: "input",
+    dataType: "boolean",
     defaultValue: null,
     isRequired: true,
     isVisibleInList: true,
@@ -31,7 +166,61 @@ const fillableFields: Array<FillableType> = [
 // Define headers for displaying in the UI (e.g., table headers, singleViewOnly means can only be shown when viewing one item not list/table)
 const headers: HeaderType[] = [
   {
-    key: "name",
+    key: "uuid",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "modelDisplayName",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "name_singular",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "name_plural",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "modelURI",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "apiEndpoint",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "table_name_singular",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "table_name_plural",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "class_name",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "createFrontendViews",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
@@ -51,6 +240,18 @@ const newRecordDefaults = {}
 const actionLabelsActions: ActionLabelsActionsType = {
   viewRecord: {
     actionType: "navigation",
+    label: ""
+  },
+  editRecord: {
+    actionType: "navigation",
+    label: ""
+  },
+  updateRecordStatus: {
+    actionType: "modal",
+    label: ""
+  },
+  deleteRecord: {
+    actionType: "modal",
     label: ""
   }
 };

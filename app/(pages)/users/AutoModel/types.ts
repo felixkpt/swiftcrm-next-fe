@@ -1,11 +1,12 @@
 
 type UserType = {
-first_name: any;
-  last_name: any;
-  email: any;
-  phone_number: any;
-  password: any;
-  password_confirmation: any;
+first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  alternate_phone: any;
+  password: string;
+  password_confirmation: string;
 }
 
 export default UserType;

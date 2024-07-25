@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = '17ed7dfa-dd53-4cba-add9-fe451112ff22';
+const modelID = 'b5a235d9-00f5-4295-a8f7-2a45bf11d4ec';
 const modelNameSingular = 'user';
 const modelNamePlural = 'users';
 const modelURI = 'users';
@@ -16,18 +16,63 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "string",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 6,
     mobileWidth: 12
   },
   {
     name: "last_name",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: "None",
+    isRequired: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: "None",
+    dropdownDependsOn: null,
+    desktopWidth: 6,
+    mobileWidth: 12
+  },
+  {
+    name: "email",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: "None",
+    isRequired: true,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: true,
+    dropdownSource: "None",
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "phone_number",
+    label: "",
+    type: "input",
+    dataType: "string",
+    defaultValue: "None",
+    isRequired: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: "None",
+    dropdownDependsOn: null,
+    desktopWidth: 6,
+    mobileWidth: 12
+  },
+  {
+    name: "alternate_phone",
     label: "",
     type: "input",
     dataType: "string",
@@ -42,46 +87,16 @@ const fillableFields: Array<FillableType> = [
     mobileWidth: 12
   },
   {
-    name: "email",
-    label: "",
-    type: "input",
-    dataType: "string",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: true,
-    dropdownSource: null,
-    dropdownDependsOn: null,
-    desktopWidth: 6,
-    mobileWidth: 12
-  },
-  {
-    name: "phone_number",
-    label: "",
-    type: "input",
-    dataType: "string",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: false,
-    dropdownSource: null,
-    dropdownDependsOn: null,
-    desktopWidth: 6,
-    mobileWidth: 12
-  },
-  {
     name: "password",
     label: "",
     type: "input",
     dataType: "password",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: false,
     isVisibleInSingleView: false,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 6,
     mobileWidth: 12
@@ -91,12 +106,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "password",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: false,
     isVisibleInSingleView: false,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 6,
     mobileWidth: 12
@@ -125,6 +140,12 @@ const headers: HeaderType[] = [
   },
   {
     key: "phone_number",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "alternate_phone",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true

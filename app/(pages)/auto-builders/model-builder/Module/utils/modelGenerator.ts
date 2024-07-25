@@ -148,7 +148,8 @@ function getModelNames(modelName: string) {
   return { nameSingular, namePlural, className };
 }
 
-const dumpSeedersFor = ['users', 'model-builder']
+const dumpSeedersFor = ['users']
+// const dumpSeedersFor = ['model-builder']
 // const dumpSeedersFor = ['model-headers', 'model-fields', 'action-labels', ]
 // const dumpSeedersFor = ['model-builder',]
 
@@ -178,7 +179,7 @@ function dumpSeeders(dataRaw: any) {
     fs.writeFileSync(jsonFilePath, JSON.stringify(dataRaw, null, 2));
     console.log(`Data for ${modelName} has been saved to ${jsonFilePath}`);
   } else {
-    console.error(`ModelDisplayName ${modelName} is not in the dumpSeedersFor list.`);
+    console.error(`Model: ${modelName} is not in the dumpSeedersFor list.`);
   }
 
 }

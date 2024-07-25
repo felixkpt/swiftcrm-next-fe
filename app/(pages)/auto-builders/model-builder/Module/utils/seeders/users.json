@@ -12,6 +12,22 @@
         "value": "input",
         "required": true
       },
+      "defaultValue": {
+        "value": "None",
+        "required": false
+      },
+      "isRequired": {
+        "value": 1,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": 1,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": 1,
+        "required": true
+      },
       "label": {
         "value": "",
         "required": false
@@ -20,28 +36,12 @@
         "value": "string",
         "required": true
       },
-      "defaultValue": {
-        "value": "",
-        "required": false
-      },
-      "isRequired": {
-        "value": true,
-        "required": true
-      },
-      "isVisibleInList": {
-        "value": true,
-        "required": true
-      },
-      "isVisibleInSingleView": {
-        "value": true,
-        "required": true
-      },
       "isUnique": {
-        "value": false,
+        "value": 0,
         "required": false
       },
       "dropdownSource": {
-        "value": "",
+        "value": "None",
         "required": false
       },
       "dropdownDependsOn": {
@@ -66,6 +66,22 @@
         "value": "input",
         "required": true
       },
+      "defaultValue": {
+        "value": "None",
+        "required": false
+      },
+      "isRequired": {
+        "value": 0,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": 1,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": 1,
+        "required": true
+      },
       "label": {
         "value": "",
         "required": false
@@ -74,28 +90,12 @@
         "value": "string",
         "required": true
       },
-      "defaultValue": {
-        "value": "",
-        "required": false
-      },
-      "isRequired": {
-        "value": false,
-        "required": true
-      },
-      "isVisibleInList": {
-        "value": true,
-        "required": true
-      },
-      "isVisibleInSingleView": {
-        "value": true,
-        "required": true
-      },
       "isUnique": {
-        "value": false,
+        "value": 0,
         "required": false
       },
       "dropdownSource": {
-        "value": "",
+        "value": "None",
         "required": false
       },
       "dropdownDependsOn": {
@@ -120,6 +120,22 @@
         "value": "input",
         "required": true
       },
+      "defaultValue": {
+        "value": "None",
+        "required": false
+      },
+      "isRequired": {
+        "value": 1,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": 1,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": 1,
+        "required": true
+      },
       "label": {
         "value": "",
         "required": false
@@ -128,28 +144,12 @@
         "value": "string",
         "required": true
       },
-      "defaultValue": {
-        "value": "",
-        "required": false
-      },
-      "isRequired": {
-        "value": true,
-        "required": true
-      },
-      "isVisibleInList": {
-        "value": true,
-        "required": true
-      },
-      "isVisibleInSingleView": {
-        "value": true,
-        "required": true
-      },
       "isUnique": {
-        "value": true,
+        "value": 1,
         "required": false
       },
       "dropdownSource": {
-        "value": "",
+        "value": "None",
         "required": false
       },
       "dropdownDependsOn": {
@@ -157,7 +157,7 @@
         "required": false
       },
       "desktopWidth": {
-        "value": 6,
+        "value": 12,
         "required": false
       },
       "mobileWidth": {
@@ -174,6 +174,60 @@
         "value": "input",
         "required": true
       },
+      "defaultValue": {
+        "value": "None",
+        "required": false
+      },
+      "isRequired": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": 1,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": 1,
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "string",
+        "required": true
+      },
+      "isUnique": {
+        "value": 0,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "None",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 6,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "alternate_phone",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
       "label": {
         "value": "",
         "required": false
@@ -187,7 +241,7 @@
         "required": false
       },
       "isRequired": {
-        "value": true,
+        "value": false,
         "required": true
       },
       "isVisibleInList": {
@@ -228,6 +282,22 @@
         "value": "input",
         "required": true
       },
+      "defaultValue": {
+        "value": "None",
+        "required": false
+      },
+      "isRequired": {
+        "value": 1,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": 0,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": 0,
+        "required": true
+      },
       "label": {
         "value": "",
         "required": false
@@ -236,28 +306,12 @@
         "value": "password",
         "required": true
       },
-      "defaultValue": {
-        "value": "",
-        "required": false
-      },
-      "isRequired": {
-        "value": true,
-        "required": true
-      },
-      "isVisibleInList": {
-        "value": false,
-        "required": true
-      },
-      "isVisibleInSingleView": {
-        "value": false,
-        "required": true
-      },
       "isUnique": {
-        "value": false,
+        "value": 0,
         "required": false
       },
       "dropdownSource": {
-        "value": "",
+        "value": "None",
         "required": false
       },
       "dropdownDependsOn": {
@@ -282,6 +336,22 @@
         "value": "input",
         "required": true
       },
+      "defaultValue": {
+        "value": "None",
+        "required": false
+      },
+      "isRequired": {
+        "value": 1,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": 0,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": 0,
+        "required": true
+      },
       "label": {
         "value": "",
         "required": false
@@ -290,28 +360,12 @@
         "value": "password",
         "required": true
       },
-      "defaultValue": {
-        "value": "",
-        "required": false
-      },
-      "isRequired": {
-        "value": true,
-        "required": true
-      },
-      "isVisibleInList": {
-        "value": false,
-        "required": true
-      },
-      "isVisibleInSingleView": {
-        "value": false,
-        "required": true
-      },
       "isUnique": {
-        "value": false,
+        "value": 0,
         "required": false
       },
       "dropdownSource": {
-        "value": "",
+        "value": "None",
         "required": false
       },
       "dropdownDependsOn": {

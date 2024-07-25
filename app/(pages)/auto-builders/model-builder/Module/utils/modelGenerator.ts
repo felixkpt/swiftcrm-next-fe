@@ -49,7 +49,7 @@ export async function saveAndGenerateModel(dataRaw: any) {
   console.log('YWAAAA', results.ok, data.createFrontendViews)
   if (results.ok && data.createFrontendViews) {
     generateModel(data, fields, modelURI, dataRaw.id)
-  } 
+  }
 
   return results
 
@@ -148,8 +148,9 @@ function getModelNames(modelName: string) {
   return { nameSingular, namePlural, className };
 }
 
-const dumpSeedersFor = ['users', 'model-builder', 'model-headers', 'model-fields', 'action-labels', ]
-// const dumpSeedersFor = ['users',]
+const dumpSeedersFor = ['users', 'model-builder']
+// const dumpSeedersFor = ['model-headers', 'model-fields', 'action-labels', ]
+// const dumpSeedersFor = ['model-builder',]
 
 function dumpSeeders(dataRaw: any) {
   // Normalize modelDisplayName to lowercase

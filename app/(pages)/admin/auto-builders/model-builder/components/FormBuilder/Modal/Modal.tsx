@@ -5,7 +5,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
-import { FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Divider, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { FieldType, FieldValidation } from '../../../types';
 import { validateDefaultValue } from '../../../utils/helpers';
@@ -108,6 +108,18 @@ const Modal: React.FC<ModalProps> = ({
         handleFieldChange(index, updatedField);
     };
 
+    // Effect to set data type to boolean if name starts with "is"
+    useEffect(() => {
+        if (field.name.value.startsWith("is") && commonDataTypes.includes('boolean')) {
+            const updatedField = {
+                ...field,
+                dataType: { value: "boolean", required: true },
+            };
+            handleFieldChange(index, updatedField);
+        }
+    }, [field.name.value, index]);
+
+
     // Check if field is valid
     const isValid = field.name.value.trim() !== '' && field.type.value.trim() !== '';
 
@@ -139,20 +151,20 @@ const Modal: React.FC<ModalProps> = ({
                 <DialogContent>
                     <Grid container spacing={2} mt={2}>
                         <Grid item xs={12}>
-
                             <TextFieldWithValidation
-                                label="Label"
+                                label="Name"
                                 field={field}
-                                fieldKey="label"
+                                fieldKey="name"
                                 index={index}
                                 handleFieldChange={handleFieldChange}
                                 fieldValidation={fieldValidation}
                                 hasDoneSubmission={hasDoneSubmission}
                             />
+                            <Divider />
                             <TextFieldWithValidation
-                                label="Default Value"
+                                label="Label"
                                 field={field}
-                                fieldKey="defaultValue"
+                                fieldKey="label"
                                 index={index}
                                 handleFieldChange={handleFieldChange}
                                 fieldValidation={fieldValidation}

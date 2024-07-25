@@ -1,0 +1,780 @@
+{
+  "modelDisplayName": "model-fields",
+  "modelURI": "auto-builders/model-builder/model-fields",
+  "apiEndpoint": "auto-builders/model-builder/model-fields",
+  "fields": [
+    {
+      "name": {
+        "value": "model_builder_id",
+        "required": true
+      },
+      "type": {
+        "value": "dropdown",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "integer",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "auto-builders/model-builder",
+        "required": true
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "name",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "string",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "type",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "string",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "label",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "string",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "dataType",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "string",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "defaultValue",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "string",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "isVisibleInList",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "boolean",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "isVisibleInSingleView",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "boolean",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "isRequired",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "boolean",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "isUnique",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "boolean",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "dropdownSource",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "string",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "dropdownDependsOn",
+        "required": true
+      },
+      "type": {
+        "value": "textarea",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "json",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "desktopWidth",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "integer",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "12",
+        "required": false
+      },
+      "isRequired": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "mobileWidth",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "integer",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "12",
+        "required": false
+      },
+      "isRequired": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    }
+  ],
+  "actionLabels": [
+    {
+      "key": {
+        "value": "",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "actionType": {
+        "value": "",
+        "required": true
+      }
+    }
+  ],
+  "createFrontendViews": false
+}

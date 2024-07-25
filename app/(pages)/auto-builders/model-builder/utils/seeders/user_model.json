@@ -1,0 +1,375 @@
+{
+  "modelDisplayName": "users",
+  "modelURI": "users",
+  "apiEndpoint": "users",
+  "fields": [
+    {
+      "name": {
+        "value": "first_name",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "string",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 6,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "last_name",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "string",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 6,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "email",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "string",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": true,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 6,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "phone_number",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "string",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 6,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "password",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "password",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": false,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 6,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "password_confirmation",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "password",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": false,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 6,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    }
+  ],
+  "actionLabels": [
+    {
+      "key": {
+        "value": "viewRecord",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "actionType": {
+        "value": "navigation",
+        "required": true
+      }
+    },
+    {
+      "key": {
+        "value": "editRecord",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "actionType": {
+        "value": "modal",
+        "required": true
+      }
+    },
+    {
+      "key": {
+        "value": "deleteRecord",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "actionType": {
+        "value": "modal",
+        "required": true
+      }
+    }
+  ]
+}

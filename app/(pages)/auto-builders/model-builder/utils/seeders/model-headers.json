@@ -1,7 +1,7 @@
 {
-  "modelDisplayName": "action-labels",
-  "modelURI": "auto-builders/model-builder/action-labels",
-  "apiEndpoint": "auto-builders/model-builder/action-labels",
+  "modelDisplayName": "model-headers",
+  "modelURI": "auto-builders/model-builder/model-headers",
+  "apiEndpoint": "auto-builders/model-builder/model-headers",
   "fields": [
     {
       "name": {
@@ -12,22 +12,6 @@
         "value": "dropdown",
         "required": true
       },
-      "defaultValue": {
-        "value": "",
-        "required": false
-      },
-      "isRequired": {
-        "value": 1,
-        "required": true
-      },
-      "isVisibleInList": {
-        "value": 1,
-        "required": true
-      },
-      "isVisibleInSingleView": {
-        "value": 1,
-        "required": true
-      },
       "label": {
         "value": "",
         "required": false
@@ -36,8 +20,24 @@
         "value": "integer",
         "required": true
       },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
       "isUnique": {
-        "value": 0,
+        "value": false,
         "required": false
       },
       "dropdownSource": {
@@ -66,22 +66,6 @@
         "value": "input",
         "required": true
       },
-      "defaultValue": {
-        "value": "",
-        "required": false
-      },
-      "isRequired": {
-        "value": 1,
-        "required": true
-      },
-      "isVisibleInList": {
-        "value": 1,
-        "required": true
-      },
-      "isVisibleInSingleView": {
-        "value": 1,
-        "required": true
-      },
       "label": {
         "value": "",
         "required": false
@@ -90,8 +74,24 @@
         "value": "string",
         "required": true
       },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
       "isUnique": {
-        "value": 0,
+        "value": false,
         "required": false
       },
       "dropdownSource": {
@@ -120,22 +120,6 @@
         "value": "input",
         "required": true
       },
-      "defaultValue": {
-        "value": "",
-        "required": false
-      },
-      "isRequired": {
-        "value": 0,
-        "required": true
-      },
-      "isVisibleInList": {
-        "value": 1,
-        "required": true
-      },
-      "isVisibleInSingleView": {
-        "value": 1,
-        "required": true
-      },
       "label": {
         "value": "",
         "required": false
@@ -144,8 +128,24 @@
         "value": "string",
         "required": true
       },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": false,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
       "isUnique": {
-        "value": 0,
+        "value": false,
         "required": false
       },
       "dropdownSource": {
@@ -167,27 +167,11 @@
     },
     {
       "name": {
-        "value": "actionType",
+        "value": "isVisibleInList",
         "required": true
       },
       "type": {
         "value": "input",
-        "required": true
-      },
-      "defaultValue": {
-        "value": "",
-        "required": false
-      },
-      "isRequired": {
-        "value": 1,
-        "required": true
-      },
-      "isVisibleInList": {
-        "value": 1,
-        "required": true
-      },
-      "isVisibleInSingleView": {
-        "value": 1,
         "required": true
       },
       "label": {
@@ -195,11 +179,81 @@
         "required": false
       },
       "dataType": {
-        "value": "string",
+        "value": "boolean",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
         "required": true
       },
       "isUnique": {
-        "value": 0,
+        "value": false,
+        "required": false
+      },
+      "dropdownSource": {
+        "value": "",
+        "required": false
+      },
+      "dropdownDependsOn": {
+        "value": [],
+        "required": false
+      },
+      "desktopWidth": {
+        "value": 12,
+        "required": false
+      },
+      "mobileWidth": {
+        "value": 12,
+        "required": false
+      }
+    },
+    {
+      "name": {
+        "value": "isVisibleInSingleView",
+        "required": true
+      },
+      "type": {
+        "value": "input",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "dataType": {
+        "value": "boolean",
+        "required": true
+      },
+      "defaultValue": {
+        "value": "",
+        "required": false
+      },
+      "isRequired": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": true,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": true,
+        "required": true
+      },
+      "isUnique": {
+        "value": false,
         "required": false
       },
       "dropdownSource": {
@@ -220,7 +274,21 @@
       }
     }
   ],
-  "actionLabels": [],
-  "pageId": "6",
+  "actionLabels": [
+    {
+      "key": {
+        "value": "",
+        "required": true
+      },
+      "label": {
+        "value": "",
+        "required": false
+      },
+      "actionType": {
+        "value": "",
+        "required": true
+      }
+    }
+  ],
   "createFrontendViews": false
 }

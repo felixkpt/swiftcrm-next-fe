@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = 'df3081fa-8c92-4adf-9771-0c236a8e382d';
+const modelID = '9f21ff2e-6847-4399-811b-61a62e54b037';
 const modelNameSingular = 'Company';
 const modelNamePlural = 'Companies';
 const modelURI = 'companies';
@@ -28,7 +28,7 @@ const fillableFields: Array<FillableType> = [
   },
   {
     name: "email",
-    label: "@email",
+    label: "",
     type: "input",
     dataType: "string",
     defaultValue: null,
@@ -38,22 +38,7 @@ const fillableFields: Array<FillableType> = [
     isUnique: true,
     dropdownSource: null,
     dropdownDependsOn: null,
-    desktopWidth: 6,
-    mobileWidth: 12
-  },
-  {
-    name: "phone_number",
-    label: "Phone NO",
-    type: "input",
-    dataType: "string",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: false,
-    dropdownSource: null,
-    dropdownDependsOn: null,
-    desktopWidth: 6,
+    desktopWidth: 12,
     mobileWidth: 12
   }
 ]
@@ -68,13 +53,7 @@ const headers: HeaderType[] = [
   },
   {
     key: "email",
-    label: "@email",
-    isVisibleInList: true,
-    isVisibleInSingleView: true
-  },
-  {
-    key: "phone_number",
-    label: "Phone NO",
+    label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
   },
@@ -96,10 +75,6 @@ const actionLabelsActions: ActionLabelsActionsType = {
     label: ""
   },
   editRecord: {
-    actionType: "modal",
-    label: ""
-  },
-  deleteRecord: {
     actionType: "modal",
     label: ""
   }

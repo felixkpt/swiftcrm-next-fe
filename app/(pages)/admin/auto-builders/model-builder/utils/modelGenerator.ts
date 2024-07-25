@@ -19,26 +19,7 @@ import { v4 as uuidv4 } from 'uuid';
 export async function saveAndGenerateModel(dataRaw: any) {
   'use server';
 
-  // i want to dump the incoming request dataRaw to
-  if (dataRaw.modelDisplayName.toLowerCase() == 'users') {
-    // Path to save the JSON file
-    const jsonFilePath = path.join(process.cwd(), 'app', '(pages)', 'admin', 'auto-builders', 'model-builder', 'utils', 'seeders', 'user_model.json');
-
-    // Write the incoming request data to a JSON file
-    fs.writeFileSync(jsonFilePath, JSON.stringify(dataRaw, null, 2));
-
-  }
-
-  // i want to dump the incoming request dataRaw to
-  if (dataRaw.modelDisplayName.toLowerCase() == 'model-builder2') {
-    // Path to save the JSON file
-    const jsonFilePath = path.join(process.cwd(), 'app', '(pages)', 'admin', 'auto-builders', 'model-builder', 'utils', 'seeders', 'model_builder_model.json');
-
-    // Write the incoming request data to a JSON file
-    fs.writeFileSync(jsonFilePath, JSON.stringify(dataRaw, null, 2));
-
-  }
-
+  dumpSeeders(dataRaw)
   const { modelDisplayName, modelURI, fields: fieldsRaw, } = dataRaw;
 
   const { fields, headers } = getFieldsAndHeaders(fieldsRaw)
@@ -164,3 +145,65 @@ function getModelNames(modelName: string) {
 
   return { nameSingular, namePlural, className };
 }
+
+const dumpSeedersFor = ['users', 'model-headers', 'model-fields', 'action-labels', 'model-builder']
+
+function dumpSeeders(dataRaw: any) {
+  // Normalize modelDisplayName to lowercase
+  const modelName = dataRaw.modelDisplayName.toLowerCase();
+
+  // Check if the model name is in the list
+  if (dumpSeedersFor.includes(modelName)) {
+    // Generate the file name based on the model name
+    const jsonFileName = `${modelName}.json`;
+
+    // Path to save the JSON file
+    const jsonFilePath = path.join(
+      process.cwd(),
+      'app',
+      '(pages)',
+      'admin',
+      'auto-builders',
+      'model-builder',
+      'utils',
+      'seeders',
+      jsonFileName
+    );
+
+    // Write the incoming request data to a JSON file
+    fs.writeFileSync(jsonFilePath, JSON.stringify(dataRaw, null, 2));
+    console.log(`Data for ${modelName} has been saved to ${jsonFilePath}`);
+  } else {
+    console.error(`ModelDisplayName ${modelName} is not in the dumpSeedersFor list.`);
+  }
+
+}
+
+export async function runBuilderSeeder() {
+  'use server';
+
+  const seederDir = path.join(process.cwd(), 'app', '(pages)', 'admin', 'auto-builders', 'model-builder', 'utils', 'seeders');
+
+  fs.readdir(seederDir, (err, files) => {
+    if (err) {
+      console.error('Error reading directory:', err);
+      return;
+    }
+
+    files.forEach(file => {
+      console.log('Sending request for file:')
+      const filePath = path.join(seederDir, file);
+      fs.promises.readFile(filePath, 'utf-8')
+        .then(content => {
+          const data = JSON.parse(content);
+          return saveAndGenerateModel(data);
+        })
+        .catch(error => {
+          console.error(`Error reading file ${file}:`, error);
+        });
+    });
+  });
+
+  return 'seeding done!'
+}
+

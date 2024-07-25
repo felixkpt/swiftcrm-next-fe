@@ -148,7 +148,7 @@ function getModelNames(modelName: string) {
   return { nameSingular, namePlural, className };
 }
 
-const dumpSeedersFor = ['users', 'model-builder', 'model-headers', 'model-fields', 'action-labels', ]
+const dumpSeedersFor = ['users', 'model-builder', 'model-fields', 'action-labels', ]
 // const dumpSeedersFor = ['users',]
 
 function dumpSeeders(dataRaw: any) {

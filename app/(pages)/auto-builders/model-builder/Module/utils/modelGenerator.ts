@@ -148,10 +148,7 @@ function getModelNames(modelName: string) {
   return { nameSingular, namePlural, className };
 }
 
-const dumpSeedersFor = ['users', 'model-builder']
-// const dumpSeedersFor = ['model-builder']
-// const dumpSeedersFor = ['model-headers', 'model-fields', 'action-labels', ]
-// const dumpSeedersFor = ['model-builder',]
+const dumpSeedersFor = ['users', 'model-builder', 'model-headers', 'model-fields', 'action-labels']
 
 function dumpSeeders(dataRaw: any) {
   // Normalize modelDisplayName to lowercase
@@ -176,6 +173,9 @@ function dumpSeeders(dataRaw: any) {
     );
 
     // Write the incoming request data to a JSON file
+    const data = {...dataRaw}
+    delete data.pageId
+    
     fs.writeFileSync(jsonFilePath, JSON.stringify(dataRaw, null, 2));
     console.log(`Data for ${modelName} has been saved to ${jsonFilePath}`);
   } else {

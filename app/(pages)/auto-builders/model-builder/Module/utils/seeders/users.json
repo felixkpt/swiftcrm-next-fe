@@ -371,5 +371,6 @@
         "required": true
       }
     }
-  ]
+  ],
+  "createFrontendViews": true
 }

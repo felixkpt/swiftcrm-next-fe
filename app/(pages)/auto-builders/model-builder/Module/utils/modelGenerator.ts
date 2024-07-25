@@ -20,6 +20,7 @@ export async function saveAndGenerateModel(dataRaw: any) {
   'use server';
 
   dumpSeeders(dataRaw)
+
   const { modelDisplayName, modelURI, fields: fieldsRaw, } = dataRaw;
 
   const { fields, headers } = getFieldsAndHeaders(fieldsRaw)
@@ -45,9 +46,10 @@ export async function saveAndGenerateModel(dataRaw: any) {
   // make be request if successful then continue
   const results = await makeApiRequest(data)
 
+  console.log('YWAAAA', results.ok, data.createFrontendViews)
   if (results.ok && data.createFrontendViews) {
     generateModel(data, fields, modelURI, dataRaw.id)
-  }
+  } 
 
   return results
 
@@ -146,7 +148,8 @@ function getModelNames(modelName: string) {
   return { nameSingular, namePlural, className };
 }
 
-const dumpSeedersFor = ['users', 'model-headers', 'model-fields', 'action-labels', 'model-builder']
+// const dumpSeedersFor = ['users', 'model-builder', 'model-headers', 'model-fields', 'action-labels', ]
+const dumpSeedersFor = ['users',]
 
 function dumpSeeders(dataRaw: any) {
   // Normalize modelDisplayName to lowercase
@@ -182,28 +185,22 @@ function dumpSeeders(dataRaw: any) {
 export async function runBuilderSeeder() {
   'use server';
 
-  const seederDir = path.join(process.cwd(), 'app', '(pages)', 'auto-builders', 'model-builder',  'Module', 'utils', 'seeders');
+  const seederDir = path.join(process.cwd(), 'app', '(pages)', 'auto-builders', 'model-builder', 'Module', 'utils', 'seeders');
 
-  fs.readdir(seederDir, (err, files) => {
-    if (err) {
-      console.error('Error reading directory:', err);
-      return;
+  for (let index = 0; index < dumpSeedersFor.length; index++) {
+    const element = dumpSeedersFor[index];
+    const fileName = `${element}.json`;
+    const filePath = path.join(seederDir, fileName);
+
+    try {
+      const content = await fs.promises.readFile(filePath, 'utf-8');
+      const data = JSON.parse(content);
+      await saveAndGenerateModel(data);
+      console.log(`Successfully processed ${fileName}`);
+    } catch (error) {
+      console.error(`Error processing file ${fileName}:`, error);
     }
+  }
 
-    files.forEach(file => {
-      console.log('Sending request for file:')
-      const filePath = path.join(seederDir, file);
-      fs.promises.readFile(filePath, 'utf-8')
-        .then(content => {
-          const data = JSON.parse(content);
-          return saveAndGenerateModel(data);
-        })
-        .catch(error => {
-          console.error(`Error reading file ${file}:`, error);
-        });
-    });
-  });
-
-  return 'seeding done!'
+  return 'Seeding done!';
 }
-

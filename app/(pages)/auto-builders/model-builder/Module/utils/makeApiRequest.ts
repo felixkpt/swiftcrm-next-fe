@@ -13,17 +13,17 @@ type ResultsType = {
   ok: boolean
 }
 
-  // Destructure constants from getConstants
-  const {
-    MODEL_ID,
-    API_ENDPOINT,
-  } = getConstants;
+// Destructure constants from getConstants
+const {
+  MODEL_ID,
+  API_ENDPOINT,
+} = getConstants;
 
 
 const uri = API_ENDPOINT
 
 export async function makeApiRequest(data: any) {
-  data = {...data}
+  data = { ...data }
   return genericRequestor(uri, data)
 
 }
@@ -67,10 +67,13 @@ async function genericRequestor(endPoint: string, data: any) {
       })
       .catch((error) => {
         results.error = error
+        console.log('Error:', error)
+
       });
 
   } catch (error) {
     results.error = error
+    console.log('Error:', error)
   }
 
   return results

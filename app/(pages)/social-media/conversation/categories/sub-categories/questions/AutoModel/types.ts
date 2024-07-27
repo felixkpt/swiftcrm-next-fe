@@ -1,8 +1,9 @@
 
 type QuestionType = {
-category_id: any;
-  sub_category_id: any;
-  marks: any;
+category_id: string;
+  sub_category_id: string;
+  question: any;
+  marks: string;
 }
 
 export default QuestionType;

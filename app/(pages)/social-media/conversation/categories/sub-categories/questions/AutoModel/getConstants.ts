@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = 'a8ef3c64-2d62-4859-bdbc-edc000431f91';
+const modelID = 'c1ebd112-e062-4fab-be27-c2ebc2c651ad';
 const modelNameSingular = 'Question';
 const modelNamePlural = 'Questions';
 const modelURI = 'social-media/conversation/categories/sub-categories/questions';
@@ -16,7 +16,7 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "dropdown",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
@@ -31,7 +31,7 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "dropdown",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
@@ -44,16 +44,31 @@ const fillableFields: Array<FillableType> = [
     mobileWidth: 12
   },
   {
-    name: "marks",
+    name: "question",
     label: "",
-    type: "input",
-    dataType: "integer",
+    type: "textarea",
+    dataType: "text",
     defaultValue: null,
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
     dropdownSource: null,
+    dropdownDependsOn: null,
+    desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "marks",
+    label: "",
+    type: "input",
+    dataType: "integer",
+    defaultValue: "None",
+    isRequired: true,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -70,6 +85,12 @@ const headers: HeaderType[] = [
   },
   {
     key: "sub_category_id",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
+    key: "question",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true

@@ -25,29 +25,31 @@ const AutoTable = ({ headers, records, fillableFields, modelID, metadata, onPage
     const modelIDLocal = modelID + '_AutoTable'
 
     return (
-        <div className="border rounded-md shadow-md py-1 min-h-[500px]" id={modelIDLocal}>
+        <div className="border rounded-md shadow-md py-1 min-h-[500px] w-full overflow-auto" id={modelIDLocal}>
             {AutoTableHeaderActions
                 &&
                 <AutoTableHeaderActions headers={headers} fillableFields={fillableFields} modelID={modelID} metadata={metadata} handleSearch={handleSearch} handleExport={handleExport} />
             }
-            <table className="table shadow">
-                <thead>
-                    <tr>
-                        {headers.map((column, index) => (
-                            <th key={index} className={`${modelIDLocal} heading-${column.key}`}>{column.label || column.key}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {records.map((record, rowIndex) => (
-                        <tr key={rowIndex}>
-                            {headers.map((column, colIndex) => (
-                                <td key={colIndex} className={`${modelIDLocal} data-${column.key}`}>{record[column.key]}</td>
+            <div className="w-full overflow-auto">
+                <table className="table shadow">
+                    <thead>
+                        <tr>
+                            {headers.map((column, index) => (
+                                <th key={index} className={`${modelIDLocal} heading-${column.key}`}>{column.label || column.key}</th>
                             ))}
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {records.map((record, rowIndex) => (
+                            <tr key={rowIndex}>
+                                {headers.map((column, colIndex) => (
+                                    <td key={colIndex} className={`${modelIDLocal} data-${column.key}`}>{record[column.key]}</td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
             <div className="flex justify-center mt-2">
                 <Pagination currentPage={currentPage} perPage={perPage} totalRecords={totalRecords} onPageNumberChange={onPageNumberChange} />
             </div>

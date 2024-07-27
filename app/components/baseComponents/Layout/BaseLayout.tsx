@@ -151,13 +151,11 @@ const BaseLayout = ({ children }: Props) => {
                             ))}
                         </List>
                     </Drawer>
-                    <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-                        <div>
-                            <div className="flex min-h-screen mt-3">
-                                <main className="flex-1 p-6">{children}</main>
-                            </div>
-                            <Footer />
+                    <Box component="main" sx={{ flexGrow: 1, p: 3, overflow: 'hidden' }}>
+                        <div className="flex min-h-screen mt-6 w-full">
+                            <main className="flex-1 p-3 w-full">{children}</main>
                         </div>
+                        <Footer />
                     </Box>
                 </Box>
             </ThemeProviderComponent>

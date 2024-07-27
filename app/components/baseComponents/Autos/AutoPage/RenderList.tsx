@@ -153,7 +153,7 @@ const Renderer: React.FC<Props> = ({
   let filteredHeaders = headers.filter(item => item.isVisibleInList);
 
   return (
-    <div className='autotableWrapper w-[calc(100%)] overflow-auto'>
+    <div className='autotableWrapper w-full overflow-auto'>
       <AutoHeader
         headerTitle={headerTitle}
         description=""

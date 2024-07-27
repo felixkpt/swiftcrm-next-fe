@@ -247,11 +247,12 @@ const renderField = (
             return (
                 <>
                     <Grid item xs={10} pr={1}>
+                        <small>{field.label.value || field.name.value}</small>
                         <Select
                             label={field.label.value || field.name.value}
                             variant="outlined"
                             fullWidth
-                            disabled
+                            readOnly
                         >
                             {options.map((option, i) => (
                                 <MenuItem key={i} value={option.id}>

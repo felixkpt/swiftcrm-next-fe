@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = 'a938e691-6a7e-4c7a-886c-e8fb0593f4bf';
+const modelID = '6b32a0b4-4322-4d75-8058-b47db6014771';
 const modelNameSingular = 'message';
 const modelNamePlural = 'messages';
 const modelURI = 'social-media/conversation/messages';
@@ -16,7 +16,7 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "dropdown",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
@@ -31,7 +31,7 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "dropdown",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
@@ -48,12 +48,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "string",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 6,
     mobileWidth: 12
@@ -63,12 +63,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "string",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 6,
     mobileWidth: 12
@@ -78,60 +78,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "textarea",
     dataType: "text",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
-    dropdownDependsOn: null,
-    desktopWidth: 12,
-    mobileWidth: 12
-  },
-  {
-    name: "interview_id",
-    label: "",
-    type: "dropdown",
-    dataType: "integer",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: false,
-    dropdownSource: "social-media/conversation/interviews",
-    dropdownDependsOn: null,
-    desktopWidth: 6,
-    mobileWidth: 12
-  },
-  {
-    name: "question_id",
-    label: "",
-    type: "dropdown",
-    dataType: "integer",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: false,
-    dropdownSource: "social-media/conversation/categories/sub-categories/questions",
-    dropdownDependsOn: [
-      "social-media/conversation/categories",
-      "social-media/conversation/categories/sub-categories"
-    ],
-    desktopWidth: 6,
-    mobileWidth: 12
-  },
-  {
-    name: "question_scores",
-    label: "",
-    type: "input",
-    dataType: "integer",
-    defaultValue: null,
-    isRequired: true,
-    isVisibleInList: true,
-    isVisibleInSingleView: true,
-    isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -146,9 +98,57 @@ const fillableFields: Array<FillableType> = [
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
+    mobileWidth: 12
+  },
+  {
+    name: "interview_id",
+    label: "",
+    type: "dropdown",
+    dataType: "integer",
+    defaultValue: null,
+    isRequired: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: "social-media/conversation/interviews",
+    dropdownDependsOn: null,
+    desktopWidth: 4,
+    mobileWidth: 12
+  },
+  {
+    name: "question_id",
+    label: "",
+    type: "dropdown",
+    dataType: "integer",
+    defaultValue: null,
+    isRequired: false,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: "social-media/conversation/categories/sub-categories/questions",
+    dropdownDependsOn: [
+      "social-media/conversation/categories",
+      "social-media/conversation/categories/sub-categories"
+    ],
+    desktopWidth: 4,
+    mobileWidth: 12
+  },
+  {
+    name: "question_scores",
+    label: "",
+    type: "input",
+    dataType: "integer",
+    defaultValue: null,
+    isRequired: true,
+    isVisibleInList: true,
+    isVisibleInSingleView: true,
+    isUnique: false,
+    dropdownSource: "None",
+    dropdownDependsOn: null,
+    desktopWidth: 4,
     mobileWidth: 12
   }
 ]
@@ -186,6 +186,12 @@ const headers: HeaderType[] = [
     isVisibleInSingleView: true
   },
   {
+    key: "audio_uri",
+    label: "",
+    isVisibleInList: true,
+    isVisibleInSingleView: true
+  },
+  {
     key: "interview_id",
     label: "",
     isVisibleInList: true,
@@ -199,12 +205,6 @@ const headers: HeaderType[] = [
   },
   {
     key: "question_scores",
-    label: "",
-    isVisibleInList: true,
-    isVisibleInSingleView: true
-  },
-  {
-    key: "audio_uri",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true

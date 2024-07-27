@@ -1,10 +1,10 @@
 import React from 'react';
-import Builder from '../components/Builder';
-import { saveAndGenerateModel } from '../utils/modelGenerator';
-import { inputTypes } from '../utils/constants';
-import { AutoPageBuilderType } from '../utils/backendTypes';
-import getDropdownSourcesList from '../utils/getDropdownSourcesList';
-import getConstants from '../../AutoModel/getConstants';
+import Builder from '../Module/components/Builder';
+import { saveAndGenerateModel } from '../Module/utils/modelGenerator';
+import { inputTypes } from '../Module/utils/constants';
+import { AutoPageBuilderType } from '../Module/utils/backendTypes';
+import getDropdownSourcesList from '../Module/utils/getDropdownSourcesList';
+import getConstants from '../AutoModel/getConstants';
 
 const Page = async () => {
 

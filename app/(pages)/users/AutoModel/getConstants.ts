@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = 'd5480b7b-e3be-4bd2-87ff-d58f9c888ec8';
+const modelID = '0c98fbaa-bc13-4ad7-94b6-6003fbf35ef2';
 const modelNameSingular = 'user';
 const modelNamePlural = 'users';
 const modelURI = 'users';
@@ -76,12 +76,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "string",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: false,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 6,
     mobileWidth: 12

@@ -179,7 +179,7 @@
         "required": false
       },
       "isRequired": {
-        "value": false,
+        "value": 0,
         "required": true
       },
       "isVisibleInList": {
@@ -228,6 +228,22 @@
         "value": "input",
         "required": true
       },
+      "defaultValue": {
+        "value": "None",
+        "required": false
+      },
+      "isRequired": {
+        "value": 0,
+        "required": true
+      },
+      "isVisibleInList": {
+        "value": 1,
+        "required": true
+      },
+      "isVisibleInSingleView": {
+        "value": 1,
+        "required": true
+      },
       "label": {
         "value": "",
         "required": false
@@ -236,28 +252,12 @@
         "value": "string",
         "required": true
       },
-      "defaultValue": {
-        "value": "",
-        "required": false
-      },
-      "isRequired": {
-        "value": false,
-        "required": true
-      },
-      "isVisibleInList": {
-        "value": true,
-        "required": true
-      },
-      "isVisibleInSingleView": {
-        "value": true,
-        "required": true
-      },
       "isUnique": {
-        "value": false,
+        "value": 0,
         "required": false
       },
       "dropdownSource": {
-        "value": "",
+        "value": "None",
         "required": false
       },
       "dropdownDependsOn": {
@@ -426,5 +426,6 @@
       }
     }
   ],
+  "pageId": "1",
   "createFrontendViews": true
 }

@@ -148,8 +148,8 @@ function getModelNames(modelName: string) {
   return { nameSingular, namePlural, className };
 }
 
-const dumpSeedersFor = ['users', 'model-builder',]
-// const dumpSeedersFor = ['users', 'model-builder', 'model-headers', 'model-fields', 'action-labels']
+// const dumpSeedersFor = ['users', 'model-builder',]
+const dumpSeedersFor = ['users', 'model-builder', 'model-headers', 'model-fields', 'action-labels']
 
 function dumpSeeders(dataRaw: any) {
   // Normalize modelDisplayName to lowercase
@@ -199,7 +199,7 @@ export async function runBuilderSeeder() {
       const content = await fs.promises.readFile(filePath, 'utf-8');
       const data = JSON.parse(content);
       delete data.pageId
-      
+
       await saveAndGenerateModel(data);
       console.log(`Successfully processed ${fileName}`);
     } catch (error) {

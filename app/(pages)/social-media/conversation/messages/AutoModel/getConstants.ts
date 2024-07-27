@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = 'afb33c36-3c15-4b3e-bd38-64882688aad0';
+const modelID = 'af681f52-ac03-445e-a57d-648c09368aa9';
 const modelNameSingular = 'message';
 const modelNamePlural = 'messages';
 const modelURI = 'social-media/conversation/messages';
@@ -92,7 +92,7 @@ const fillableFields: Array<FillableType> = [
     name: "audio_uri",
     label: "",
     type: "input",
-    dataType: "integer",
+    dataType: "string",
     defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,

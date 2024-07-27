@@ -148,7 +148,8 @@ function getModelNames(modelName: string) {
   return { nameSingular, namePlural, className };
 }
 
-const dumpSeedersFor = ['users', 'model-builder', 'model-headers', 'model-fields', 'action-labels']
+const dumpSeedersFor = ['users', 'model-builder',]
+// const dumpSeedersFor = ['users', 'model-builder', 'model-headers', 'model-fields', 'action-labels']
 
 function dumpSeeders(dataRaw: any) {
   // Normalize modelDisplayName to lowercase

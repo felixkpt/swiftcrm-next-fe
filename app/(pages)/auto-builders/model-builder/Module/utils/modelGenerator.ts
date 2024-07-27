@@ -199,6 +199,7 @@ export async function runBuilderSeeder() {
       const content = await fs.promises.readFile(filePath, 'utf-8');
       const data = JSON.parse(content);
       delete data.pageId
+      
       await saveAndGenerateModel(data);
       console.log(`Successfully processed ${fileName}`);
     } catch (error) {

@@ -1,15 +1,15 @@
 
 type ModelBuilderType = {
-uuid: any;
-  modelDisplayName: any;
-  name_singular: any;
-  name_plural: any;
-  modelURI: any;
-  apiEndpoint: any;
-  table_name_singular: any;
-  table_name_plural: any;
-  class_name: any;
-  createFrontendViews: any;
+uuid: string;
+  modelDisplayName: string;
+  name_singular: string;
+  name_plural: string;
+  modelURI: string;
+  apiEndpoint: string;
+  table_name_singular: string;
+  table_name_plural: string;
+  class_name: string;
+  createFrontendViews: string;
 }
 
 export default ModelBuilderType;

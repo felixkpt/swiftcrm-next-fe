@@ -1,7 +1,7 @@
 
 type CategoryType = {
-name: string;
-  description: string;
+name: any;
+  description: any;
 }
 
 export default CategoryType;

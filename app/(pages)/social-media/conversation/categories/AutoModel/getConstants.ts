@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = 'f188e3d3-8896-4543-930f-a977c98909e5';
+const modelID = 'ccf86a68-d647-4758-8ef3-d9b73e741edb';
 const modelNameSingular = 'Category';
 const modelNamePlural = 'Categories';
 const modelURI = 'social-media/conversation/categories';
@@ -16,12 +16,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "string",
-    defaultValue: "None",
+    defaultValue: null,
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: true,
-    dropdownSource: "None",
+    dropdownSource: null,
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -31,12 +31,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "textarea",
     dataType: "text",
-    defaultValue: "None",
+    defaultValue: null,
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: "None",
+    dropdownSource: null,
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -75,14 +75,6 @@ const actionLabelsActions: ActionLabelsActionsType = {
     label: ""
   },
   editRecord: {
-    actionType: "modal",
-    label: ""
-  },
-  updateRecordStatus: {
-    actionType: "modal",
-    label: ""
-  },
-  deleteRecord: {
     actionType: "modal",
     label: ""
   }

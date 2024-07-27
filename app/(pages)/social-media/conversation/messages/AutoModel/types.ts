@@ -1,7 +1,7 @@
 
 type MessageType = {
-category_id: string;
-  sub_category_id: string;
+category_id: any;
+  sub_category_id: any;
   role: string;
   mode: string;
   content: string;

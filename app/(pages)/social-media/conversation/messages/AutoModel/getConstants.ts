@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = '392a2a8c-99bf-4b31-9fc5-43fd193887c3';
+const modelID = 'afb33c36-3c15-4b3e-bd38-64882688aad0';
 const modelNameSingular = 'message';
 const modelNamePlural = 'messages';
 const modelURI = 'social-media/conversation/messages';
@@ -16,7 +16,7 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "dropdown",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
@@ -31,7 +31,7 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "dropdown",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
@@ -93,7 +93,7 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
@@ -108,7 +108,7 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "dropdown",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: false,
     isVisibleInList: true,
     isVisibleInSingleView: true,
@@ -123,7 +123,7 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "dropdown",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: false,
     isVisibleInList: true,
     isVisibleInSingleView: true,
@@ -141,8 +141,8 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "integer",
-    defaultValue: null,
-    isRequired: true,
+    defaultValue: "None",
+    isRequired: false,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,

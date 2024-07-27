@@ -32,7 +32,7 @@ async function genericRequestor(endPoint: string, data: any) {
   const pageId = data?.pageId
   endPoint = String(pageId ? `${endPoint}/${pageId}` : endPoint).replace(/\/+/g, '/')
 
-  console.log('DATA::', JSON.stringify(data))
+  // console.log('DATA::', JSON.stringify(data))
 
   const results: ResultsType = {
     data: null,
@@ -43,7 +43,6 @@ async function genericRequestor(endPoint: string, data: any) {
     ok: false,
   }
 
-  try {
     await fetch(appConfig.api.url(endPoint), {
       method: pageId ? 'PUT' : 'POST',
       headers: {
@@ -62,7 +61,9 @@ async function genericRequestor(endPoint: string, data: any) {
       revalidateTag(MODEL_ID)
       return response.json()
     })
-      .then((data) => {
+      .then((data) => {       
+        console.log('rss',JSON.stringify(data));
+
         results.data = data
       })
       .catch((error) => {
@@ -70,11 +71,6 @@ async function genericRequestor(endPoint: string, data: any) {
         console.log('Error:', error)
 
       });
-
-  } catch (error) {
-    results.error = error
-    console.log('Error:', error)
-  }
 
   return results
 

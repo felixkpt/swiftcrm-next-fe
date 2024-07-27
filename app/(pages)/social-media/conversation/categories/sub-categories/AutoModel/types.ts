@@ -1,8 +1,8 @@
 
-type CategoryType = {
+type SubCategoryType = {
 name: any;
   category_id: any;
   learn_instructions: any;
 }
 
-export default CategoryType;
+export default SubCategoryType;

@@ -3,13 +3,13 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = '9b582d60-68b4-40e2-9709-a118a7468a6a';
-const modelNameSingular = 'Category';
-const modelNamePlural = 'Categories';
+const modelID = '257bdd35-513c-4a8a-b722-a72ad235a99e';
+const modelNameSingular = 'Sub-category';
+const modelNamePlural = 'Sub-categories';
 const modelURI = 'social-media/conversation/categories/sub-categories';
 const apiEndpoint = 'social-media/conversation/categories/sub-categories/';
 
-// Define fillable fields for the Category model
+// Define fillable fields for the Sub-category model
 const fillableFields: Array<FillableType> = [
   {
     name: "name",
@@ -20,7 +20,7 @@ const fillableFields: Array<FillableType> = [
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
-    isUnique: false,
+    isUnique: true,
     dropdownSource: null,
     dropdownDependsOn: null,
     desktopWidth: 12,
@@ -101,7 +101,7 @@ const actionLabelsActions: ActionLabelsActionsType = {
   }
 };
 
-// Create Category constants using the createModelConstants function
+// Create Sub-category constants using the createModelConstants function
 const getConstants = createModelConstants(
   modelID,          // modelID: UNIQUE ID of the model/page
   modelNameSingular,          // modelNameSingular: Name of the model/page

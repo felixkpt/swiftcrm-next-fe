@@ -30,7 +30,7 @@ const DropdownDependsOn: React.FC<Props> = ({
     const fetchOptions = async (params: Record<string, string>) => {
         setLoading(true);
         try {
-            const queryParams = new URLSearchParams(params).toString();
+            const queryParams = new URLSearchParams({ ...params, per_page: 50 }).toString();
             const response = await fetch(`${appConfig.api.url(dropdownSource)}/?${queryParams}`);
 
             if (!response.ok) throw new Error('Failed to fetch options');

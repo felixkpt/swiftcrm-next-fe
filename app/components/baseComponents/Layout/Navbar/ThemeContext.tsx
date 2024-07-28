@@ -12,8 +12,8 @@ type ThemeContextType = {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const ThemeProviderComponent: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [themeMode, setThemeMode] = useState<ThemeModeType>('default');
+const ThemeProviderComponent: React.FC<{ children: React.ReactNode, defaultTheme: ThemeModeType }> = ({ children, defaultTheme }) => {
+    const [themeMode, setThemeMode] = useState<ThemeModeType>(defaultTheme);
     const [prefers, setPrefers] = useState<'light' | 'dark'>('light');
 
     const switchTheme = (mode: ThemeModeType) => {

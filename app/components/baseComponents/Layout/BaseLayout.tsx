@@ -18,8 +18,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import Footer from './Footer';
 import { AppStateProvider } from '@/app/context/AppStateProvider';
 import AppBarComponent from './Navbar/AppBarComponent';
-import { appConfig } from '../utils/helpers';
-import { useState } from 'react';
+import { appConfig, defaultTheme } from '../utils/helpers';
+import { useEffect, useState } from 'react';
 import { ThemeProviderComponent } from './Navbar/ThemeContext';
 
 export const drawerWidth = 240;
@@ -78,18 +78,45 @@ const BaseLayout = ({ children }: Props) => {
 
     const theme = useTheme();
     const [open, setOpen] = useState(true);
+    const [userExplicitClose, setUserExplicitClose] = useState(false)
 
     const handleDrawerOpen = () => {
         setOpen(true);
+        setUserExplicitClose(false)
     };
 
     const handleDrawerClose = () => {
         setOpen(false);
+        setUserExplicitClose(true)
     };
 
+    useEffect(() => {
+
+        const resizeListener = (e: any) => {
+            const width = e.target.innerWidth
+            if (width) {
+                toggleOpen(width)
+            }
+        }
+
+        window.addEventListener('resize', resizeListener)
+
+        return () => window.removeEventListener('resize', resizeListener)
+
+    }, [userExplicitClose])
+
+
+    function toggleOpen(width: number) {
+        if (width < 920) {
+            setOpen(false)
+        } else if (!userExplicitClose) {
+            setOpen(true)
+        }
+    }
+    
     return (
         <AppStateProvider client_id={appConfig.uuid()}>
-            <ThemeProviderComponent>
+            <ThemeProviderComponent defaultTheme={defaultTheme}>
 
                 <Box sx={{ display: 'flex' }}>
                     <CssBaseline />
@@ -151,9 +178,9 @@ const BaseLayout = ({ children }: Props) => {
                             ))}
                         </List>
                     </Drawer>
-                    <Box component="main" sx={{ flexGrow: 1, p: 3, overflow: 'hidden' }}>
-                        <div className="flex min-h-screen mt-6 w-full">
-                            <main className="flex-1 p-3 w-full">{children}</main>
+                    <Box component="main" sx={{ flexGrow: 1, p: 1, overflow: 'hidden' }}>
+                        <div className="flex min-h-screen mt-[36px] w-full">
+                            <main className="flex-1 p-1 md:p-3 w-full">{children}</main>
                         </div>
                         <Footer />
                     </Box>

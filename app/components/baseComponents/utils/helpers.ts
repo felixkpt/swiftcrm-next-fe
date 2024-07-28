@@ -24,3 +24,4 @@ export const appConfig: Config = {
 };
 
 export const themeOption = 'dark';
+export const defaultTheme = 'dark';

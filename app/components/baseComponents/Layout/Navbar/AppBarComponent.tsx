@@ -50,7 +50,6 @@ export default function AppBarComponent({ open, handleDrawerOpen }: { open: bool
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
     const [themeAnchorEl, setThemeAnchorEl] = useState<null | HTMLElement>(null);
 
-    const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
     const isThemeMenuOpen = Boolean(themeAnchorEl);
 

@@ -20,7 +20,7 @@ const DynamicDropdown: React.FC<Props> = ({ name, value, onChange, dropdownSourc
         const fetchOptions = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${appConfig.api.url(dropdownSource)}/`);
+                const response = await fetch(`${appConfig.api.url(dropdownSource)}/?per_page=50`);
 
                 if (!response.ok) throw new Error('Failed to fetch options');
                 const data = await response.json();

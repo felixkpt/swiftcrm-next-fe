@@ -4,13 +4,15 @@ type LaravelError = any;
 
 // Define type for the formatErrors function
 type FormatErrorsFunction = {
-    fastAPI: (errors: FastAPIError[]) => Record<string, string>;
+    fastAPI: (errors: any | FastAPIError[]) => Record<string, string>;
     laravel: (errors: LaravelError) => Record<string, string>;
 };
 
 // Helper function to format errors in a uniform structure
 export const formatErrors: FormatErrorsFunction = {
     fastAPI: (errors) => {
+        errors = errors?.detail ? errors?.detail : errors
+
         const formattedErrors: Record<string, string> = {};
 
         typeof errors == 'object' && errors.length && errors.forEach((error) => {

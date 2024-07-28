@@ -23,6 +23,7 @@ const AutoPost: React.FC<Props> = ({ modelID }) => {
                     status: response.status,
                     data: response.data,
                     error: response.error,
+                    modelID,
                 });
             } catch (error) {
                 const errorMessage = (error as Error).message || 'Internal Server Error';
@@ -30,6 +31,7 @@ const AutoPost: React.FC<Props> = ({ modelID }) => {
                 publish(`${modelID}_done`, {
                     status: 500,
                     error: errorMessage,
+                    modelID,
                 });
             }
         };

@@ -14,7 +14,7 @@ export default function AutoWebSocketNotification() {
   //   if (response?.client_id && response?.message) {
   //     setOpen(true);
   //   }
-  // }, [response]);
+  // }, [ ]);
 
   // const handleReload = () => {
   //   if (response?.model_id) {

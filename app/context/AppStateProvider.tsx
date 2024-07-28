@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState, useContext } from 'react';
 import { subscribe } from '@/app/components/baseComponents/utils/pubSub';
+import { formatErrors } from '../components/baseComponents/utils/formatErrors';
 
 interface Event {
     name: string;
@@ -53,7 +54,7 @@ export const AppStateProvider = ({ children, client_id }: AppStateProviderProps)
                 updatedEvents.push({ name: eventName, status, data });
             } else {
                 // For pending or failed events
-                updatedEvents = existingEvents.filter(e => e.name !== eventName); // Remove any previous entries with the same name
+                // updatedEvents = existingEvents.filter(e => e.name !== eventName); // Remove any previous entries with the same name
                 updatedEvents.push({ name: eventName, status, data });
             }
 
@@ -70,9 +71,9 @@ export const AppStateProvider = ({ children, client_id }: AppStateProviderProps)
         ws.onmessage = (event) => {
             try {
                 const parsedMessage = JSON.parse(event.data);
-                const { model_id, message } = parsedMessage;
+                const { model_id, model_name, message } = parsedMessage;
                 setTimeout(() => {
-                    updateEvent(`${model_id}_done`, 'done', message);
+                    updateEvent(`${model_id}_done`, 'done', { message, model_name });
                 }, 3000);
             } catch (err) {
                 console.log('Failed to parse WebSocket data:', err);
@@ -81,13 +82,24 @@ export const AppStateProvider = ({ children, client_id }: AppStateProviderProps)
 
         // Subscribe to *_submit events
         const unsubscribeSubmit = subscribe('*_submit', (payload: any) => {
-            const { modelID, method, formData } = payload;
+            const { modelID } = payload;
+            console.log('_submit', payload)
             updateEvent(modelID, 'pending');
+        });
+        // Subscribe to *_done events
+        const unsubscribeDone = subscribe('*_done', (payload: any) => {
+            const { modelID, ...other } = payload;
+            let data = other
+            if (other.status !== 200) {
+                data = formatErrors.fastAPI(other.error)
+            }
+            updateEvent(modelID, 'failed', data);
         });
 
         return () => {
             ws.close();
             unsubscribeSubmit();
+            unsubscribeDone();
         };
     }, [client_id]);
 

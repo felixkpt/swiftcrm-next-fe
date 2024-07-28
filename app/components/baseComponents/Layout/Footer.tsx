@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <div className="relative">
       <CookiesPolicy />
-      <AutoWebSocketNotification />
+      {/* <AutoWebSocketNotification /> */}
       <EventsTable />
       <AutoToastNotification />
       <footer className="footer p-10 bg-base-200 text-base-content">

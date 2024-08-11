@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = '337b7cb2-70af-493d-93c8-615aeebc1189';
+const modelID = 'ae7fbc8f-1c72-4bba-a935-e24c92d92a14';
 const modelNameSingular = 'interview';
 const modelNamePlural = 'interviews';
 const modelURI = 'social-media/conversation/interviews';
@@ -16,7 +16,7 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "dropdown",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
@@ -31,7 +31,7 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "dropdown",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
@@ -44,7 +44,7 @@ const fillableFields: Array<FillableType> = [
     mobileWidth: 12
   },
   {
-    name: "question_id",
+    name: "current_question_id",
     label: "",
     type: "dropdown",
     dataType: "integer",
@@ -66,12 +66,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -81,12 +81,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -96,12 +96,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "integer",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -123,7 +123,7 @@ const headers: HeaderType[] = [
     isVisibleInSingleView: true
   },
   {
-    key: "question_id",
+    key: "current_question_id",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true

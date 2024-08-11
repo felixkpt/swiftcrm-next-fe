@@ -1,11 +1,11 @@
 
 type InterviewType = {
-category_id: any;
-  sub_category_id: any;
-  question_id: any;
-  scores: any;
-  max_scores: any;
-  percentage_score: any;
+category_id: string;
+  sub_category_id: string;
+  current_question_id: any;
+  scores: string;
+  max_scores: string;
+  percentage_score: string;
 }
 
 export default InterviewType;

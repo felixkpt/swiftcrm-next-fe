@@ -56,7 +56,7 @@ const Page = () => {
                     setMessagesMetadata(metadata || null)
 
                     // Fetch the assistant's audio
-                    const assistantAudioResponse = await axios.get(appConfig.api.url(`${results[1]['audio_uri']}`), {
+                    const assistantAudioResponse = await axios.get(appConfig.api.url(`${results[1]['audio_uri']}?driver=local`), {
                         responseType: 'blob',
                     });
 

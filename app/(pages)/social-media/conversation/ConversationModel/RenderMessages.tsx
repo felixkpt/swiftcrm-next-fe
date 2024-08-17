@@ -139,7 +139,7 @@ const RenderMessages = ({ messages = [], isLoading, hasDoneAnyRecording, convers
                 <div className="text-center my-4 animate-pulse cursor-default select-none">
                     <p>Gimmie a few seconds...</p>
                 </div>
-            )}
+            )}  
         </div>
     );
 };

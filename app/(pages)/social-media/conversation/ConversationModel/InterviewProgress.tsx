@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
-import { useInterviewSessions } from './hooks/useInterviewSessions';
-import { useConversation } from './hooks/useConversation';
+import React, { useEffect, useState } from 'react'
 import Link from 'next/link';
+import axios from 'axios';
+import { appConfig } from '@/app/components/baseComponents/utils/helpers';
 
 type Props = {
     selectedCategory: any
@@ -12,28 +12,31 @@ type Props = {
     reloadKey: any
 }
 
-const InterviewProgress = ({ selectedCategory, selectedSubCategory, setCurrentSessionId, setMessages, setMessagesMetadata, reloadKey }: Props) => {
+const InterviewProgress = ({ selectedCategory, selectedSubCategory, reloadKey }: Props) => {
 
-    const { interviewSessions, setReloadKey: setReloadKeyInterviewSessions } = useInterviewSessions(selectedCategory, selectedSubCategory);
-
-    const { interviewProgress, setReloadKey, currentSessionId, setCurrentSessionId: setCurrentSessionIdConversation } = useConversation(selectedCategory, selectedSubCategory, 'interview', setMessages, setMessagesMetadata);
+    const [interviewProgress, setInterviewProgress] = useState<{ interview_id: number, current_question: number; total_count: number } | null>(null);
 
     useEffect(() => {
-        if (interviewSessions.length > 0) {
-            const activeSession = interviewSessions.find(session => session.status_id === 1);
-            if (activeSession) {
-                setCurrentSessionId(activeSession.id);
-                setCurrentSessionIdConversation(activeSession.id);
-            }
+        if (reloadKey > 0) {
+            getInterviewProgress();
         }
-    }, [interviewSessions])
+    }, [reloadKey]);
 
     useEffect(() => {
-        if (reloadKey && reloadKey > 0) {
-            setReloadKey(reloadKey)
-            setReloadKeyInterviewSessions(reloadKey)
+        getInterviewProgress();
+    }, [selectedCategory, selectedSubCategory]);
+
+    const getInterviewProgress = async () => {
+        if (!selectedCategory?.id || !selectedSubCategory?.id) return;
+
+        const uri = `/social-media/conversation/interview/${selectedSubCategory.id}/progress`;
+        try {
+            const response = await axios.get<{ current_question: number; total_count: number }>(appConfig.api.url(uri));
+            setInterviewProgress(response.data);
+        } catch (error) {
+            console.error('Error fetching interview session details:', error);
         }
-    }, [reloadKey])
+    };
 
     console.log('interviewProgress::', interviewProgress)
 
@@ -51,7 +54,7 @@ const InterviewProgress = ({ selectedCategory, selectedSubCategory, setCurrentSe
                                 {interviewProgress.current_question === interviewProgress.total_count && (
                                     <Link
                                         target='_blank'
-                                        href={`/social-media/conversation/interview/results/${currentSessionId}`}
+                                        href={`/social-media/conversation/interview/results/${interviewProgress.interview_id}`}
                                         className="btn btn-sm btn-success mb-0.5"
                                     >
                                         Show My Results

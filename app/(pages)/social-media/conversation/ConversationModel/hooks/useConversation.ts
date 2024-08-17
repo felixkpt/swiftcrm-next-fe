@@ -6,45 +6,27 @@ import SubCategoryType from '@/app/(pages)/social-media/conversation/categories/
 import CategoryType from '@/app/(pages)/social-media/conversation/categories/AutoModel/types';
 
 export const useConversation = (
-    selectedCategory: CategoryType | undefined,
     selectedSubCategory: SubCategoryType | undefined,
-    mode: string,
-    setMessages: (messages: MessageType[]) => void,
-    setMessagesMetadata:(messages: MessageType[]) => void,
 ) => {
     const [reloadKey, setReloadKey] = useState<number>(0);
     const [interviewProgress, setInterviewProgress] = useState<{ current_question: number; total_count: number } | null>(null);
     const [currentSessionId, setCurrentSessionId] = useState<number | string>(0);
 
-    useEffect(() => {
-        const fetchConversation = async () => {
-            if (!selectedCategory?.id || !selectedSubCategory?.id || !currentSessionId) return;
-
-            try {
-                const uri = `/social-media/conversation/sub-categories/${selectedSubCategory.id}/conversation?mode=${mode}&interview_id=${currentSessionId}`;
-                const response = await axios.get<ResultsMetaDataType>(appConfig.api.url(uri));
-                setMessages(response.data.records || []);
-                setMessagesMetadata(response.data.metadata || null)
-
-                getInterviewSession();
-            } catch (error) {
-                console.error('Error fetching conversation messages:', error);
-            }
-        };
-
-        fetchConversation();
-    }, [selectedCategory, selectedSubCategory, currentSessionId, mode, setMessages, reloadKey]);
 
     useEffect(() => {
         if (reloadKey > 0) {
             getInterviewSession();
         }
     }, [reloadKey]);
+    
+    useEffect(() => {
+        getInterviewSession();
+    }, [selectedSubCategory]);
 
     const getInterviewSession = async () => {
-        if (!selectedCategory?.id || !selectedSubCategory?.id || !currentSessionId) return;
+        if (!selectedSubCategory?.id ) return;
 
-        const uri = `/social-media/conversation/interview/${selectedSubCategory.id}/progress?interview_id=${currentSessionId}`;
+        const uri = `/social-media/conversation/interview/${selectedSubCategory.id}/progress`;
         try {
             const response = await axios.get<{ current_question: number; total_count: number }>(appConfig.api.url(uri));
             setInterviewProgress(response.data);

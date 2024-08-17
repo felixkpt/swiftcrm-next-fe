@@ -1,22 +1,22 @@
-'use client'
-import { useEffect, useRef } from "react";
+'use client';
+import { useEffect, ReactNode, useState } from "react";
+import { Modal, Box, IconButton, Typography } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { subscribe } from '@/app/components/baseComponents/utils/pubSub';
 import { RequestResponseType } from "../types";
 
 type Props = {
     modelID: string;
     title?: string;
-    children: React.ReactNode;
+    children: ReactNode;
 };
 
 const AutoModal = ({ modelID, title, children }: Props) => {
-    const modalRef = useRef<HTMLDialogElement>(null);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         const handleShowModal = () => {
-            if (modalRef.current) {
-                modalRef.current.showModal();
-            }
+            setOpen(true);
         };
 
         const unsubscribeShowModal = subscribe(`${modelID}_showModal`, handleShowModal);
@@ -29,7 +29,7 @@ const AutoModal = ({ modelID, title, children }: Props) => {
     useEffect(() => {
         const handleResponse = ({ status }: RequestResponseType) => {
             if (status === 200) {
-                closeModal();
+                setOpen(false);
             }
         };
 
@@ -40,23 +40,51 @@ const AutoModal = ({ modelID, title, children }: Props) => {
         };
     }, [modelID]);
 
-    const closeModal = () => {
-        if (modalRef.current) {
-            modalRef.current.close();
-        }
+    const handleClose = () => {
+        setOpen(false);
     };
 
     return (
-        <div>
-            <dialog ref={modalRef} id={`${modelID}Modal`} className="modal">
-                <div className="modal-box">
-                    <form method="dialog">
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={closeModal}>✕</button>
-                    </form>
-                    <div className='my-3'>{children}</div>
-                </div>
-            </dialog>
-        </div>
+        <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-title"
+            aria-describedby="modal-description"
+        >
+            <Box
+                sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    bgcolor: 'background.paper',
+                    borderRadius: 1,
+                    boxShadow: 24,
+                    p: 4,
+                }}
+                id={`${modelID}Modal`}
+            >
+                {title && (
+                    <Typography id="modal-title" variant="h6" component="h2">
+                        {title}
+                    </Typography>
+                )}
+                <IconButton
+                    sx={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                    }}
+                    onClick={handleClose}
+                >
+                    <CloseIcon />
+                </IconButton>
+                <Box id="modal-description" sx={{ mt: 2 }}>
+                    {children}
+                </Box>
+            </Box>
+        </Modal>
     );
 };
 

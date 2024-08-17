@@ -26,7 +26,6 @@ export const useInterviewSessions = (selectedCategory: CategoryType | undefined,
 
         try {
             const response = await axios.get<InterviewSessionWithMetadataType>(appConfig.api.url(`/social-media/conversation/interview/results/categories/${selectedCategory.id}/sub-category/${selectedSubCategory.id}?status_id=0&sess=1`));
-            console.log('interviewSessions::::::', response.data.records)
             setInterviewSessions(response.data.records || []);
 
         } catch (error) {

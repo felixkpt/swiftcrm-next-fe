@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { appConfig } from '../../utils/helpers';
 import { subscribe } from '@/app/components/baseComponents/utils/pubSub';
+import { Select, MenuItem, CircularProgress, FormControl, InputLabel, FormHelperText, InputProps } from '@mui/material';
 
 type Props = {
     modelID: string;
     name: string;
     value: string;
-    onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onChange: (e: React.ChangeEvent<{ value: unknown }>) => void;
     dropdownSource: string;
     dropdownDependsOn: string[] | null;
-    size?: 'sm' | 'md' | 'lg';
+    size?: 'small' | 'medium';
 };
 
 const DropdownDependsOn: React.FC<Props> = ({
@@ -19,7 +20,7 @@ const DropdownDependsOn: React.FC<Props> = ({
     onChange,
     dropdownSource,
     dropdownDependsOn,
-    size = 'md',
+    size = 'medium',
 }) => {
     const [options, setOptions] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -47,7 +48,7 @@ const DropdownDependsOn: React.FC<Props> = ({
         // Update dependencies based on newValue
         const newDependencies = { ...currentDependencies, ...newValue };
         setCurrentDependencies(newDependencies);
-    }
+    };
 
     // Effect to set up listeners and fetch options based on dependencies
     useEffect(() => {
@@ -68,31 +69,36 @@ const DropdownDependsOn: React.FC<Props> = ({
         if (Object.keys(currentDependencies).length > 0) {
             fetchOptions(currentDependencies);
         }
-    }, [currentDependencies])
+    }, [currentDependencies]);
 
-    if (error) return <p className="text-red-700">{error}</p>;
-
-    const sizeClass = size === 'sm' ? 'select-sm' : size === 'lg' ? 'select-lg' : 'select-md';
+    if (error) return <FormHelperText error>{error}</FormHelperText>;
 
     return (
-        <div>
-            <select
+        <FormControl fullWidth variant="outlined" margin="normal" size={size}>
+            <InputLabel htmlFor={name}>Select...</InputLabel>
+            <Select
                 id={name}
                 name={name}
                 value={value}
                 onChange={onChange}
-                data-dropdown-source={dropdownSource}
-                data-dropdown-depends-on={dropdownDependsOn}
-                className={`select select-bordered w-full ${sizeClass}`}
+                label="Select..."
+                disabled={loading}
+                size={size}
             >
-                <option value="">Select...</option>
-                {options.map((option) => (
-                    <option key={option.id} value={option.id}>
-                        {option.name}
-                    </option>
-                ))}
-            </select>
-        </div>
+                {loading ? (
+                    <MenuItem disabled>
+                        <CircularProgress size={24} />
+                    </MenuItem>
+                ) : (
+                    options.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                            {option.name}
+                        </MenuItem>
+                    ))
+                )}
+                <MenuItem value=""><em>Select...</em></MenuItem>
+            </Select>
+        </FormControl>
     );
 };
 

@@ -26,16 +26,15 @@ const InterviewSubNavMenu: React.FC<SubNavMenuProps> = ({
 
     const { categories } = useCategories(setSelectedCategory);
     const { subCategories } = useSubCategories({ selectedCategory, setSelectedSubCategory });
-    const [currentSessionId, setCurrentSessionId] = useState<number | ''>('');
+    const [interviewId, setCurrentSessionId] = useState<number | ''>('');
 
     // Fetch conversation messages based on selected category and sub-category
     useEffect(() => {
         const fetchConversation = async () => {
 
-            console.log('GETTING>>>>',currentSessionId)
-            if (!selectedCategory?.id || !selectedSubCategory?.id || !currentSessionId) return;
+            if (!selectedCategory?.id || !selectedSubCategory?.id) return;
             try {
-                const uri = `/social-media/conversation/sub-categories/${selectedSubCategory.id}/conversation?mode=${mode}&interview_id=${currentSessionId}`
+                const uri = `/social-media/conversation/sub-categories/${selectedSubCategory.id}/conversation?mode=${mode}`
                 const response = await axios.get<ResultsMetaDataType>(appConfig.api.url(uri));
                 console.log('response.data::', uri, response.data)
                 setMessages(response.data.records || []);
@@ -46,7 +45,7 @@ const InterviewSubNavMenu: React.FC<SubNavMenuProps> = ({
         };
 
         fetchConversation();
-    }, [selectedCategory, selectedSubCategory, setMessages, currentSessionId]);
+    }, [selectedCategory, selectedSubCategory, setMessages]);
 
     const handleSetSelectedCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const categoryId = e.target.value;

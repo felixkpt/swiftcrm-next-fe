@@ -108,8 +108,11 @@ const Renderer: React.FC<Props> = ({
     const dataTarget = target.getAttribute('data-target') as KnownActionsType;
     const recordId = target.getAttribute('data-id');
 
+    console.log(recordId)
+
+    e.preventDefault();
+
     if (action && recordId) {
-      e.preventDefault();
       const record = records.find(record => record.id.toString() === recordId);
       if (record) {
         const actionConfig = actionLabels[action];
@@ -134,6 +137,7 @@ const Renderer: React.FC<Props> = ({
     };
 
     const componentTable = document.getElementById(`${modelID}AutoTable`);
+    console.log('componentTable',componentTable)
     if (componentTable) {
       componentTable.addEventListener('click', handleTableClick);
       return () => {

@@ -1,12 +1,8 @@
 'use client';
 
-import React, { useState, MouseEvent } from 'react';
-import { Button, Menu, MenuItem, IconButton, Typography } from '@mui/material';
-import { MoreVert as MoreVertIcon } from '@mui/icons-material';
-import Link from 'next/link';
 import { ActionListType, KnownActionsType, ActionType } from "@/app/components/Autos/autoTypes";
+import Link from "next/link";
 import { getEndpoint } from "../../Autos/BaseAutoModel/autoFunctions";
-import { Visibility as VisibilityIcon, Edit as EditIcon, Update as UpdateIcon, Archive as ArchiveIcon, Delete as DeleteIcon } from '@mui/icons-material';
 
 type Props = {
     modelID: string;
@@ -16,92 +12,69 @@ type Props = {
     actionType?: ActionType;
 };
 
-
-const iconMapping: Record<KnownActionsType, React.ReactNode> = {
-    viewRecord: <VisibilityIcon />,
-    editRecord: <EditIcon />,
-    updateRecordStatus: <UpdateIcon />,
-    archiveRecord: <ArchiveIcon />,
-    deleteRecord: <DeleteIcon />,
-};
-
-
 const AutoRecordActionSection = ({ modelID, record, recordEndpoint, actionLabels, actionType = 'dropdown' }: Props) => {
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-    if (Object.keys(actionLabels).length === 0) return null;
+    console.log('actionsList',actionLabels)
+    if (Object.keys(actionLabels).length === 0) return
 
-    const actionsList = Object.keys(actionLabels) as KnownActionsType[];
+    const actionsList = Object.keys(actionLabels) as KnownActionsType[]
 
-    const handleClick = (event: MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     return (
         <>
-            {actionType === 'dropdown' ? (
-                <>
-                    <IconButton
-                        aria-controls="action-menu"
-                        aria-haspopup="true"
-                        onClick={handleClick}
-                        color="primary"
-                    >
-                        <MoreVertIcon />
-                    </IconButton>
-                    <Menu
-                        id="action-menu"
-                        anchorEl={anchorEl}
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                        {actionsList.map(actionKey => (
-                            <MenuItem
-                                key={actionKey}
-                                component={Link}
-                                href={getEndpoint(actionLabels, record, recordEndpoint, actionKey)}
-                                data-action={actionKey}
-                                data-id={record.id}
-                                data-target={getEndpoint(actionLabels, record, recordEndpoint, actionKey)}
-                                onClick={handleClose}
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'start',
-                                    alignItems: 'center',
-                                    gap: '0.04rem'
-                                }}
-                            >
-                                {iconMapping[actionKey]}
-                                <Typography variant="body2" sx={{ ml: 1 }}>
-                                    {actionLabels[actionKey]?.label}
-                                </Typography>
-                            </MenuItem>
-                        ))}
-                    </Menu>
-                </>
-            ) : (
-                <div>
-                    {actionsList.map(actionKey => (
-                        <Button
-                            key={actionKey}
-                            component={Link}
-                            href={getEndpoint(actionLabels, record, recordEndpoint, actionKey)}
-                            data-action={actionKey}
-                            data-id={record.id}
-                            data-target={getEndpoint(actionLabels, record, recordEndpoint, actionKey)}
-                            variant="contained"
-                            color="primary"
-                            style={{ margin: '4px' }}
-                        >
-                            {actionLabels[actionKey]?.label}
-                        </Button>
-                    ))}
-                </div>
-            )}
+            {
+                actionType === 'dropdown' ?
+                    <>
+                        <div className="dropdown">
+
+                            <ul className="menu lg:menu-horizontal bg-base-200 rounded-box">
+                                <li>
+                                    <details>
+                                        <summary tabIndex={0} role="button" className="py-0.5 px-2.5">Action</summary>
+                                        <ul tabIndex={0} className="p-2 shadow-lg menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                                            {
+                                                actionsList.map(actionKey => (
+                                                    <li
+                                                        key={`${actionKey}`}
+                                                        className={`p-1 cursor-pointer rounded`}
+                                                    >
+                                                        <Link
+                                                            data-action={`${actionKey}`}
+                                                            data-id={record.id}
+                                                            data-target={getEndpoint(actionLabels, record, recordEndpoint, actionKey)}
+                                                            href={getEndpoint(actionLabels, record, recordEndpoint, actionKey)}
+                                                            className={`m-1 ${actionLabels[actionKey].classes}`}
+                                                        >
+                                                            {actionLabels[actionKey].label}
+                                                        </Link>
+                                                    </li>
+                                                ))
+                                            }
+                                        </ul>
+                                    </details>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </>
+                    :
+                    <div className={`buttons ${modelID}AutoRecordActionSection`}>
+                        {
+                            actionsList.map(actionKey => (
+                                <Link
+                                    key={`${actionKey}`}
+                                    data-action={`${actionKey}`}
+                                    data-id={record.id}
+                                    data-target={getEndpoint(actionLabels, record, recordEndpoint, actionKey)}
+                                    href={getEndpoint(actionLabels, record, recordEndpoint, actionKey)}
+                                    className={`btn btn-sm m-1 ${actionLabels[actionKey].classes}`}
+                                >
+                                    {actionLabels[actionKey].label}
+                                </Link>
+                            ))
+                        }
+                    </div>
+            }
         </>
     );
 }

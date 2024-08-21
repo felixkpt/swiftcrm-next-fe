@@ -24,8 +24,7 @@ const page = () => {
   const pathname = usePathname()
   const apiEndpoint = pathname;
 
-  const actionType = 'buttons'
-  const actionLabels = ACTION_LABELS
+  const ACTION_TYPE = 'buttons'
   const isSingle = true
   return (
     <>
@@ -35,8 +34,8 @@ const page = () => {
         modelNamePlural={MODEL_NAME_PLURAL} // Plural model name for display
         fillableFields={FILLABLE_FIELDS} // Fields that are fillable
         headers={HEADERS} // Table headers
-        actionLabels={actionLabels} // Labels for different actions (e.g., create, update)
-        actionType={actionType} // Type of action (e.g., dropdown, buttons)
+        actionLabels={ACTION_LABELS} // Labels for different actions (e.g., create, update)
+        actionType={ACTION_TYPE} // Type of action (e.g., dropdown, buttons)
         apiEndpoint={apiEndpoint} // API endpoint for fetching records
         fetchOptions={fetchOptions} // Function to fetch options based on endpoint and parameters
         isSingle={isSingle} // Indicates whether the component is in single mode

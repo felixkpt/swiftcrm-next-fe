@@ -4,8 +4,8 @@
 import { usePathname } from 'next/navigation';
 // Start AutoModel imports
 import getConstants from '../AutoModel/getConstants';
-import mapRecords from '../AutoModel/mapRecords';
 import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderSingle';
+import fetchOptions from '@/app/components/baseComponents/utils/fetchOptions';
 // End AutoModel imports
 
 const page = () => {
@@ -30,11 +30,12 @@ const page = () => {
         modelNameSingular={MODEL_NAME_SINGULAR}
         modelNamePlural={MODEL_NAME_PLURAL}
         modelID={MODEL_ID}
-        apiEndpoint={apiEndpoint}
         fillableFields={FILLABLE_FIELDS}
         headers={HEADERS}
-        mapRecords={records => mapRecords(records, MODEL_ID, apiEndpoint, actionLabels, actionType, isSingle)}
         actionLabels={actionLabels}
+        actionType={actionType} // Type of action (e.g., create, edit)
+        apiEndpoint={apiEndpoint}
+        fetchOptions={fetchOptions} // Function to fetch options based on endpoint and parameters
         isSingle={isSingle}
       />
     </>

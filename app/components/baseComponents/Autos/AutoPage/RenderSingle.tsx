@@ -5,49 +5,72 @@ import AutoHeader from '../AutoHeader';
 import DefaultAutoTableHeaderActions from '@/app/components/baseComponents/AutoTableModes/Default/AutoTableHeaderActions';
 import { appConfig } from '@/app/components/baseComponents/utils/helpers';
 import useAutoPostDone from '@/app/components/baseComponents/hooks/useAutoPostDone';
-import { ActionHandlersInterface, ActionListType, FillableType, HeaderType, KnownActionsType, RecordType } from '../BaseAutoModel/types';
+import { ActionHandlersInterface, ActionListType, ActionType, FillableType, HeaderType, KnownActionsType, RecordType } from '../BaseAutoModel/types';
 import DefaultActionHandlers from '../BaseAutoModel/ActionHandlers';
 import AutoTableSingle from '../AutoTableSingle';
 import AllActionsModals from '../AutoActions/AllActionsModals';
 import AllActionsAutoPosts from '../AutoActions/AllActionsAutoPosts';
+import mapRecords from '../BaseAutoModel/mapRecords';
+import { getEndpoint } from '../BaseAutoModel/autoFunctions';
 
 type Props = {
   modelNameSingular: string;
   modelNamePlural: string;
   modelID: string;
-  apiEndpoint: string;
   fillableFields: FillableType[];
   headers: HeaderType[];
   AutoTableHeaderActions?: React.ElementType;
   ActionHandlers?: new (modelID: string, apiEndpoint: string, isSingle?: boolean) => ActionHandlersInterface;
-  mapRecords: (record: any[]) => any[];
   actionLabels: Partial<ActionListType>;
+  actionType: ActionType;
+  apiEndpoint: string;
+  fetchOptions: (endPoint: string, params: object) => Promise<any[]>;
   isSingle?: boolean
+
 };
 
 const Renderer: React.FC<Props> = ({
   modelNameSingular,
   modelNamePlural,
   modelID,
-  apiEndpoint,
   fillableFields,
   headers,
   AutoTableHeaderActions,
   ActionHandlers,
-  mapRecords,
   actionLabels,
+  actionType,
+  apiEndpoint,
+  fetchOptions,
   isSingle,
 }) => {
   const defaultActionHandlers = ActionHandlers ? new ActionHandlers(modelID, apiEndpoint, isSingle) : new DefaultActionHandlers(modelID, apiEndpoint, isSingle);
 
   const router = useRouter();
+  const handleActionClick = (actionKey: KnownActionsType, record: any, recordEndpoint: string) => {
+    const actionConfig = actionLabels[actionKey]
+    if (actionConfig) {
+      const dataTarget = getEndpoint(actionLabels, record, recordEndpoint, actionKey);
+      if (actionConfig.actionType === 'modal') {
+        defaultActionHandlers[actionKey](record, headers);
+      } else if (actionConfig.actionType === 'navigation') {
+        if (dataTarget) {
+          router.push(dataTarget);
+        }
+      }
+    } else {
+      console.warn(`Action label for ${actionKey} is undefined.`);
+    }
+  };
+
   const [record, setRecord] = useState<RecordType>();
+
   const { response } = useAutoPostDone({ modelID });
 
   const fetchRecord = async () => {
     try {
       const response = await axios.get(appConfig.api.url(apiEndpoint));
-      setRecord(mapRecords([response.data] || [])[0]);
+      setRecord(mapRecords([response.data] || [], modelID, apiEndpoint, actionLabels, actionType, handleActionClick)[0]);
+
     } catch (error) {
       console.error(`Error fetching ${modelNamePlural}:`, error);
     }
@@ -121,6 +144,7 @@ const Renderer: React.FC<Props> = ({
         modelNameSingular={modelNameSingular}
         apiEndpoint={apiEndpoint}
         fillableFields={fillableFields}
+        fetchOptions={fetchOptions}
       />
       <AllActionsAutoPosts modelID={modelID} />
 

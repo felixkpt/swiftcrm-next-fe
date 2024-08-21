@@ -17,6 +17,7 @@ type HeadCell = {
 };
 
 type EnhancedTableProps = {
+  modelID: string;
   headCells: HeadCell[];
   rows: any[];
   orderBy: string;
@@ -29,6 +30,7 @@ type EnhancedTableProps = {
 };
 
 const EnhancedTable = ({
+  modelID,
   headCells,
   rows,
   orderBy,
@@ -76,7 +78,7 @@ const EnhancedTable = ({
             }).map((row, index) => (
               <TableRow key={index}>
                 {headCells.map((cell) => (
-                  <TableCell key={cell.id} align={cell.numeric ? 'right' : 'left'}>
+                  <TableCell key={cell.id} className={`${modelID} data-${cell.id}`} align={cell.numeric ? 'right' : 'left'}>
                     {row[cell.id]}
                   </TableCell>
                 ))}

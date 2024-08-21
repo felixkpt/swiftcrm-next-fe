@@ -14,7 +14,7 @@ class ActionHandlers implements ActionHandlersInterface {
 
   viewRecord = (record: RecordType, headers: HeaderType[]) => {
     console.log('Viewing record', record);
-
+    
     const endpoint = (this.isSingle ? this.apiEndpoint : `${this.apiEndpoint}/${record.id}`).replace(/\/+/g, '/')
     publish(`${this.modelID}_View_setRecord`, {
       record,
@@ -25,8 +25,9 @@ class ActionHandlers implements ActionHandlersInterface {
 
     publish(`${this.modelID}_View_showModal`, record); // Show modal for viewing
   };
-
+  
   editRecord = (record: RecordType) => {
+    console.log('Edit record', record);
 
     const endpoint = (this.isSingle ? this.apiEndpoint : `${this.apiEndpoint}/${record.id}`).replace(/\/+/g, '/')
     publish(`${this.modelID}_CreateOrUpdate_editRecord`, {

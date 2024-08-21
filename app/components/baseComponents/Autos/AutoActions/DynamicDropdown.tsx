@@ -5,6 +5,7 @@ import { Select, MenuItem, CircularProgress, FormControl, InputLabel, FormHelper
 type Props = {
     modelID: string;
     name: string;
+    fetchOptions: (endPoint: string, params: object) => Promise<any[]>;
     value: string;
     onChange: (e: React.ChangeEvent<{ value: unknown }>) => void;
     dropdownSource: string;
@@ -14,6 +15,7 @@ type Props = {
 
 const DynamicDropdown: React.FC<Props> = ({
     name,
+    fetchOptions,
     value,
     onChange,
     dropdownSource,
@@ -24,24 +26,23 @@ const DynamicDropdown: React.FC<Props> = ({
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
+
+    // Updated fetch function to use fetchOptions prop
+    const fetchOptionsData = async () => {
+        const queryParams = { per_page: '50' };
+        setLoading(true);
+        try {
+            const data = await fetchOptions(appConfig.api.url(dropdownSource), queryParams);
+            setOptions(data || []);
+        } catch (error: any) {
+            setError(error.message || 'An error occurred while fetching options.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchOptions = async () => {
-            setLoading(true);
-            try {
-                const response = await fetch(`${appConfig.api.url(dropdownSource)}/?per_page=50`);
-
-                if (!response.ok) throw new Error('Failed to fetch options');
-                const data = await response.json();
-
-                setOptions(data.records || []);
-            } catch (error: any) {
-                setError(error.message || 'An error occurred while fetching options.');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchOptions();
+        fetchOptionsData();
     }, [dropdownSource]);
 
     useEffect(() => {

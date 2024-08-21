@@ -1,12 +1,15 @@
 
 /* eslint-disable react-hooks/rules-of-hooks */
 'use client';
+// Third-party imports
 import { usePathname } from 'next/navigation';
-// Start AutoModel imports
+
+// AutoModel/Component imports
 import getConstants from '../AutoModel/getConstants';
-import mapRecords from '../AutoModel/mapRecords';
 import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderSingle';
-// End AutoModel imports
+
+// Internal utility imports
+import fetchOptions from '@/app/components/baseComponents/utils/fetchOptions';
 
 const page = () => {
   const {
@@ -30,11 +33,12 @@ const page = () => {
         modelNameSingular={MODEL_NAME_SINGULAR}
         modelNamePlural={MODEL_NAME_PLURAL}
         modelID={MODEL_ID}
-        apiEndpoint={apiEndpoint}
         fillableFields={FILLABLE_FIELDS}
         headers={HEADERS}
-        mapRecords={records => mapRecords(records, MODEL_ID, apiEndpoint, actionLabels, actionType, isSingle)}
         actionLabels={actionLabels}
+        actionType={actionType} // Type of action (e.g., create, edit)
+        apiEndpoint={apiEndpoint}
+        fetchOptions={fetchOptions} // Function to fetch options based on endpoint and parameters
         isSingle={isSingle}
       />
     </>

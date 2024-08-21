@@ -1,7 +1,7 @@
 // Define TypeScript types for the results
 interface FetchRecordsResponse {
-  records: any[]; // Adjust the type if you have a specific record structure
-  metadata: object | null; // Adjust the type if you have a specific metadata structure
+  records: any[];
+  metadata: object | null;
 }
 
 /**
@@ -15,10 +15,13 @@ interface FetchRecordsResponse {
  * @throws {Error} - Throws an error if the fetch operation fails.
  */
 const fetchRecords = async (apiEndpoint: string, tags: string[] = []): Promise<FetchRecordsResponse> => {
-  let records: any[] = []; // Adjust the type if you have a specific record structure
-  let metadata: object | null = null; // Adjust the type if you have a specific metadata structure
+  let records: any[] = [];
+  let metadata: object | null = null;
 
   try {
+    tags = [apiEndpoint, ...tags]
+    console.log('TAGS:', tags)
+
     const response = await fetch(apiEndpoint, { next: { tags } });
 
     if (!response.ok) {

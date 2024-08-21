@@ -13,9 +13,11 @@ type Props = {
   metadata: MetadataType;
   handleSearch: (filters: Record<string, any>) => void;
   handleExport: (filters: Record<string, any>) => void;
+  fetchOptions: (endPoint: string, params: object) => Promise<any[]>;
+
 };
 
-const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, modelID, metadata, handleSearch, handleExport }) => {
+const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, modelID, metadata, handleSearch, handleExport,fetchOptions }) => {
   const [filters, setFilters] = useState<Record<string, any>>({});
 
   const handleInputChange = (e: ChangeEvent<{ name?: string; value: unknown }>) => {
@@ -69,6 +71,7 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, modelID, meta
                       <DropdownDependsOn
                         modelID={modelID}
                         name={field.name}
+                        fetchOptions={fetchOptions}
                         value={filters[field.name] || ''}
                         onChange={handleInputChange}
                         dropdownSource={field.dropdownSource || ''}
@@ -81,6 +84,7 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, modelID, meta
                       <DynamicDropdown
                         modelID={modelID}
                         name={field.name}
+                        fetchOptions={fetchOptions}
                         value={filters[field.name] || ''}
                         onChange={handleInputChange}
                         dropdownSource={field.dropdownSource || ''}

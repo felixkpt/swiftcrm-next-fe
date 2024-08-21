@@ -1,11 +1,15 @@
 
-// Start AutoModel imports
+// Third-party imports
+import { revalidateTag } from 'next/cache';
+
+// Internal utility imports
 import { appConfig } from '@/app/components/baseComponents/utils/helpers';
 import fetchRecords from '@/app/components/baseComponents/utils/fetchRecords';
+import fetchOptions from '@/app/components/baseComponents/utils/fetchOptions';
+
+// Component imports
 import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderList';
 import getConstants from './AutoModel/getConstants';
-import { revalidateTag } from 'next/cache';
-// End AutoModel imports
 
 const page = async () => {
   // Destructure constants from getConstants
@@ -54,6 +58,7 @@ const page = async () => {
       apiEndpoint={API_ENDPOINT} // API endpoint for fetching records
       serverRecords={records} // Initial fetched records to be displayed
       revalidateServerRecords={revalidateServerRecords} // Function to revalidate server records
+      fetchOptions={fetchOptions} // Function to fetch options based on endpoint and parameters
       serverMetadata={metadata} // Metadata associated with the fetched records
     />
   );

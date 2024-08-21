@@ -12,9 +12,10 @@ type Props = {
     modelNameSingular: string;
     apiEndpoint: string;
     fillableFields: FillableType[];
+    fetchOptions: (endPoint: string, params: object) => Promise<any[]>;
 };
 
-const AllActionsModals: React.FC<Props> = ({ modelID, modelNameSingular, apiEndpoint, fillableFields }) => {
+const AllActionsModals: React.FC<Props> = ({ modelID, modelNameSingular, apiEndpoint, fillableFields, fetchOptions }) => {
 
     const fillableFieldsFiltered = fillableFields.filter((v) => !v.hidden)
     return (
@@ -26,6 +27,7 @@ const AllActionsModals: React.FC<Props> = ({ modelID, modelNameSingular, apiEndp
                     method="POST"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
+                    fetchOptions={fetchOptions}
                 />
             </AutoModal>
             <AutoModal modelID={`${modelID}_View`} title={modelNameSingular}>

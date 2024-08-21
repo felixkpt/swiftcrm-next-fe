@@ -50,6 +50,7 @@ const AutoModal = ({ modelID, title, children }: Props) => {
             onClose={handleClose}
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
+            keepMounted
         >
             <Box
                 sx={{

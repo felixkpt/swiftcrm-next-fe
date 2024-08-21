@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import AutoHeader from '../AutoHeader';
 import DefaultAutoTableHeaderActions from '@/app/components/baseComponents/AutoTableModes/Default/AutoTableHeaderActions';
@@ -15,12 +15,12 @@ import AllActionsAutoPosts from '../AutoActions/AllActionsAutoPosts';
 import useAutoResolveEndPointPlaceholders from '../BaseAutoModel/useAutoResolveEndPointPlaceholders';
 import { GeneralResultType, MetadataType } from '../../types';
 import mapRecords from '../BaseAutoModel/mapRecords';
+import { getEndpoint } from '../BaseAutoModel/autoFunctions';
 
 type Props = {
   modelID: string;
   modelNameSingular: string;
   modelNamePlural: string;
-  apiEndpoint: string;
   fillableFields: FillableType[];
   headers: HeaderType[];
   AutoTableHeaderActions?: React.ElementType;
@@ -30,6 +30,8 @@ type Props = {
   serverMetadata: any;
   actionLabels: Partial<ActionListType>;
   actionType: any;
+  apiEndpoint: string;
+  fetchOptions: (endPoint: string, params: object) => Promise<any[]>;
   createUri?: string;
 };
 
@@ -37,7 +39,6 @@ const Renderer: React.FC<Props> = ({
   modelID,
   modelNameSingular,
   modelNamePlural,
-  apiEndpoint,
   fillableFields,
   headers,
   AutoTableHeaderActions,
@@ -47,13 +48,32 @@ const Renderer: React.FC<Props> = ({
   serverMetadata,
   actionLabels,
   actionType,
+  apiEndpoint,
+  fetchOptions,
   createUri,
 }) => {
   const defaultActionHandlers = ActionHandlers ? new ActionHandlers(modelID, apiEndpoint) : new DefaultActionHandlers(modelID, apiEndpoint);
   apiEndpoint = useAutoResolveEndPointPlaceholders({ apiEndpoint });
 
+  const handleActionClick = (actionKey: KnownActionsType, record: any, recordEndpoint: string) => {
+    const actionConfig = actionLabels[actionKey]
+    if (actionConfig) {
+      const dataTarget = getEndpoint(actionLabels, record, recordEndpoint, actionKey);
+      if (actionConfig.actionType === 'modal') {
+        defaultActionHandlers[actionKey](record, headers);
+      } else if (actionConfig.actionType === 'navigation') {
+        if (dataTarget) {
+          router.push(dataTarget);
+        }
+      }
+    } else {
+      console.warn(`Action label for ${actionKey} is undefined.`);
+    }
+  };
+
+
   const [headerTitle, setHeaderTitle] = useState(`${modelNamePlural.charAt(0).toUpperCase() + modelNamePlural.slice(1)} list`);
-  const [records, setRecords] = useState<GeneralResultType[]>(mapRecords(serverRecords || [], modelID, apiEndpoint, actionLabels, actionType));
+  const [records, setRecords] = useState<GeneralResultType[]>(mapRecords(serverRecords || [], modelID, apiEndpoint, actionLabels, actionType, handleActionClick));
   const [metadata, setMetaData] = useState<MetadataType>(serverMetadata);
   const [filters, setFilters] = useState<Record<string, any>>({});
   const { response } = useAutoPostDone({ modelID });
@@ -75,13 +95,13 @@ const Renderer: React.FC<Props> = ({
       const hasMetaData = typeof data?.metadata !== 'undefined';
 
       if (hasMetaData) {
-        setRecords(mapRecords(data.records || [], modelID, apiEndpoint, actionLabels, actionType));
+        setRecords(mapRecords(data.records || [], modelID, apiEndpoint, actionLabels, actionType, handleActionClick));
         if (data.metadata) {
           setHeaderTitle(data.metadata?.title || headerTitle);
           setMetaData(data.metadata);
         }
       } else {
-        setRecords(mapRecords(data || [], modelID, apiEndpoint, actionLabels, actionType));
+        setRecords(mapRecords(data || [], modelID, apiEndpoint, actionLabels, actionType, handleActionClick));
         setMetaData(null);
       }
 
@@ -101,50 +121,6 @@ const Renderer: React.FC<Props> = ({
       revalidateServerRecords();
     }
   }, [response]);
-
-  const handleRecordAction = useCallback((e: Event) => {
-    const target = e.target as HTMLElement;
-    const action = target.getAttribute('data-action') as KnownActionsType;
-    const dataTarget = target.getAttribute('data-target') as KnownActionsType;
-    const recordId = target.getAttribute('data-id');
-
-    console.log(recordId)
-
-    e.preventDefault();
-
-    if (action && recordId) {
-      const record = records.find(record => record.id.toString() === recordId);
-      if (record) {
-        const actionConfig = actionLabels[action];
-        if (actionConfig) {
-          if (actionConfig.actionType === 'modal') {
-            defaultActionHandlers[action](record, headers);
-          } else if (actionConfig.actionType === 'navigation') {
-            router.push(dataTarget);
-          }
-        } else {
-          console.error(`Action configuration for "${action}" not found.`);
-        }
-      } else {
-        console.error(`Record with ID ${recordId} not found.`);
-      }
-    }
-  }, [records, actionLabels, defaultActionHandlers, apiEndpoint]);
-
-  useEffect(() => {
-    const handleTableClick = (e: Event) => {
-      handleRecordAction(e);
-    };
-
-    const componentTable = document.getElementById(`${modelID}AutoTable`);
-    console.log('componentTable',componentTable)
-    if (componentTable) {
-      componentTable.addEventListener('click', handleTableClick);
-      return () => {
-        componentTable.removeEventListener('click', handleTableClick);
-      };
-    }
-  }, [records, handleRecordAction]);
 
   const handleSearch = (searchFilters: Record<string, any>) => {
     setFilters({ ...filters, ...searchFilters, page: 1 });
@@ -176,12 +152,14 @@ const Renderer: React.FC<Props> = ({
         AutoTableHeaderActions={AutoTableHeaderActions || DefaultAutoTableHeaderActions}
         handleSearch={handleSearch}
         handleExport={handleExport}
+        fetchOptions={fetchOptions}
       />
       <AllActionsModals
         modelID={modelID}
         modelNameSingular={modelNameSingular}
         apiEndpoint={apiEndpoint}
         fillableFields={fillableFields}
+        fetchOptions={fetchOptions}
       />
       <AllActionsAutoPosts modelID={modelID} />
     </div>

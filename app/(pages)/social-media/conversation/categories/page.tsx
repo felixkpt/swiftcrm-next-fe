@@ -54,7 +54,7 @@ const page = async () => {
       fillableFields={FILLABLE_FIELDS} // Fields that are fillable
       headers={HEADERS} // Table headers
       actionLabels={ACTION_LABELS} // Labels for different actions (e.g., create, update)
-      actionType={actionType} // Type of action (e.g., dropdown, buttons)
+      actionType={ACTION_TYPE} // Type of action (e.g., dropdown, buttons)
       apiEndpoint={API_ENDPOINT} // API endpoint for fetching records
       fetchOptions={fetchOptions} // Function to fetch options based on endpoint and parameters
       serverRecords={records} // Initial fetched records to be displayed

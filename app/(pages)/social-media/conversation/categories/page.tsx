@@ -1,11 +1,15 @@
 
-// Start AutoModel imports
+// Third-party imports
+import { revalidateTag } from 'next/cache';
+
+// Internal utility imports
 import { appConfig } from '@/app/components/baseComponents/utils/helpers';
 import fetchRecords from '@/app/components/baseComponents/utils/fetchRecords';
+import fetchOptions from '@/app/components/baseComponents/utils/fetchOptions';
+
+// AutoModel/Component imports
 import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderList';
 import getConstants from './AutoModel/getConstants';
-import { revalidateTag } from 'next/cache';
-// End AutoModel imports
 
 const page = async () => {
   // Destructure constants from getConstants
@@ -44,14 +48,15 @@ const page = async () => {
 
   return (
     <Renderer
-      modelNameSingular={MODEL_NAME_SINGULAR} // Model name for display purposes
-      modelNamePlural={MODEL_NAME_PLURAL} // Plural model name for API and display
       modelID={MODEL_ID} // Unique component identifier
+      modelNameSingular={MODEL_NAME_SINGULAR} // Model name for display purposes
+      modelNamePlural={MODEL_NAME_PLURAL} // Plural model name for display
       fillableFields={FILLABLE_FIELDS} // Fields that are fillable
-      headers={HEADERS} // HTTP headers for API requests
+      headers={HEADERS} // Table headers
       actionLabels={ACTION_LABELS} // Labels for different actions (e.g., create, update)
-      actionType={ACTION_TYPE} // Type of action (e.g., create, edit)
+      actionType={actionType} // Type of action (e.g., dropdown, buttons)
       apiEndpoint={API_ENDPOINT} // API endpoint for fetching records
+      fetchOptions={fetchOptions} // Function to fetch options based on endpoint and parameters
       serverRecords={records} // Initial fetched records to be displayed
       revalidateServerRecords={revalidateServerRecords} // Function to revalidate server records
       serverMetadata={metadata} // Metadata associated with the fetched records

@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = '3dded4a5-9ba1-42b8-b04b-a4864863563a';
+const modelID = '848a459f-5d7b-4bef-90b5-3fb65bc8aa7a';
 const modelNameSingular = 'Category';
 const modelNamePlural = 'Categories';
 const modelURI = 'social-media/conversation/categories';
@@ -16,12 +16,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "string",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: true,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -31,12 +31,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "textarea",
     dataType: "text",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12

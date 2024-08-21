@@ -1,12 +1,15 @@
 
 /* eslint-disable react-hooks/rules-of-hooks */
 'use client';
+// Third-party imports
 import { usePathname } from 'next/navigation';
-// Start AutoModel imports
+
+// AutoModel/Component imports
 import getConstants from '../AutoModel/getConstants';
-import mapRecords from '../AutoModel/mapRecords';
 import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderSingle';
-// End AutoModel imports
+
+// Internal utility imports
+import fetchOptions from '@/app/components/baseComponents/utils/fetchOptions';
 
 const page = () => {
   const {
@@ -27,15 +30,16 @@ const page = () => {
   return (
     <>
       <Renderer
-        modelNameSingular={MODEL_NAME_SINGULAR}
-        modelNamePlural={MODEL_NAME_PLURAL}
-        modelID={MODEL_ID}
-        apiEndpoint={apiEndpoint}
-        fillableFields={FILLABLE_FIELDS}
-        headers={HEADERS}
-        mapRecords={records => mapRecords(records, MODEL_ID, apiEndpoint, actionLabels, actionType, isSingle)}
-        actionLabels={actionLabels}
-        isSingle={isSingle}
+        modelID={MODEL_ID} // Unique component identifier
+        modelNameSingular={MODEL_NAME_SINGULAR} // Model name for display purposes
+        modelNamePlural={MODEL_NAME_PLURAL} // Plural model name for display
+        fillableFields={FILLABLE_FIELDS} // Fields that are fillable
+        headers={HEADERS} // Table headers
+        actionLabels={actionLabels} // Labels for different actions (e.g., create, update)
+        actionType={actionType} // Type of action (e.g., dropdown, buttons)
+        apiEndpoint={apiEndpoint} // API endpoint for fetching records
+        fetchOptions={fetchOptions} // Function to fetch options based on endpoint and parameters
+        isSingle={isSingle} // Indicates whether the component is in single mode
       />
     </>
   );

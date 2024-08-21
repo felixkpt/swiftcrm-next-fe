@@ -34,7 +34,7 @@ const page = () => {
         modelNamePlural={MODEL_NAME_PLURAL} // Plural model name for API and display
         modelID={MODEL_ID} // Unique component identifier
         fillableFields={FILLABLE_FIELDS} // Fields that are fillable
-        headers={HEADERS} // HTTP headers for API requests
+        headers={HEADERS} // Table headers
         actionLabels={actionLabels} // Labels for different actions (e.g., create, update)
         actionType={actionType} // Type of action (e.g., dropdown, buttons)
         apiEndpoint={apiEndpoint} // API endpoint for fetching records

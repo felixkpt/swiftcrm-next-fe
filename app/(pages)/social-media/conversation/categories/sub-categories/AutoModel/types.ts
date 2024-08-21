@@ -1,7 +1,7 @@
 
 type SubCategoryType = {
 name: string;
-  category_id: any;
+  category_id: string;
   learn_instructions: string;
 }
 

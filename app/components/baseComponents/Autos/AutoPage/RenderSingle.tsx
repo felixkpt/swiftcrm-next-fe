@@ -14,9 +14,9 @@ import mapRecords from '../BaseAutoModel/mapRecords';
 import { getEndpoint } from '../BaseAutoModel/autoFunctions';
 
 type Props = {
+  modelID: string;
   modelNameSingular: string;
   modelNamePlural: string;
-  modelID: string;
   fillableFields: FillableType[];
   headers: HeaderType[];
   AutoTableHeaderActions?: React.ElementType;
@@ -30,9 +30,9 @@ type Props = {
 };
 
 const Renderer: React.FC<Props> = ({
+  modelID,
   modelNameSingular,
   modelNamePlural,
-  modelID,
   fillableFields,
   headers,
   AutoTableHeaderActions,

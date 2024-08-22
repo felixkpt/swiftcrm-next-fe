@@ -5,11 +5,11 @@ import { revalidateTag } from 'next/cache';
 // Internal utility imports
 import { appConfig } from '@/app/components/baseComponents/utils/helpers';
 import fetchRecords from '@/app/components/baseComponents/utils/fetchRecords';
-import fetchOptions from '@/app/components/baseComponents/utils/fetchOptions';
 
 // AutoModel/Component imports
 import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderList';
 import getConstants from './AutoModel/getConstants';
+import getServerModelOptions from '@/app/components/baseComponents/utils/getServerModelOptions';
 
 const page = async () => {
   // Destructure constants from getConstants
@@ -46,6 +46,8 @@ const page = async () => {
     revalidateTag(MODEL_ID);
   }
 
+  const serverModelOptions = await getServerModelOptions(FILLABLE_FIELDS);
+
   return (
     <Renderer
       modelID={MODEL_ID} // Unique component identifier
@@ -56,8 +58,8 @@ const page = async () => {
       actionLabels={ACTION_LABELS} // Labels for different actions (e.g., create, update)
       actionType={ACTION_TYPE} // Type of action (e.g., dropdown, buttons)
       apiEndpoint={API_ENDPOINT} // API endpoint for fetching records
-      fetchOptions={fetchOptions} // Function to fetch options based on endpoint and parameters
       serverRecords={records} // Initial fetched records to be displayed
+      serverModelOptions={serverModelOptions} // Model's grouped options
       revalidateServerRecords={revalidateServerRecords} // Function to revalidate server records
       serverMetadata={metadata} // Metadata associated with the fetched records
     />

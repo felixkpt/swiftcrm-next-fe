@@ -19,10 +19,14 @@ const fetchRecords = async (apiEndpoint: string, tags: string[] = []): Promise<F
   let metadata: object | null = null;
 
   try {
-    tags = [apiEndpoint, ...tags]
-    console.log('TAGS:', tags)
+    const trimmedText = apiEndpoint.endsWith('/') && apiEndpoint.indexOf('/') !== apiEndpoint.lastIndexOf('/')
+      ? apiEndpoint.slice(0, -1)
+      : apiEndpoint;
 
-    const response = await fetch(apiEndpoint, { next: { tags } });
+    tags = [trimmedText]
+    console.log('Record TAGS:', tags)
+
+    const response = await fetch(apiEndpoint + '?source=fetchRecords', { next: { tags } });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch data from ${apiEndpoint}`);

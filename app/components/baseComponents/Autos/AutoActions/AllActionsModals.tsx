@@ -6,16 +6,17 @@ import AutoUpdateStatus from './AutoUpdateStatus';
 import AutoDeleteRecord from './AutoDeleteRecord';
 import AutoArchiveRecord from './AutoArchiveRecord';
 import { FillableType } from '../BaseAutoModel/types';
+import { ServerModelOptionType } from '../../types';
 
 type Props = {
     modelID: string;
     modelNameSingular: string;
     apiEndpoint: string;
     fillableFields: FillableType[];
-    fetchOptions: (endPoint: string, params: object) => Promise<any[]>;
+    serverModelOptions: ServerModelOptionType;
 };
 
-const AllActionsModals: React.FC<Props> = ({ modelID, modelNameSingular, apiEndpoint, fillableFields, fetchOptions }) => {
+const AllActionsModals: React.FC<Props> = ({ modelID, modelNameSingular, apiEndpoint, fillableFields, serverModelOptions }) => {
 
     const fillableFieldsFiltered = fillableFields.filter((v) => !v.hidden)
     return (
@@ -27,7 +28,7 @@ const AllActionsModals: React.FC<Props> = ({ modelID, modelNameSingular, apiEndp
                     method="POST"
                     endpoint={apiEndpoint}
                     fillable={fillableFieldsFiltered}
-                    fetchOptions={fetchOptions}
+                    serverModelOptions={serverModelOptions}
                 />
             </AutoModal>
             <AutoModal modelID={`${modelID}_View`} title={modelNameSingular}>

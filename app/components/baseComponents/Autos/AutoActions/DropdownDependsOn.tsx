@@ -6,7 +6,6 @@ import { Select, MenuItem, CircularProgress, FormControl, InputLabel, FormHelper
 type Props = {
     modelID: string;
     name: string;
-    fetchOptions: (endPoint: string, params: object) => Promise<any[]>;
     value: string;
     onChange: (e: React.ChangeEvent<{ value: unknown }>) => void;
     dropdownSource: string;
@@ -17,7 +16,6 @@ type Props = {
 const DropdownDependsOn: React.FC<Props> = ({
     modelID,
     name,
-    fetchOptions,
     value,
     onChange,
     dropdownSource,
@@ -29,13 +27,16 @@ const DropdownDependsOn: React.FC<Props> = ({
     const [error, setError] = useState<string | null>(null);
     const [currentDependencies, setCurrentDependencies] = useState<Record<string, string>>({});
 
-    // Updated fetch function to use fetchOptions prop
-    const fetchOptionsData = async (params: Record<string, string>) => {
-        const queryParams = { per_page: '50', ...params };
+    // Function to fetch options based on current dependencies
+    const fetchOptions = async (params: Record<string, string>) => {
         setLoading(true);
         try {
-            const data = await fetchOptions(appConfig.api.url(dropdownSource), queryParams);
-            setOptions(data || []);
+            const queryParams = new URLSearchParams({ ...params, per_page: 50 }).toString();
+            const response = await fetch(`${appConfig.api.url(dropdownSource)}/?${queryParams}`);
+
+            if (!response.ok) throw new Error('Failed to fetch options');
+            const data = await response.json();
+            setOptions(data.records || []);
         } catch (error: any) {
             setError(error.message || 'An error occurred while fetching options.');
         } finally {
@@ -44,10 +45,12 @@ const DropdownDependsOn: React.FC<Props> = ({
     };
 
     const dependenciesHandler = (newValue: Record<string, string>) => {
+        // Update dependencies based on newValue
         const newDependencies = { ...currentDependencies, ...newValue };
         setCurrentDependencies(newDependencies);
     };
 
+    // Effect to set up listeners and fetch options based on dependencies
     useEffect(() => {
         if (dropdownDependsOn) {
             const listeners = dropdownDependsOn.map(dep => {
@@ -64,7 +67,7 @@ const DropdownDependsOn: React.FC<Props> = ({
 
     useEffect(() => {
         if (Object.keys(currentDependencies).length > 0) {
-            fetchOptionsData(currentDependencies);
+            fetchOptions(currentDependencies);
         }
     }, [currentDependencies]);
 

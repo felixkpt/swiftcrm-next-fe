@@ -24,7 +24,7 @@ type Props = {
   actionLabels: Partial<ActionListType>;
   actionType: ActionType;
   apiEndpoint: string;
-  fetchOptions: (endPoint: string, params: object) => Promise<any[]>;
+  fetchOptions: (serverModelOptions: (endPoint: string, params: object, tags?: string[])) => Promise<any[]>;
   isSingle?: boolean
 
 };

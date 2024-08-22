@@ -42,6 +42,8 @@ const page = async () => {
     revalidateTag(MODEL_ID);
   }
 
+  const serverModelOptions = await getServerModelOptions(FILLABLE_FIELDS);
+
   return (
     <Renderer
       modelNameSingular={MODEL_NAME_SINGULAR} // Model name for display purposes

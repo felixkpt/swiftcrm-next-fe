@@ -5,6 +5,7 @@ import fetchRecords from '@/app/components/baseComponents/utils/fetchRecords';
 import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderList';
 import getConstants from './AutoModel/getConstants';
 import { revalidateTag } from 'next/cache';
+import getServerModelOptions from '@/app/components/baseComponents/utils/getServerModelOptions';
 // End AutoModel imports
 
 const page = async () => {
@@ -42,6 +43,8 @@ const page = async () => {
     revalidateTag(MODEL_ID);
   }
 
+  const serverModelOptions = await getServerModelOptions(FILLABLE_FIELDS);
+
   return (
     <Renderer
       modelNameSingular={MODEL_NAME_SINGULAR} // Model name for display purposes
@@ -53,6 +56,7 @@ const page = async () => {
       actionType={ACTION_TYPE} // Type of action (e.g., create, edit)
       apiEndpoint={API_ENDPOINT} // API endpoint for fetching records
       serverRecords={records} // Initial fetched records to be displayed
+      serverModelOptions={serverModelOptions} // Model's grouped options
       revalidateServerRecords={revalidateServerRecords} // Function to revalidate server records
       serverMetadata={metadata} // Metadata associated with the fetched records
     />

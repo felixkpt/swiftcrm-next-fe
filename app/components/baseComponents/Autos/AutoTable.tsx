@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GeneralResultType, MetadataType } from "../types";
+import { GeneralResultType, MetadataType, ServerModelOptionType } from "../types";
 import { FillableType, HeaderType } from "./BaseAutoModel/types";
 import EnhancedTable from './EnhancedTable'; // Import your EnhancedTable component
 import { IconButton, Tooltip, Collapse, Box } from '@mui/material';
@@ -16,10 +16,10 @@ type Props = {
     AutoTableHeaderActions?: React.ElementType;
     handleSearch: (filters: Record<string, any>) => void;
     handleExport: (filters: Record<string, any>) => void;
-    fetchOptions: (endPoint: string, params: object) => Promise<any[]>;
+    serverModelOptions;
 };
 
-const AutoTable = ({ headers, records, fillableFields, modelID, metadata, onPageNumberChange, AutoTableHeaderActions, handleSearch, handleExport, fetchOptions }: Props) => {
+const AutoTable = ({ headers, records, fillableFields, modelID, metadata, onPageNumberChange, AutoTableHeaderActions, handleSearch, handleExport, serverModelOptions }: Props) => {
     const [orderBy, setOrderBy] = useState('id'); // Default sorting column
     const [order, setOrder] = useState<'asc' | 'desc'>('desc'); // Default sorting order
     const [filtersVisible, setFiltersVisible] = useState(false); // State to manage filter visibility
@@ -73,7 +73,7 @@ const AutoTable = ({ headers, records, fillableFields, modelID, metadata, onPage
                         metadata={metadata}
                         handleSearch={handleSearch}
                         handleExport={handleExport}
-                        fetchOptions={fetchOptions}
+                        serverModelOptions={serverModelOptions}
                     />
                 )}
             </Collapse>

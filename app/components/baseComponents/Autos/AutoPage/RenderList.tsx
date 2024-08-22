@@ -13,7 +13,7 @@ import DefaultActionHandlers from '../BaseAutoModel/ActionHandlers';
 import AllActionsModals from '../AutoActions/AllActionsModals';
 import AllActionsAutoPosts from '../AutoActions/AllActionsAutoPosts';
 import useAutoResolveEndPointPlaceholders from '../BaseAutoModel/useAutoResolveEndPointPlaceholders';
-import { GeneralResultType, MetadataType } from '../../types';
+import { GeneralResultType, MetadataType, ServerModelOptionType, } from '../../types';
 import mapRecords from '../BaseAutoModel/mapRecords';
 import { getEndpoint } from '../BaseAutoModel/autoFunctions';
 
@@ -31,7 +31,7 @@ type Props = {
   actionLabels: Partial<ActionListType>;
   actionType: any;
   apiEndpoint: string;
-  fetchOptions: (endPoint: string, params: object) => Promise<any[]>;
+  serverModelOptions: ServerModelOptionType;
   createUri?: string;
 };
 
@@ -49,7 +49,7 @@ const Renderer: React.FC<Props> = ({
   actionLabels,
   actionType,
   apiEndpoint,
-  fetchOptions,
+  serverModelOptions,
   createUri,
 }) => {
   const defaultActionHandlers = ActionHandlers ? new ActionHandlers(modelID, apiEndpoint) : new DefaultActionHandlers(modelID, apiEndpoint);
@@ -152,14 +152,14 @@ const Renderer: React.FC<Props> = ({
         AutoTableHeaderActions={AutoTableHeaderActions || DefaultAutoTableHeaderActions}
         handleSearch={handleSearch}
         handleExport={handleExport}
-        fetchOptions={fetchOptions}
+        serverModelOptions={serverModelOptions}
       />
       <AllActionsModals
         modelID={modelID}
         modelNameSingular={modelNameSingular}
         apiEndpoint={apiEndpoint}
         fillableFields={fillableFields}
-        fetchOptions={fetchOptions}
+        serverModelOptions={serverModelOptions}
       />
       <AllActionsAutoPosts modelID={modelID} />
     </div>

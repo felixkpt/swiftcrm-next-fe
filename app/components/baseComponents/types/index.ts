@@ -1,4 +1,3 @@
-
 export type RequestResponseType = {
     status: number;
     data?: any;
@@ -15,3 +14,11 @@ export type MetadataType = {
     total_records: number;
 
 } | null
+
+export interface FetchRecordsResponse {
+    records: any[];
+    metadata: object | null;
+}
+export interface ServerModelOptionType {
+    [key: string]: FetchRecordsResponse
+}

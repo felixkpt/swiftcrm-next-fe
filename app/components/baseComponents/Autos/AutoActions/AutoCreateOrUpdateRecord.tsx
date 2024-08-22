@@ -14,7 +14,7 @@ type Props = {
     method: HttpVerb;
     endpoint: string;
     fillable: FillableType[];
-    fetchOptions: (endPoint: string, params: object) => Promise<any[]>;
+    serverModelOptions;
 };
 
 const setInitials = (fillable: FillableType[]) => {
@@ -24,7 +24,7 @@ const setInitials = (fillable: FillableType[]) => {
     }, {} as Record<string, string>);
 };
 
-const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular, method, endpoint, fillable, fetchOptions }) => {
+const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular, method, endpoint, fillable, serverModelOptions }) => {
     const [localTitle, setLocalTitle] = useState(`Create ${modelNameSingular}`);
     const [record, setRecord] = useState<Record<string, any> | null>(null);
     const initialfillable = fillable;
@@ -230,7 +230,6 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular,
                                 onChange={handleChange}
                                 dropdownSource={field.dropdownSource || ''}
                                 dropdownDependsOn={field.dropdownDependsOn}
-                                fetchOptions={fetchOptions}
                             />
                         ) :
                             field.type === 'dropdown' ? (
@@ -241,7 +240,7 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular,
                                     onChange={handleChange}
                                     dropdownSource={field.dropdownSource || ''}
                                     record={record}
-                                    fetchOptions={fetchOptions}
+                                    serverModelOptions={serverModelOptions}
                                 />
                             ) : (
                                 <input

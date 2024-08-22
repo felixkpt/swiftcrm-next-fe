@@ -9,7 +9,6 @@ import getConstants from '../AutoModel/getConstants';
 import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderSingle';
 
 // Internal utility imports
-import fetchOptions from '@/app/components/baseComponents/utils/fetchOptions';
 
 const page = () => {
   const {
@@ -37,7 +36,7 @@ const page = () => {
         actionLabels={ACTION_LABELS} // Labels for different actions (e.g., create, update)
         actionType={ACTION_TYPE} // Type of action (e.g., dropdown, buttons)
         apiEndpoint={apiEndpoint} // API endpoint for fetching records
-        fetchOptions={fetchOptions} // Function to fetch options based on endpoint and parameters
+        serverModelOptions={serverModelOptions} // Model's grouped options
         isSingle={isSingle} // Indicates whether the component is in single mode
       />
     </>

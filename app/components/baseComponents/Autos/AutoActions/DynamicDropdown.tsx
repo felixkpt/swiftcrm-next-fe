@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { appConfig } from '../../utils/helpers';
-import { Select, MenuItem, CircularProgress, FormControl, InputLabel, FormHelperText } from '@mui/material';
+import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { ServerModelOptionType } from '../../types';
 
 type Props = {
     modelID: string;
     name: string;
-    fetchOptions: (endPoint: string, params: object) => Promise<any[]>;
+    serverModelOptions: ServerModelOptionType;
     value: string;
     onChange: (e: React.ChangeEvent<{ value: unknown }>) => void;
     dropdownSource: string;
@@ -15,7 +15,7 @@ type Props = {
 
 const DynamicDropdown: React.FC<Props> = ({
     name,
-    fetchOptions,
+    serverModelOptions,
     value,
     onChange,
     dropdownSource,
@@ -23,26 +23,14 @@ const DynamicDropdown: React.FC<Props> = ({
     size = 'medium',
 }) => {
     const [options, setOptions] = useState<any[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-
-
-    // Updated fetch function to use fetchOptions prop
-    const fetchOptionsData = async () => {
-        const queryParams = { per_page: '50' };
-        setLoading(true);
-        try {
-            const data = await fetchOptions(appConfig.api.url(dropdownSource), queryParams);
-            setOptions(data || []);
-        } catch (error: any) {
-            setError(error.message || 'An error occurred while fetching options.');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     useEffect(() => {
-        fetchOptionsData();
+        console.log('dropdownSource:',dropdownSource, 'serverModelOptions:',serverModelOptions)
+        const exists = serverModelOptions[dropdownSource]
+        console.log('Exists:', exists)
+        if (exists) {
+            setOptions(exists.records || [])
+        }
     }, [dropdownSource]);
 
     useEffect(() => {
@@ -54,9 +42,6 @@ const DynamicDropdown: React.FC<Props> = ({
         }
     }, [record, options, name, value, onChange]);
 
-    if (loading) return <CircularProgress size={24} />;
-    if (error) return <FormHelperText error>{error}</FormHelperText>;
-
     return (
         <FormControl fullWidth variant="outlined" size={size} margin="normal">
             <InputLabel htmlFor={name}>Select...</InputLabel>
@@ -66,7 +51,6 @@ const DynamicDropdown: React.FC<Props> = ({
                 value={value}
                 onChange={onChange}
                 label="Select..."
-                disabled={loading}
             >
                 {options.map((option) => (
                     <MenuItem key={option.id} value={option.id}>

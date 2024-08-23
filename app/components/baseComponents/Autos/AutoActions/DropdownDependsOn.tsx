@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { appConfig } from '../../utils/helpers';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { subscribe } from '@/app/components/baseComponents/utils/pubSub';
-import { Select, MenuItem, CircularProgress, FormControl, InputLabel, FormHelperText, InputProps } from '@mui/material';
+import { Autocomplete, TextField, FormControl, FormHelperText, CircularProgress } from '@mui/material';
+import fetchOptions from '../../utils/fetchOptions';
 
 type Props = {
     modelID: string;
@@ -11,6 +11,25 @@ type Props = {
     dropdownSource: string;
     dropdownDependsOn: string[] | null;
     size?: 'small' | 'medium';
+};
+
+// Throttling function
+const throttle = (func: Function, limit: number) => {
+    let lastFunc: NodeJS.Timeout | null;
+    let lastRan: number | null = null;
+    return (...args: any[]) => {
+        if (lastFunc) clearTimeout(lastFunc);
+        const now = Date.now();
+        if (lastRan === null || now - lastRan >= limit) {
+            func(...args);
+            lastRan = now;
+        } else {
+            lastFunc = setTimeout(() => {
+                func(...args);
+                lastRan = now;
+            }, limit - (now - lastRan));
+        }
+    };
 };
 
 const DropdownDependsOn: React.FC<Props> = ({
@@ -26,16 +45,16 @@ const DropdownDependsOn: React.FC<Props> = ({
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [currentDependencies, setCurrentDependencies] = useState<Record<string, string>>({});
+    const dependenciesRef = useRef(currentDependencies);
 
+    console.log('dropdownDependsOn::', dropdownDependsOn)
     // Function to fetch options based on current dependencies
-    const fetchOptions = async (params: Record<string, string>) => {
+    const prepareFetchOptions = async (params: Record<string, string>) => {
+        console.log('init params:', params)
         setLoading(true);
         try {
-            const queryParams = new URLSearchParams({ ...params, per_page: 50 }).toString();
-            const response = await fetch(`${appConfig.api.url(dropdownSource)}/?${queryParams}`);
-
-            if (!response.ok) throw new Error('Failed to fetch options');
-            const data = await response.json();
+            const queryParams = { ...params, per_page: 50 };
+            const data = await fetchOptions(dropdownSource, queryParams);
             setOptions(data.records || []);
         } catch (error: any) {
             setError(error.message || 'An error occurred while fetching options.');
@@ -67,37 +86,65 @@ const DropdownDependsOn: React.FC<Props> = ({
 
     useEffect(() => {
         if (Object.keys(currentDependencies).length > 0) {
-            fetchOptions(currentDependencies);
+            prepareFetchOptions(currentDependencies);
         }
+        dependenciesRef.current = currentDependencies;
+
     }, [currentDependencies]);
+
+    // Handle change function for Autocomplete
+    const handleChange = (event: React.ChangeEvent<{}>, newValue: any | null) => {
+        const value = newValue ? newValue.id : '';
+        const changeEvent = {
+            target: {
+                name,
+                value,
+            }
+        } as unknown as React.ChangeEvent<{ value: unknown }>;
+        onChange(changeEvent);
+    };
+
+    // Throttled input change handler
+    const fetchOptionsThrottled = useCallback(
+        throttle(async (searchTerm: string) => {
+            setLoading(true);
+            try {
+                const data = await fetchOptions(dropdownSource, { ...dependenciesRef.current, search: searchTerm });
+                setOptions(data.records || []);
+            } catch (error: any) {
+                setError(error.message || 'An error occurred while fetching options.');
+            } finally {
+                setLoading(false);
+            }
+        }, 300), // Throttle requests to every 300ms
+        [dropdownSource]
+    );
+
+    // Handle input change event for Autocomplete
+    const handleInputChange = (event: React.ChangeEvent<{}>, newInputValue: string) => {
+        fetchOptionsThrottled(newInputValue);
+    };
 
     if (error) return <FormHelperText error>{error}</FormHelperText>;
 
     return (
         <FormControl fullWidth variant="outlined" margin="normal" size={size}>
-            <InputLabel htmlFor={name}>Select...</InputLabel>
-            <Select
+            <Autocomplete
                 id={name}
-                name={name}
-                value={value}
-                onChange={onChange}
-                label="Select..."
-                disabled={loading}
-                size={size}
-            >
-                {loading ? (
-                    <MenuItem disabled>
-                        <CircularProgress size={24} />
-                    </MenuItem>
-                ) : (
-                    options.map((option) => (
-                        <MenuItem key={option.id} value={option.id}>
-                            {option.name}
-                        </MenuItem>
-                    ))
+                options={options}
+                getOptionLabel={(option) => option.name || ''}
+                value={options.find((option) => option.id === value) || null}
+                onChange={handleChange}
+                onInputChange={handleInputChange}
+                renderInput={(params) => (
+                    <TextField
+                        {...params}
+                        label="Select..."
+                        variant="outlined"
+                    />
                 )}
-                <MenuItem value=""><em>Select...</em></MenuItem>
-            </Select>
+                filterOptions={(x) => x}
+            />
         </FormControl>
     );
 };

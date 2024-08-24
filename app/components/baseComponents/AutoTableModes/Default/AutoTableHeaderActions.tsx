@@ -2,8 +2,8 @@
 import React, { useState, ChangeEvent } from 'react';
 import { publish } from '@/app/components/baseComponents/utils/pubSub';
 import { TextField, FormControl, Button, Grid, Typography } from '@mui/material';
-import DropdownDependsOn from '../../Autos/AutoActions/DropdownDependsOn';
-import DynamicDropdown from '../../Autos/AutoActions/DynamicDropdown';
+import DropdownDependsOn from '../../Autos/AutoActions/Dropdowns/DropdownDependsOn';
+import DynamicDropdown from '../../Autos/AutoActions/Dropdowns/DynamicDropdown';
 import { FillableType } from '../../Autos/BaseAutoModel/types';
 import { MetadataType } from '../../types';
 

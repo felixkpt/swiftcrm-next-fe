@@ -5,8 +5,8 @@ import { formatErrors } from '../../utils/formatErrors';
 import SubmitButton from '../../Buttons/SubmitButton';
 import { HttpVerb } from '@/app/components/baseComponents/types';
 import { FillableType } from '../BaseAutoModel/types';
-import DynamicDropdown from './DynamicDropdown';
-import DropdownDependsOn from './DropdownDependsOn';
+import DynamicDropdown from './Dropdowns/DynamicDropdown';
+import DropdownDependsOn from './Dropdowns/DropdownDependsOn';
 
 type Props = {
     modelID: string;
@@ -230,6 +230,7 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular,
                                 onChange={handleChange}
                                 dropdownSource={field.dropdownSource || ''}
                                 dropdownDependsOn={field.dropdownDependsOn}
+                                record={record}
                             />
                         ) :
                             field.type === 'dropdown' ? (

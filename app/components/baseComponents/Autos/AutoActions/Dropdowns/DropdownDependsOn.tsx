@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { subscribe } from '@/app/components/baseComponents/utils/pubSub';
 import { Autocomplete, TextField, FormControl, FormHelperText, CircularProgress } from '@mui/material';
-import fetchOptions from '../../utils/fetchOptions';
+import fetchOptions from '../../../utils/fetchOptions';
+import throttle from '../../../utils/throttle';
 
 type Props = {
     modelID: string;
@@ -11,25 +12,7 @@ type Props = {
     dropdownSource: string;
     dropdownDependsOn: string[] | null;
     size?: 'small' | 'medium';
-};
-
-// Throttling function
-const throttle = (func: Function, limit: number) => {
-    let lastFunc: NodeJS.Timeout | null;
-    let lastRan: number | null = null;
-    return (...args: any[]) => {
-        if (lastFunc) clearTimeout(lastFunc);
-        const now = Date.now();
-        if (lastRan === null || now - lastRan >= limit) {
-            func(...args);
-            lastRan = now;
-        } else {
-            lastFunc = setTimeout(() => {
-                func(...args);
-                lastRan = now;
-            }, limit - (now - lastRan));
-        }
-    };
+    record?: Record<string, any> | null;
 };
 
 const DropdownDependsOn: React.FC<Props> = ({
@@ -40,17 +23,22 @@ const DropdownDependsOn: React.FC<Props> = ({
     dropdownSource,
     dropdownDependsOn,
     size = 'medium',
+    record,
 }) => {
     const [options, setOptions] = useState<any[]>([]);
+    const [selectedOption, setSelectedOption] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [currentDependencies, setCurrentDependencies] = useState<Record<string, string>>({});
     const dependenciesRef = useRef(currentDependencies);
 
-    console.log('dropdownDependsOn::', dropdownDependsOn)
+    useEffect(() => {
+        const selected = options.find((option) => option.id === value) || null;
+        setSelectedOption(selected);
+    }, []);
+
     // Function to fetch options based on current dependencies
     const prepareFetchOptions = async (params: Record<string, string>) => {
-        console.log('init params:', params)
         setLoading(true);
         try {
             const queryParams = { ...params, per_page: 50 };
@@ -93,16 +81,26 @@ const DropdownDependsOn: React.FC<Props> = ({
     }, [currentDependencies]);
 
     // Handle change function for Autocomplete
-    const handleChange = (event: React.ChangeEvent<{}>, newValue: any | null) => {
-        const value = newValue ? newValue.id : '';
-        const changeEvent = {
-            target: {
-                name,
-                value,
-            }
-        } as unknown as React.ChangeEvent<{ value: unknown }>;
-        onChange(changeEvent);
-    };
+    function handleChange(e: React.ChangeEvent<{}>, newValue: any) {
+        if (newValue) {
+            const event = {
+                target: {
+                    name,
+                    value: newValue.id,
+                }
+            } as unknown as React.ChangeEvent<{ value: unknown }>;
+
+            onChange(event);
+        } else {
+            onChange(e as React.ChangeEvent<{ value: unknown }>);
+        }
+    }
+
+    useEffect(() => {
+        if (dependenciesRef.current) {
+            ensureCurrentRecordIsSelected()
+        }
+    }, [record, dependenciesRef.current]);
 
     // Throttled input change handler
     const fetchOptionsThrottled = useCallback(
@@ -122,8 +120,40 @@ const DropdownDependsOn: React.FC<Props> = ({
 
     // Handle input change event for Autocomplete
     const handleInputChange = (event: React.ChangeEvent<{}>, newInputValue: string) => {
-        fetchOptionsThrottled(newInputValue);
+        if (event && event.isTrusted) {
+            const inputExistsInOptions = options.some(option => option.name === newInputValue);
+            if (newInputValue.trim() !== '' && !inputExistsInOptions) {
+                fetchOptionsThrottled(newInputValue);
+            }
+        }
     };
+
+    async function ensureCurrentRecordIsSelected() {
+        if (record && value) {
+            const exists = options.find((itm) => itm.id === record.id);
+            if (exists) {
+                setSelectedOption(exists)
+                onChange({ target: { name, value: exists.id } } as unknown as React.ChangeEvent<{ value: unknown }>);
+            } else {
+                setLoading(true);
+                try {
+                    const data = await fetchOptions(dropdownSource, { ...dependenciesRef.current, id: record[name] });
+                    const records = data.records || []
+                    // prepend fetched records to the current options
+                    setOptions([...records, ...options]);
+                    const current = records.find((itm: any) => itm.id == record[name])
+                    if (current) {
+                        setSelectedOption(current)
+                        onChange({ target: { name, value: exists.id } } as unknown as React.ChangeEvent<{ value: unknown }>);
+                    }
+
+                } catch (error: any) {
+                    // Handle error
+                }
+                setLoading(false);
+            }
+        }
+    }
 
     if (error) return <FormHelperText error>{error}</FormHelperText>;
 
@@ -133,9 +163,10 @@ const DropdownDependsOn: React.FC<Props> = ({
                 id={name}
                 options={options}
                 getOptionLabel={(option) => option.name || ''}
-                value={options.find((option) => option.id === value) || null}
+                value={selectedOption}
                 onChange={handleChange}
                 onInputChange={handleInputChange}
+                filterOptions={(x) => x}
                 renderInput={(params) => (
                     <TextField
                         {...params}
@@ -143,7 +174,6 @@ const DropdownDependsOn: React.FC<Props> = ({
                         variant="outlined"
                     />
                 )}
-                filterOptions={(x) => x}
             />
         </FormControl>
     );

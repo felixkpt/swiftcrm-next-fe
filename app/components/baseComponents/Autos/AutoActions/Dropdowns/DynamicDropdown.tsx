@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FormControl, Autocomplete, TextField, CircularProgress } from '@mui/material';
-import { ServerModelOptionType } from '../../types';
-import fetchOptions from '../../utils/fetchOptions';
+import { ServerModelOptionType } from '../../../types';
+import fetchOptions from '../../../utils/fetchOptions';
+import throttle from '../../../utils/throttle';
 
 type Props = {
     modelID: string;
@@ -10,27 +11,10 @@ type Props = {
     value: string;
     onChange: (e: React.ChangeEvent<{ value: unknown }>) => void;
     dropdownSource: string;
-    record?: Record<string, any> | null;
     size?: 'small' | 'medium';
+    record?: Record<string, any> | null;
 };
 
-const throttle = (func: Function, limit: number) => {
-    let lastFunc: NodeJS.Timeout | null;
-    let lastRan: number | null = null;
-    return (...args: any[]) => {
-        if (lastFunc) clearTimeout(lastFunc);
-        const now = Date.now();
-        if (lastRan === null || now - lastRan >= limit) {
-            func(...args);
-            lastRan = now;
-        } else {
-            lastFunc = setTimeout(() => {
-                func(...args);
-                lastRan = now;
-            }, limit - (now - lastRan));
-        }
-    };
-};
 
 const DynamicDropdown: React.FC<Props> = ({
     name,
@@ -42,7 +26,7 @@ const DynamicDropdown: React.FC<Props> = ({
     record,
 }) => {
     const [options, setOptions] = useState<any[]>([]);
-    const [selectedOption, setSelectedOption] = useState<any>(null);
+    const [selectedOption, setSelectedOption] = useState<any>(options.find((option) => option.id === value) || null);
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
@@ -58,13 +42,8 @@ const DynamicDropdown: React.FC<Props> = ({
 
 
     useEffect(() => {
-        const selected = options.find((option) => option.id === value) || null;
-        setSelectedOption(selected);
-    }, []);
-
-    useEffect(() => {
         ensureCurrentRecordIsSelected()
-    }, [record, name, value]);
+    }, [record]);
 
     const fetchOptionsThrottled = useCallback(
         throttle(async (searchTerm: string) => {
@@ -81,6 +60,7 @@ const DynamicDropdown: React.FC<Props> = ({
     );
 
     function handleChange(e: React.ChangeEvent<{}>, newValue: any) {
+        setSelectedOption(newValue)
         if (newValue) {
             const event = {
                 target: {
@@ -90,34 +70,42 @@ const DynamicDropdown: React.FC<Props> = ({
             } as unknown as React.ChangeEvent<{ value: unknown }>;
 
             onChange(event);
-        } else {
-            onChange(e as React.ChangeEvent<{ value: unknown }>);
         }
     }
 
     const handleInputChange = (event: React.ChangeEvent<{}>, newInputValue: string) => {
-        fetchOptionsThrottled(newInputValue);
+        if (event && event.isTrusted) {
+            const inputExistsInOptions = options.some(option => option.name === newInputValue);
+            if (newInputValue.trim() !== '' && !inputExistsInOptions) {
+                fetchOptionsThrottled(newInputValue);
+            }
+        }
     };
 
     async function ensureCurrentRecordIsSelected() {
         if (record && value) {
-            fetchOptions(dropdownSource, { id: record[name] })
-            setLoading(true);
-            try {
-                const data = await fetchOptions(dropdownSource, { id: record[name] });
-                const records = data.records || []
-                setOptions(records);
-                const current = records.find((itm: any) => itm.id == record[name])
-                if (current) {
-                    setSelectedOption(current)
-                    onChange(e as React.ChangeEvent<{ value: unknown }>);
+            const exists = options.find((itm) => itm.id === record.id);
+            if (exists) {
+                setSelectedOption(exists)
+                onChange({ target: { name, value: exists.id } } as unknown as React.ChangeEvent<{ value: unknown }>);
+            } else {
+                setLoading(true);
+                try {
+                    const data = await fetchOptions(dropdownSource, { id: record[name] });
+                    const records = data.records || []
+                    // prepend fetched records to the current options
+                    setOptions([...records, ...options]);
+                    const current = records.find((itm: any) => itm.id == record[name])
+                    if (current) {
+                        setSelectedOption(current)
+                        onChange({ target: { name, value: exists.id } } as unknown as React.ChangeEvent<{ value: unknown }>);
+                    }
+
+                } catch (error: any) {
+                    // Handle error
                 }
-
-            } catch (error: any) {
-                // Handle error
+                setLoading(false);
             }
-            setLoading(false);
-
         }
     }
 

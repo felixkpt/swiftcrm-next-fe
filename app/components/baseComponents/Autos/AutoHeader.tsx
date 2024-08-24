@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { publish } from '@/app/components/baseComponents/utils/pubSub';
+import { useEffect } from "react";
+import { useSearchParams } from 'next/navigation'
 
 type AutoHeaderProps = {
     headerTitle: string;
@@ -10,10 +12,22 @@ type AutoHeaderProps = {
 };
 
 const AutoHeader = ({ headerTitle, description, modelID, showCreateButton, createUri }: AutoHeaderProps) => {
+    const params = useSearchParams();
+    const model_action = params.get('model_action');
+
     const handleCreateClick = () => {
         publish(`${modelID}_newRecord`, null);
         publish(`${modelID}_showModal`, null);
     };
+
+    useEffect(() => {
+        if (model_action === 'createOrUpdate') {
+            setTimeout(() => {
+                handleCreateClick();
+            }, 100);
+
+        }
+    }, [model_action]);
 
     return (
         <div className="flex items-center justify-between my-4">

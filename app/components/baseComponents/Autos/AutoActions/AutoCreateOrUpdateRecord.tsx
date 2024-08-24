@@ -3,10 +3,11 @@ import { useState, useEffect, useRef } from 'react';
 import { publish, subscribe } from '@/app/components/baseComponents/utils/pubSub';
 import { formatErrors } from '../../utils/formatErrors';
 import SubmitButton from '../../Buttons/SubmitButton';
-import { HttpVerb } from '@/app/components/baseComponents/types';
+import { HttpVerb, ServerModelOptionType } from '@/app/components/baseComponents/types';
 import { FillableType } from '../BaseAutoModel/types';
 import DynamicDropdown from './Dropdowns/DynamicDropdown';
 import DropdownDependsOn from './Dropdowns/DropdownDependsOn';
+import { useSearchParams } from 'next/navigation';
 
 type Props = {
     modelID: string;
@@ -14,7 +15,7 @@ type Props = {
     method: HttpVerb;
     endpoint: string;
     fillable: FillableType[];
-    serverModelOptions;
+    serverModelOptions: ServerModelOptionType;
 };
 
 const setInitials = (fillable: FillableType[]) => {
@@ -38,8 +39,29 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular,
 
     const textareaRefs = useRef<Record<string, HTMLTextAreaElement | null>>({});
 
+    const params = useSearchParams();
+
     useEffect(() => {
-        if (record) {
+        // Initialize formData with URL parameters if they match fillable fields
+        const urlParams = new URLSearchParams(window.location.search);
+        const paramRecord: Record<string, any> = {};
+
+        fillable.forEach(field => {
+            const value = urlParams.get(field.name);
+            if (value) {
+                paramRecord[field.name] = value;
+            }
+        });
+
+        if (Object.keys(paramRecord).length > 0) {
+            setRecord(paramRecord);
+            setFormData(paramRecord);
+        }
+
+    }, [fillable]);
+
+    useEffect(() => {
+        if (record && record.id) {
             setLocalTitle(`Edit ${modelNameSingular} #${record.id}`);
         } else {
             setLocalTitle(`Create ${modelNameSingular}`);
@@ -47,30 +69,24 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular,
     }, [record, modelNameSingular]);
 
     useEffect(() => {
-
         if (fillable && fillable.length > 0) {
             fillable.forEach((field) => {
-                console.log('dropdownSource:', field.dropdownSource)
-                const dropdownDependsOn = field.dropdownDependsOn
-                console.log('dropdownDependsOn:', dropdownDependsOn)
+                const dropdownDependsOn = field.dropdownDependsOn;
                 if (dropdownDependsOn) {
                     dropdownDependsOn.forEach((dependency) => {
                         fillable.map((field) => {
                             if (field.dropdownSource === dependency) {
                                 if (field.onChangeUpdateList) {
-
-                                    const newList = [...field.onChangeUpdateList, dependency].filter((value, index, array) => array.indexOf(value) === index)
-                                    field.onChangeUpdateList = newList
+                                    const newList = [...field.onChangeUpdateList, dependency].filter((value, index, array) => array.indexOf(value) === index);
+                                    field.onChangeUpdateList = newList;
                                 } else {
-                                    field.onChangeUpdateList = [dependency]
+                                    field.onChangeUpdateList = [dependency];
                                 }
                             }
-                        })
-                    })
+                        });
+                    });
                 }
-
-            })
-
+            });
         }
     }, [fillable]);
 
@@ -89,7 +105,6 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular,
         const field = fillable.find((f) => f.name === name);
         if (field?.onChangeUpdateList) {
             field.onChangeUpdateList.forEach((updateField) => {
-                console.log(`${modelID}_update_${updateField}`, value)
                 publish(`${modelID}_update_${updateField}`, { [field.name]: value });
             });
         }
@@ -194,6 +209,7 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular,
         target.style.height = `${target.scrollHeight}px`;
     };
 
+    
     return (
         <>
             <div className="border-b-2 border-b-gray-400 mb-5">

@@ -97,10 +97,12 @@ const DynamicDropdown: React.FC<Props> = ({
                     const records = data.records || []
                     // prepend fetched records to the current options
                     setOptions([...records, ...options]);
-                    const current = records.find((itm: any) => itm.id == record[name])
-                    if (current) {
-                        setSelectedOption(current)
-                        onChange(formatEvent(name, current));
+                    if (record) {
+                        const current = records.find((itm: any) => itm.id == record[name])
+                        if (current) {
+                            setSelectedOption(current)
+                            onChange(formatEvent(name, current));
+                        }
                     }
 
                 } catch (error: any) {

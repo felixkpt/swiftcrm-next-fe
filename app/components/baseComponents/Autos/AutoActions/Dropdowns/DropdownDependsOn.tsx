@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { subscribe } from '@/app/components/baseComponents/utils/pubSub';
 import { Autocomplete, TextField, FormControl, FormHelperText, CircularProgress } from '@mui/material';
 import fetchOptions from '../../../utils/fetchOptions';
 import throttle from '../../../utils/throttle';
 import { formatEvent } from './helpers';
+import useDropdownDependenciesListeners from './useDropdownDependenciesListener';
 
 type Props = {
     modelID: string;
@@ -27,25 +27,36 @@ const DropdownDependsOn: React.FC<Props> = ({
     record,
 }) => {
     const [options, setOptions] = useState<any[]>([]);
-    const [selectedOption, setSelectedOption] = useState<any>(null);
+    const [selectedOption, setSelectedOption] = useState<any>(options.find((option) => option.id === value) || null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [currentDependencies, setCurrentDependencies] = useState<Record<string, string>>({});
-    const dependenciesRef = useRef(currentDependencies);
+    const dependenciesRef = useRef<Record<string, string>>({});
 
-    console.log('dropdownDependsOn', dropdownDependsOn)
     useEffect(() => {
-        const selected = options.find((option) => option.id === value) || null;
-        setSelectedOption(selected);
-    }, []);
+        if (Object.keys(dependenciesRef.current).length > 0) {
+            setInitialRecords();
+        }
+    }, [dependenciesRef.current]);
 
     // Function to fetch options based on current dependencies
-    const prepareFetchOptions = async (params: Record<string, string>) => {
+    const setInitialRecords = async () => {
         setLoading(true);
         try {
-            const queryParams = { ...params, per_page: 50 };
+            const queryParams = { ...dependenciesRef.current, per_page: 50 };
             const data = await fetchOptions(dropdownSource, queryParams);
-            setOptions(data.records || []);
+            const records = data.records || []
+            // prepend fetched records to the current options
+            setOptions([...records]);
+            if (selectedOption) {
+                const current = records.find((itm: any) => itm.id == selectedOption.id)
+                if (current) {
+                    setSelectedOption(current)
+                    onChange(formatEvent(name, current));
+                } else {
+                    setSelectedOption(null)
+                }
+            }
+
         } catch (error: any) {
             setError(error.message || 'An error occurred while fetching options.');
         } finally {
@@ -54,56 +65,25 @@ const DropdownDependsOn: React.FC<Props> = ({
     };
 
     const dependenciesHandler = (newValue: Record<string, string>) => {
-        console.log('dropdownDependsOn:', newValue)
         // Update dependencies based on newValue
-        const newDependencies = { ...currentDependencies, ...newValue };
-        setCurrentDependencies(newDependencies);
+        const newDependencies = { ...dependenciesRef.current, ...newValue };
+        dependenciesRef.current = newDependencies
     };
 
-    // Effect to set up listeners and fetch options based on dependencies
-    useEffect(() => {
-        if (dropdownDependsOn) {
-            const listeners = dropdownDependsOn.map(dep => {
-                const listenerId = `${modelID}_update_${dep}`;
-                const unsubscribe = subscribe(listenerId, dependenciesHandler);
-                return unsubscribe;
-            });
-
-            return () => {
-                listeners.forEach(unsub => unsub());
-            };
-        }
-    }, [modelID, dropdownSource, dropdownDependsOn]);
-
-    useEffect(() => {
-        if (Object.keys(currentDependencies).length > 0) {
-            prepareFetchOptions(currentDependencies);
-        }
-        dependenciesRef.current = currentDependencies;
-
-    }, [currentDependencies]);
+    // Use the custom hook to set up listeners and fetch options based on dependencies
+    useDropdownDependenciesListeners(modelID, dropdownSource, dropdownDependsOn, dependenciesHandler);
 
     // Handle change function for Autocomplete
     function handleChange(e: React.ChangeEvent<{}>, newValue: any) {
+        setSelectedOption(newValue)
         if (newValue) {
-            const event = {
-                target: {
-                    name,
-                    value: newValue.id,
-                }
-            } as unknown as React.ChangeEvent<{ value: unknown }>;
-
-            onChange(event);
-        } else {
-            onChange(e as React.ChangeEvent<{ value: unknown }>);
+            onChange(formatEvent(name, newValue));
         }
     }
 
     useEffect(() => {
-        if (dependenciesRef.current) {
-            ensureCurrentRecordIsSelected()
-        }
-    }, [record, dependenciesRef.current]);
+        ensureCurrentRecordIsSelected()
+    }, [record]);
 
     // Throttled input change handler
     const fetchOptionsThrottled = useCallback(
@@ -135,9 +115,11 @@ const DropdownDependsOn: React.FC<Props> = ({
         if (record && value) {
             const exists = options.find((itm) => itm.id === record.id);
             if (exists) {
+                console.log('A')
                 setSelectedOption(exists)
                 onChange(formatEvent(name, exists));
             } else {
+                console.log('B')
                 setLoading(true);
                 try {
                     const data = await fetchOptions(dropdownSource, { ...dependenciesRef.current, id: record[name] });
@@ -147,7 +129,7 @@ const DropdownDependsOn: React.FC<Props> = ({
                     const current = records.find((itm: any) => itm.id == record[name])
                     if (current) {
                         setSelectedOption(current)
-                        onChange(formatEvent(name, exists));
+                        onChange(formatEvent(name, current));
                     }
 
                 } catch (error: any) {

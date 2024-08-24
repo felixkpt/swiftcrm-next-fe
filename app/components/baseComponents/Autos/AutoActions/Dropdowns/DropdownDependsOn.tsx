@@ -3,6 +3,7 @@ import { subscribe } from '@/app/components/baseComponents/utils/pubSub';
 import { Autocomplete, TextField, FormControl, FormHelperText, CircularProgress } from '@mui/material';
 import fetchOptions from '../../../utils/fetchOptions';
 import throttle from '../../../utils/throttle';
+import { formatEvent } from './helpers';
 
 type Props = {
     modelID: string;
@@ -135,7 +136,7 @@ const DropdownDependsOn: React.FC<Props> = ({
             const exists = options.find((itm) => itm.id === record.id);
             if (exists) {
                 setSelectedOption(exists)
-                onChange({ target: { name, value: exists.id } } as unknown as React.ChangeEvent<{ value: unknown }>);
+                onChange(formatEvent(name, exists));
             } else {
                 setLoading(true);
                 try {
@@ -146,7 +147,7 @@ const DropdownDependsOn: React.FC<Props> = ({
                     const current = records.find((itm: any) => itm.id == record[name])
                     if (current) {
                         setSelectedOption(current)
-                        onChange({ target: { name, value: exists.id } } as unknown as React.ChangeEvent<{ value: unknown }>);
+                        onChange(formatEvent(name, exists));
                     }
 
                 } catch (error: any) {

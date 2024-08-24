@@ -3,6 +3,7 @@ import { FormControl, Autocomplete, TextField, CircularProgress } from '@mui/mat
 import { ServerModelOptionType } from '../../../types';
 import fetchOptions from '../../../utils/fetchOptions';
 import throttle from '../../../utils/throttle';
+import { formatEvent } from './helpers';
 
 type Props = {
     modelID: string;
@@ -64,7 +65,7 @@ const DynamicDropdown: React.FC<Props> = ({
     function handleChange(e: React.ChangeEvent<{}>, newValue: any) {
         setSelectedOption(newValue)
         if (newValue) {
-            onChange(formatEvent(newValue));
+            onChange(formatEvent(name, newValue));
         }
     }
 
@@ -87,7 +88,7 @@ const DynamicDropdown: React.FC<Props> = ({
             const exists = options.find((itm) => itm.id === record.id);
             if (exists) {
                 setSelectedOption(exists)
-                onChange(formatEvent(exists));
+                onChange(formatEvent(name, exists));
 
             } else {
                 setLoading(true);
@@ -99,7 +100,7 @@ const DynamicDropdown: React.FC<Props> = ({
                     const current = records.find((itm: any) => itm.id == record[name])
                     if (current) {
                         setSelectedOption(current)
-                        onChange(formatEvent(current));
+                        onChange(formatEvent(name, current));
                     }
 
                 } catch (error: any) {
@@ -108,10 +109,6 @@ const DynamicDropdown: React.FC<Props> = ({
                 setLoading(false);
             }
         }
-    }
-
-    const formatEvent = (newValue: any) => {
-        return { target: { name, value: newValue.id, } } as unknown as React.ChangeEvent<{ value: unknown }>;
     }
 
     return (

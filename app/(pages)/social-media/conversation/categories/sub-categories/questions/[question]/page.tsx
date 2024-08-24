@@ -9,6 +9,7 @@ import getConstants from '../AutoModel/getConstants';
 import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderSingle';
 
 // Internal utility imports
+import getServerModelOptions from '@/app/components/baseComponents/utils/getServerModelOptions';
 
 const page = () => {
   const {
@@ -25,6 +26,9 @@ const page = () => {
 
   const ACTION_TYPE = 'buttons'
   const isSingle = true
+  
+  const serverModelOptions = await getServerModelOptions(FILLABLE_FIELDS);
+
   return (
     <>
       <Renderer

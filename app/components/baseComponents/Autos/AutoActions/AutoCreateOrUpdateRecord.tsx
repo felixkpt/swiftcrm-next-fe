@@ -42,22 +42,24 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular,
     const params = useSearchParams();
 
     useEffect(() => {
-        // Initialize formData with URL parameters if they match fillable fields
-        const urlParams = new URLSearchParams(window.location.search);
-        const paramRecord: Record<string, any> = {};
 
-        fillable.forEach(field => {
-            const value = urlParams.get(field.name);
-            if (value) {
-                paramRecord[field.name] = value;
+        if (params.get('model_action') === 'createOrUpdate') {
+
+            // Initialize formData with URL parameters if they match fillable fields
+            const paramRecord: Record<string, any> = {};
+
+            fillable.forEach(field => {
+                const value = params.get(field.name);
+                if (value) {
+                    paramRecord[field.name] = value;
+                }
+            });
+
+            if (Object.keys(paramRecord).length > 0) {
+                setRecord(paramRecord);
+                setFormData(paramRecord);
             }
-        });
-
-        if (Object.keys(paramRecord).length > 0) {
-            setRecord(paramRecord);
-            setFormData(paramRecord);
         }
-
     }, [fillable]);
 
     useEffect(() => {
@@ -209,7 +211,7 @@ const AutoCreateOrUpdateRecord: React.FC<Props> = ({ modelID, modelNameSingular,
         target.style.height = `${target.scrollHeight}px`;
     };
 
-    
+
     return (
         <>
             <div className="border-b-2 border-b-gray-400 mb-5">

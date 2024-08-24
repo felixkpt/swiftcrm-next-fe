@@ -32,6 +32,7 @@ const DropdownDependsOn: React.FC<Props> = ({
     const [currentDependencies, setCurrentDependencies] = useState<Record<string, string>>({});
     const dependenciesRef = useRef(currentDependencies);
 
+    console.log('dropdownDependsOn', dropdownDependsOn)
     useEffect(() => {
         const selected = options.find((option) => option.id === value) || null;
         setSelectedOption(selected);
@@ -52,6 +53,7 @@ const DropdownDependsOn: React.FC<Props> = ({
     };
 
     const dependenciesHandler = (newValue: Record<string, string>) => {
+        console.log('dropdownDependsOn:', newValue)
         // Update dependencies based on newValue
         const newDependencies = { ...currentDependencies, ...newValue };
         setCurrentDependencies(newDependencies);

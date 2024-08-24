@@ -15,7 +15,6 @@ type Props = {
     record?: Record<string, any> | null;
 };
 
-
 const DynamicDropdown: React.FC<Props> = ({
     name,
     serverModelOptions,
@@ -30,6 +29,14 @@ const DynamicDropdown: React.FC<Props> = ({
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
+        setInitialRecords()
+    }, [dropdownSource, serverModelOptions]);
+
+    useEffect(() => {
+        ensureCurrentRecordIsSelected()
+    }, [record]);
+
+    function setInitialRecords() {
         setLoading(true);
         const exists = serverModelOptions[dropdownSource];
         if (exists) {
@@ -38,12 +45,7 @@ const DynamicDropdown: React.FC<Props> = ({
         } else {
             setLoading(false);
         }
-    }, [dropdownSource, serverModelOptions]);
-
-
-    useEffect(() => {
-        ensureCurrentRecordIsSelected()
-    }, [record]);
+    }
 
     const fetchOptionsThrottled = useCallback(
         throttle(async (searchTerm: string) => {
@@ -62,22 +64,20 @@ const DynamicDropdown: React.FC<Props> = ({
     function handleChange(e: React.ChangeEvent<{}>, newValue: any) {
         setSelectedOption(newValue)
         if (newValue) {
-            const event = {
-                target: {
-                    name,
-                    value: newValue.id,
-                }
-            } as unknown as React.ChangeEvent<{ value: unknown }>;
-
-            onChange(event);
+            onChange(formatEvent(newValue));
         }
     }
 
     const handleInputChange = (event: React.ChangeEvent<{}>, newInputValue: string) => {
         if (event && event.isTrusted) {
             const inputExistsInOptions = options.some(option => option.name === newInputValue);
-            if (newInputValue.trim() !== '' && !inputExistsInOptions) {
-                fetchOptionsThrottled(newInputValue);
+
+            if (newInputValue.trim() !== '') {
+                if (!inputExistsInOptions) {
+                    fetchOptionsThrottled(newInputValue);
+                }
+            } else {
+                setInitialRecords()
             }
         }
     };
@@ -87,7 +87,8 @@ const DynamicDropdown: React.FC<Props> = ({
             const exists = options.find((itm) => itm.id === record.id);
             if (exists) {
                 setSelectedOption(exists)
-                onChange({ target: { name, value: exists.id } } as unknown as React.ChangeEvent<{ value: unknown }>);
+                onChange(formatEvent(exists));
+
             } else {
                 setLoading(true);
                 try {
@@ -98,7 +99,7 @@ const DynamicDropdown: React.FC<Props> = ({
                     const current = records.find((itm: any) => itm.id == record[name])
                     if (current) {
                         setSelectedOption(current)
-                        onChange({ target: { name, value: exists.id } } as unknown as React.ChangeEvent<{ value: unknown }>);
+                        onChange(formatEvent(current));
                     }
 
                 } catch (error: any) {
@@ -107,6 +108,10 @@ const DynamicDropdown: React.FC<Props> = ({
                 setLoading(false);
             }
         }
+    }
+
+    const formatEvent = (newValue: any) => {
+        return { target: { name, value: newValue.id, } } as unknown as React.ChangeEvent<{ value: unknown }>;
     }
 
     return (

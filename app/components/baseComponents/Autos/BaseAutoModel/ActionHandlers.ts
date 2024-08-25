@@ -8,7 +8,7 @@ class ActionHandlers implements ActionHandlersInterface {
 
   constructor(modelID: string, apiEndpoint: string, isSingle?: boolean) {
     this.modelID = modelID;
-    this.apiEndpoint = apiEndpoint;
+    this.apiEndpoint = apiEndpoint.replace(/\/$/, '');
     this.isSingle = isSingle;
   }
 

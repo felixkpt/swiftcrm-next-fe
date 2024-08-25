@@ -138,13 +138,34 @@ const Page = () => {
                 }
                 {
                     checkedQuestionsCount ? (
-                        questionsCount === 0 ?
-                            <p className="text-center my-3 text-lg"><span className="text-warning">No questions available.</span><br /> <Link href={`/social-media/conversation/categories/sub-categories/questions/?category_id=${selectedCategory.id}&sub_category_id=${selectedSubCategory.id}&model_action=createOrUpdate`} className="text-primary" target="_blank">Add questions</Link></p>
-                            :
-                            <p className="text-center my-3 text-lg"><span className="text-primary">Questions counts:</span> <span className="text-primary">{questionsCount}</span></p>
-
+                        questionsCount === 0 ? (
+                            <p className="text-center my-3 text-lg text-warning">
+                                <span>No questions available.</span>
+                                <br />
+                                <Link
+                                    href={`/social-media/conversation/categories/sub-categories/questions/?category_id=${selectedCategory.id}&sub_category_id=${selectedSubCategory.id}&model_action=createOrUpdate`}
+                                    className="text-primary"
+                                    target="_blank"
+                                >
+                                    Add questions
+                                </Link>
+                            </p>
+                        ) : (
+                            <p className="text-center my-3 text-lg text-warning">
+                                <span>Questions count:</span> <span>{questionsCount}</span>
+                                <br />
+                                <Link
+                                    href={`/social-media/conversation/categories/sub-categories/questions/?category_id=${selectedCategory.id}&sub_category_id=${selectedSubCategory.id}&model_action=createOrUpdate`}
+                                    className="text-primary"
+                                    target="_blank"
+                                >
+                                    Add more questions
+                                </Link>
+                            </p>
+                        )
                     ) : null
                 }
+
                 {
                     questionsCount > 0 &&
                     <RenderMessages messages={messages} isLoading={isLoading} hasDoneAnyRecording={hasDoneAnyRecording} conversationsContainer={conversationsContainer} />

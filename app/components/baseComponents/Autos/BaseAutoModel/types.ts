@@ -56,6 +56,7 @@ export type FillableType = {
     onChangeUpdateList?: string[];
     desktopWidth: number;
     mobileWidth: number;
+    value?: undefined;
 };
 
 export type CommonDataTypes =

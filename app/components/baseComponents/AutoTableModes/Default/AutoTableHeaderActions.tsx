@@ -1,11 +1,12 @@
 'use client';
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { publish } from '@/app/components/baseComponents/utils/pubSub';
 import { TextField, FormControl, Button, Grid, Typography } from '@mui/material';
 import DropdownDependsOn from '../../Autos/AutoActions/Dropdowns/DropdownDependsOn';
 import DynamicDropdown from '../../Autos/AutoActions/Dropdowns/DynamicDropdown';
 import { FillableType } from '../../Autos/BaseAutoModel/types';
-import { MetadataType } from '../../types';
+import { MetadataType, ServerModelOptionType } from '../../types';
+import { useSearchParams } from 'next/navigation';
 
 type Props = {
   fillableFields: FillableType[];
@@ -13,24 +14,56 @@ type Props = {
   metadata: MetadataType;
   handleSearch: (filters: Record<string, any>) => void;
   handleExport: (filters: Record<string, any>) => void;
-  serverModelOptions;
-
+  serverModelOptions: ServerModelOptionType;
 };
 
+// Component for rendering table header actions including filters and buttons
 const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, modelID, metadata, handleSearch, handleExport, serverModelOptions }) => {
+  // State for managing filter values and record data
   const [filters, setFilters] = useState<Record<string, any>>({});
+  const [key, setKey] = useState<number>(0);
+  const [record, setRecord] = useState<Record<string, any> | null>(null);
 
-  const handleInputChange = (e: ChangeEvent<{ name?: string; value: unknown }>) => {
-    const { name, value } = e.target;
-    setFilters((prevFilters) => ({
+  // Hook for accessing search params from the URL
+  const params = useSearchParams();
+
+  // Effect to initialize filters based on URL parameters
+  useEffect(() => {
+    const initialFilters: Record<string, any> = {};
+    let paramsFound = false; // Flag to track if any params were found
+
+    fillableFields.forEach((field) => {
+      const value = params.get(field.name);
+      if (value !== null) {
+        initialFilters[field.name] = value;
+        paramsFound = true; // Set flag if a parameter is found
+      }
+    });
+
+    setFilters(initialFilters);
+    setRecord(initialFilters);
+    setKey(prevKey => prevKey + 1);
+
+    // Delay execution of search to ensure filters are set
+    setTimeout(() => {
+      if (paramsFound) {
+        handleSearch(initialFilters); // Use the initialFilters
+      }
+    }, 200);
+
+  }, [params, fillableFields]);
+
+  // Handle input changes and update dependent fields
+  const handleInputChange = (event: ChangeEvent<{ name?: string; value: unknown }>) => {
+    const { name, value } = event.target;
+    setFilters(prevFilters => ({
       ...prevFilters,
       [name as string]: value,
     }));
 
-    // Check if the field has onChangeUpdateList
-    const field = fillableFields.find((f) => f.name === name);
+    const field = fillableFields.find(f => f.name === name);
     if (field?.onChangeUpdateList) {
-      field.onChangeUpdateList.forEach((updateField) => {
+      field.onChangeUpdateList.forEach(updateField => {
         console.log(`${modelID}_update_${updateField}`, value);
         publish(`${modelID}_update_${updateField}`, { [field.name]: value });
       });
@@ -41,7 +74,6 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, modelID, meta
     <div style={{ padding: '8px', boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '8px' }}>
       <Grid container spacing={1} alignItems="center">
         <Grid item xs={12}>
-          {/* records metadata */}
           <Typography variant="body2" align="right">
             {metadata?.total_records !== undefined && metadata.total_records >= 0
               ? `${metadata.total_records} records`
@@ -49,11 +81,14 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, modelID, meta
           </Typography>
         </Grid>
         <Grid container item spacing={1} alignItems={'center'}>
-          {fillableFields
+          {key > 0 && fillableFields
             .filter(field => field.type === 'input' || field.type === 'dropdown')
-            .map((field) => (
-              field.isVisibleInList && (
+            .map((field) => {
+              if (!field.isVisibleInList) return null;
+
+              return (
                 <Grid item key={field.name} xs={12} md={6} lg={4}>
+                  {/* Render input fields */}
                   {field.type === 'input' && (
                     <FormControl fullWidth margin="dense">
                       <TextField
@@ -66,6 +101,7 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, modelID, meta
                       />
                     </FormControl>
                   )}
+                  {/* Render dropdown fields with dependencies */}
                   {field.type === 'dropdown' && field.dropdownDependsOn ? (
                     <FormControl fullWidth margin="dense">
                       <DropdownDependsOn
@@ -76,6 +112,7 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, modelID, meta
                         dropdownSource={field.dropdownSource || ''}
                         dropdownDependsOn={field.dropdownDependsOn}
                         size='small'
+                        record={record}
                       />
                     </FormControl>
                   ) : field.type === 'dropdown' ? (
@@ -88,14 +125,15 @@ const AutoTableHeaderActions: React.FC<Props> = ({ fillableFields, modelID, meta
                         onChange={handleInputChange}
                         dropdownSource={field.dropdownSource || ''}
                         size='small'
+                        record={record}
                       />
                     </FormControl>
                   ) : null}
                 </Grid>
-              )
-            ))}
+              );
+            })}
 
-          {/* Action buttons */}
+          {/* Action buttons for search and export */}
           <Grid item xs={12}>
             <Grid container spacing={1} justifyContent="center">
               <Grid item>

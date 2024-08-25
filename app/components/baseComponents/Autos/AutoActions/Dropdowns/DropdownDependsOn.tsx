@@ -8,7 +8,7 @@ import useDropdownDependenciesListeners from './useDropdownDependenciesListener'
 type Props = {
     modelID: string;
     name: string;
-    value: string;
+    value: string | undefined;
     onChange: (e: React.ChangeEvent<{ value: unknown }>) => void;
     dropdownSource: string;
     dropdownDependsOn: string[] | null;
@@ -31,6 +31,8 @@ const DropdownDependsOn: React.FC<Props> = ({
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const dependenciesRef = useRef<Record<string, string>>({});
+    const ensuredRecord = useRef<string | undefined>();
+    const timeoutRef = useRef<number | null>(null); // Ref to store timeout ID
 
     useEffect(() => {
         if (Object.keys(dependenciesRef.current).length > 0) {
@@ -38,25 +40,22 @@ const DropdownDependsOn: React.FC<Props> = ({
         }
     }, [dependenciesRef.current]);
 
-    // Function to fetch options based on current dependencies
     const setInitialRecords = async () => {
         setLoading(true);
         try {
             const queryParams = { ...dependenciesRef.current, per_page: 50 };
             const data = await fetchOptions(dropdownSource, queryParams);
-            const records = data.records || []
-            // prepend fetched records to the current options
+            const records = data.records || [];
             setOptions([...records]);
             if (selectedOption) {
-                const current = records.find((itm: any) => itm.id == selectedOption.id)
+                const current = records.find((itm: any) => itm.id == selectedOption.id);
                 if (current) {
-                    setSelectedOption(current)
-                    onChange(formatEvent(name, current));
+                    setSelectedOption(current);
+                    delayOnChange(formatEvent(name, current)); // Use delayed onChange
                 } else {
-                    setSelectedOption(null)
+                    setSelectedOption(null);
                 }
             }
-
         } catch (error: any) {
             setError(error.message || 'An error occurred while fetching options.');
         } finally {
@@ -65,27 +64,23 @@ const DropdownDependsOn: React.FC<Props> = ({
     };
 
     const dependenciesHandler = (newValue: Record<string, string>) => {
-        // Update dependencies based on newValue
         const newDependencies = { ...dependenciesRef.current, ...newValue };
-        dependenciesRef.current = newDependencies
+        dependenciesRef.current = newDependencies;
     };
 
-    // Use the custom hook to set up listeners and fetch options based on dependencies
     useDropdownDependenciesListeners(modelID, dropdownSource, dropdownDependsOn, dependenciesHandler);
 
-    // Handle change function for Autocomplete
-    function handleChange(e: React.ChangeEvent<{}>, newValue: any) {
-        setSelectedOption(newValue)
+    const handleChange = (e: React.ChangeEvent<{}>, newValue: any) => {
+        setSelectedOption(newValue);
         if (newValue) {
-            onChange(formatEvent(name, newValue));
+            delayOnChange(formatEvent(name, newValue)); // Use delayed onChange
         }
-    }
+    };
 
     useEffect(() => {
-        ensureCurrentRecordIsSelected()
-    }, [record]);
+        ensureCurrentRecordIsSelected();
+    }, [options, record]);
 
-    // Throttled input change handler
     const fetchOptionsThrottled = useCallback(
         throttle(async (searchTerm: string) => {
             setLoading(true);
@@ -97,11 +92,10 @@ const DropdownDependsOn: React.FC<Props> = ({
             } finally {
                 setLoading(false);
             }
-        }, 300), // Throttle requests to every 300ms
+        }, 300),
         [dropdownSource]
     );
 
-    // Handle input change event for Autocomplete
     const handleInputChange = (event: React.ChangeEvent<{}>, newInputValue: string) => {
         if (event && event.isTrusted) {
             const inputExistsInOptions = options.some(option => option.name === newInputValue);
@@ -111,34 +105,43 @@ const DropdownDependsOn: React.FC<Props> = ({
         }
     };
 
-    async function ensureCurrentRecordIsSelected() {
+    const ensureCurrentRecordIsSelected = async () => {
         if (record && value) {
-            const exists = options.find((itm) => itm.id === record.id);
+            if (ensuredRecord.current === String(record.id)) return;
+
+            const exists = options.find((itm) => String(itm.id) === String(record[name]));
             if (exists) {
-                console.log('A')
-                setSelectedOption(exists)
-                onChange(formatEvent(name, exists));
+                setSelectedOption(exists);
+                delayOnChange(formatEvent(name, exists)); // Use delayed onChange
             } else {
-                console.log('B')
                 setLoading(true);
                 try {
                     const data = await fetchOptions(dropdownSource, { ...dependenciesRef.current, id: record[name] });
-                    const records = data.records || []
-                    // prepend fetched records to the current options
+                    const records = data.records || [];
                     setOptions([...records, ...options]);
-                    const current = records.find((itm: any) => itm.id == record[name])
+                    const current = records.find((itm: any) => itm.id == record[name]);
                     if (current) {
-                        setSelectedOption(current)
-                        onChange(formatEvent(name, current));
+                        setSelectedOption(current);
+                        delayOnChange(formatEvent(name, current)); // Use delayed onChange
                     }
-
                 } catch (error: any) {
                     // Handle error
                 }
                 setLoading(false);
             }
+
+            ensuredRecord.current = String(record.id);
         }
-    }
+    };
+
+    const delayOnChange = (eventData: any) => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+        timeoutRef.current = window.setTimeout(() => {
+            onChange(eventData);
+        }, 250);
+    };
 
     if (error) return <FormHelperText error>{error}</FormHelperText>;
 

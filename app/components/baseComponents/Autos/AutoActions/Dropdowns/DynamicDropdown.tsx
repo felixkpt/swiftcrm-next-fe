@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { FormControl, Autocomplete, TextField, CircularProgress } from '@mui/material';
 import { ServerModelOptionType } from '../../../types';
 import fetchOptions from '../../../utils/fetchOptions';
@@ -9,7 +9,7 @@ type Props = {
     modelID: string;
     name: string;
     serverModelOptions: ServerModelOptionType;
-    value: string;
+    value: string | undefined;
     onChange: (e: React.ChangeEvent<{ value: unknown }>) => void;
     dropdownSource: string;
     size?: 'small' | 'medium';
@@ -28,25 +28,25 @@ const DynamicDropdown: React.FC<Props> = ({
     const [options, setOptions] = useState<any[]>([]);
     const [selectedOption, setSelectedOption] = useState<any>(options.find((option) => option.id === value) || null);
     const [loading, setLoading] = useState<boolean>(false);
+    const ensuredRecord = useRef<string | undefined>();
+    const timeoutRef = useRef<number | null>(null); // Ref to store timeout ID
 
     useEffect(() => {
-        setInitialRecords()
+        setInitialRecords();
     }, [dropdownSource, serverModelOptions]);
 
-    useEffect(() => {
-        ensureCurrentRecordIsSelected()
-    }, [record]);
-
-    function setInitialRecords() {
+    const setInitialRecords = () => {
         setLoading(true);
         const exists = serverModelOptions[dropdownSource];
         if (exists) {
             setOptions(exists.records || []);
-            setLoading(false);
-        } else {
-            setLoading(false);
         }
-    }
+        setLoading(false);
+    };
+
+    useEffect(() => {
+        ensureCurrentRecordIsSelected();
+    }, [options, record]);
 
     const fetchOptionsThrottled = useCallback(
         throttle(async (searchTerm: string) => {
@@ -62,56 +62,63 @@ const DynamicDropdown: React.FC<Props> = ({
         [dropdownSource]
     );
 
-    function handleChange(e: React.ChangeEvent<{}>, newValue: any) {
-        setSelectedOption(newValue)
+    const handleChange = (e: React.ChangeEvent<{}>, newValue: any) => {
+        setSelectedOption(newValue);
         if (newValue) {
-            onChange(formatEvent(name, newValue));
+            delayOnChange(formatEvent(name, newValue)); // Use delayed onChange
         }
-    }
+    };
 
     const handleInputChange = (event: React.ChangeEvent<{}>, newInputValue: string) => {
         if (event && event.isTrusted) {
             const inputExistsInOptions = options.some(option => option.name === newInputValue);
-
             if (newInputValue.trim() !== '') {
                 if (!inputExistsInOptions) {
                     fetchOptionsThrottled(newInputValue);
                 }
             } else {
-                setInitialRecords()
+                setInitialRecords();
             }
         }
     };
 
-    async function ensureCurrentRecordIsSelected() {
-        if (record && value) {
-            const exists = options.find((itm) => itm.id === record.id);
-            if (exists) {
-                setSelectedOption(exists)
-                onChange(formatEvent(name, exists));
+    const ensureCurrentRecordIsSelected = async () => {
+        if (options.length > 0 && record && value) {
+            if (ensuredRecord.current === String(record.id)) return; // Exit if already called for current record
 
+            const exists = options.find((itm) => String(itm.id) === String(record[name]));
+            if (exists) {
+                setSelectedOption(exists);
+                delayOnChange(formatEvent(name, exists)); // Use delayed onChange
             } else {
                 setLoading(true);
                 try {
                     const data = await fetchOptions(dropdownSource, { id: record[name] });
-                    const records = data.records || []
-                    // prepend fetched records to the current options
+                    const records = data.records || [];
                     setOptions([...records, ...options]);
-                    if (record) {
-                        const current = records.find((itm: any) => itm.id == record[name])
-                        if (current) {
-                            setSelectedOption(current)
-                            onChange(formatEvent(name, current));
-                        }
+                    const current = records.find((itm: any) => String(itm.id) === String(record[name]));
+                    if (current) {
+                        setSelectedOption(current);
+                        delayOnChange(formatEvent(name, current)); // Use delayed onChange
                     }
-
                 } catch (error: any) {
                     // Handle error
                 }
                 setLoading(false);
             }
+
+            ensuredRecord.current = String(record.id);
         }
-    }
+    };
+
+    const delayOnChange = (eventData: any) => {
+        if (timeoutRef.current) {
+            clearTimeout(timeoutRef.current);
+        }
+        timeoutRef.current = window.setTimeout(() => {
+            onChange(eventData);
+        }, 150);
+    };
 
     return (
         <FormControl fullWidth variant="outlined" size={size} margin="normal">

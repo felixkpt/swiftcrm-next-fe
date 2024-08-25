@@ -36,7 +36,7 @@ const AllActionsModals: React.FC<Props> = ({ modelID, modelNameSingular, apiEndp
                     modelID={`${modelID}_View`}
                     modelNameSingular={modelNameSingular}
                     method="GET"
-                    endpoint={apiEndpoint}
+                    endpoint={apiEndpoint.replace(/\/$/, '')}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
@@ -45,7 +45,7 @@ const AllActionsModals: React.FC<Props> = ({ modelID, modelNameSingular, apiEndp
                     modelID={`${modelID}_UpdateStatus`}
                     modelNameSingular={modelNameSingular}
                     method="GET"
-                    endpoint={apiEndpoint}
+                    endpoint={apiEndpoint.replace(/\/$/, '')}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
@@ -54,7 +54,7 @@ const AllActionsModals: React.FC<Props> = ({ modelID, modelNameSingular, apiEndp
                     modelID={`${modelID}_Archive`}
                     modelNameSingular={modelNameSingular}
                     method="POST"
-                    endpoint={apiEndpoint}
+                    endpoint={apiEndpoint.replace(/\/$/, '')}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>
@@ -63,7 +63,7 @@ const AllActionsModals: React.FC<Props> = ({ modelID, modelNameSingular, apiEndp
                     modelID={`${modelID}_Delete`}
                     modelNameSingular={modelNameSingular}
                     method="DELETE"
-                    endpoint={apiEndpoint}
+                    endpoint={apiEndpoint.replace(/\/$/, '')}
                     fillable={fillableFieldsFiltered}
                 />
             </AutoModal>

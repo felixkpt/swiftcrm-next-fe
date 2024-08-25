@@ -43,7 +43,7 @@ const InterviewProgress = ({ selectedCategory, selectedSubCategory, reloadKey }:
     return (
         <div className='flex flex-row items-center gap-3 pb-1'>
             <label className="w-full h-full">
-                {interviewProgress && (
+                {interviewProgress && interviewProgress.interview_id && (
                     <div className='flex flex-col w-full'>
                         <label className="form-control w-full">
                             <div className="label">

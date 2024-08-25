@@ -77,7 +77,7 @@ const EnhancedTable = ({
               return 0;
             }).map((row, index) => (
               <TableRow key={index}>
-                {headCells.map((cell) => (
+                {headCells.map((cell, i) => (
                   <TableCell key={cell.id} className={`${modelID} data-${cell.id}`} align={cell.numeric ? 'right' : 'left'}>
                     {row[cell.id]}
                   </TableCell>

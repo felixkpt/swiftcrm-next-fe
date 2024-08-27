@@ -9,6 +9,7 @@ import RenderMessages from "../../ConversationModel/RenderMessages";
 import RecordMessage from "../../ConversationModel/Recorder/RecordMessage";
 import InterviewSubNavMenu from "../../ConversationModel/InterviewSubNavMenu";
 import Link from "next/link";
+import { CircularProgress } from "@mui/material";
 
 const Page = () => {
     const mode = 'interview'
@@ -19,6 +20,7 @@ const Page = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [messages, setMessages] = useState<MessageType[]>([]);
     const [messagesMetadata, setMessagesMetadata] = useState<MetadataType>(null);
+    const [loadingMessages, setLoadingMessages] = useState<boolean>(false);
 
     const [selectedCategory, setSelectedCategory] = useState<CategoryType | undefined>();
     const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategoryType | undefined>();
@@ -119,7 +121,7 @@ const Page = () => {
                     setQuestionsCount(0);
                 })
                 .finally(() => {
-                    setCheckedQuestionsCount(true);
+                    setTimeout(() => setCheckedQuestionsCount(true), 500);
                 });
         }
     }, [selectedSubCategory]);
@@ -130,7 +132,7 @@ const Page = () => {
 
     return (
         <div className="bg-base-100 flex flex-col h-screen p-1 relative">
-            <InterviewSubNavMenu mode={mode} setMessages={setMessages} setMessagesMetadata={setMessagesMetadata} reloadKey={reloadKey} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} selectedSubCategory={selectedSubCategory} setSelectedSubCategory={setSelectedSubCategory} conversationsContainer={conversationsContainer} scrollToTop={scrollToTop} scrollToBottom={scrollToBottom} />
+            <InterviewSubNavMenu mode={mode} setMessages={setMessages} setMessagesMetadata={setMessagesMetadata} setLoadingMessages={setLoadingMessages} reloadKey={reloadKey} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} selectedSubCategory={selectedSubCategory} setSelectedSubCategory={setSelectedSubCategory} conversationsContainer={conversationsContainer} scrollToTop={scrollToTop} scrollToBottom={scrollToBottom} />
             <div ref={conversationsContainer} className="flex-1 overflow-auto px-2 my-3">
                 {
                     selectedSubCategory &&
@@ -163,12 +165,15 @@ const Page = () => {
                                 </Link>
                             </p>
                         )
-                    ) : null
+                    ) :
+                        <div className="flex justify-center my-4">
+                            <CircularProgress />
+                        </div>
                 }
 
                 {
-                    questionsCount > 0 &&
-                    <RenderMessages messages={messages} isLoading={isLoading} hasDoneAnyRecording={hasDoneAnyRecording} conversationsContainer={conversationsContainer} />
+                    checkedQuestionsCount && questionsCount > 0 &&
+                    <RenderMessages messages={messages} loadingMessages={loadingMessages} isLoading={isLoading} hasDoneAnyRecording={hasDoneAnyRecording} conversationsContainer={conversationsContainer} />
                 }
             </div>
             {questionsCount > 0 && checkedQuestionsCount && (

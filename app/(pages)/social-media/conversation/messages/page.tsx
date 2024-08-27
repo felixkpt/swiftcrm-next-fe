@@ -1,6 +1,6 @@
 
 // Start AutoModel imports
-import { appConfig } from '@/app/components/baseComponents/utils/helpers';
+import { appConfig, getModelTag } from '@/app/components/baseComponents/utils/helpers';
 import fetchRecords from '@/app/components/baseComponents/utils/fetchRecords';
 import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderList';
 import getConstants from './AutoModel/getConstants';
@@ -40,7 +40,8 @@ const page = async () => {
   // Function to revalidate server records
   async function revalidateServerRecords() {
     'use server';
-    revalidateTag(MODEL_ID);
+    const tag = getModelTag(apiEndpoint)
+    revalidateTag(tag);
   }
 
   const serverModelOptions = await getServerModelOptions(FILLABLE_FIELDS);

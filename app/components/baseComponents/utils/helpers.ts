@@ -25,3 +25,10 @@ export const appConfig: Config = {
 
 export const themeOption = 'dark';
 export const defaultTheme = 'dark';
+
+export function getModelTag(apiEndpoint: string) {
+    const tag = apiEndpoint.endsWith('/') && apiEndpoint.indexOf('/') !== apiEndpoint.lastIndexOf('/')
+        ? apiEndpoint.slice(0, -1)
+        : apiEndpoint;
+    return tag
+}

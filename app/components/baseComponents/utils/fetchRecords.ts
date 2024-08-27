@@ -1,3 +1,5 @@
+import { getModelTag } from "./helpers";
+
 // Define TypeScript types for the results
 interface FetchRecordsResponse {
   records: any[];
@@ -19,14 +21,10 @@ const fetchRecords = async (apiEndpoint: string, tags: string[] = []): Promise<F
   let metadata: object | null = null;
 
   try {
-    const trimmedText = apiEndpoint.endsWith('/') && apiEndpoint.indexOf('/') !== apiEndpoint.lastIndexOf('/')
-      ? apiEndpoint.slice(0, -1)
-      : apiEndpoint;
 
-    tags = [trimmedText]
-    console.log('Record TAGS:', tags)
+    const tags = [getModelTag(apiEndpoint)]
 
-    const response = await fetch(apiEndpoint + '?source=fetchRecords', { next: { tags } });
+    const response = await fetch(apiEndpoint + '?source=NextBackend', { next: { tags } });
 
     if (!response.ok) {
       throw new Error(`Failed to fetch data from ${apiEndpoint}`);

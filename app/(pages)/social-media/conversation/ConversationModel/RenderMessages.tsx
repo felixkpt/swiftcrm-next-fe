@@ -1,18 +1,20 @@
 import React, { useEffect, useState, RefObject } from 'react';
 import TimeAgo from 'react-timeago';
 import ReactMarkdown from 'react-markdown';
+import CircularProgress from '@mui/material/CircularProgress';
 import { appConfig } from '@/app/components/baseComponents/utils/helpers';
 import { MessageType } from './types';
 import { pauseAllAudioElements } from './helpers';
 
 type Props = {
     messages: MessageType[];
+    loadingMessages: boolean;
     isLoading: boolean;
     hasDoneAnyRecording: boolean;
     conversationsContainer: RefObject<HTMLDivElement>;
 };
 
-const RenderMessages = ({ messages = [], isLoading, hasDoneAnyRecording, conversationsContainer }: Props) => {
+const RenderMessages = ({ messages = [], loadingMessages, isLoading, hasDoneAnyRecording, conversationsContainer }: Props) => {
     const [userInteracted, setUserInteracted] = useState(false);
 
     useEffect(() => {
@@ -73,7 +75,11 @@ const RenderMessages = ({ messages = [], isLoading, hasDoneAnyRecording, convers
 
     return (
         <div className="flex flex-col">
-            {messages.length === 0 ? (
+            {loadingMessages ? (
+                <div className="flex justify-center my-4">
+                    <CircularProgress />
+                </div>
+            ) : messages.length === 0 ? (
                 <div className="text-center text-neutral">
                     <p>No messages yet. Start recording to send a message!</p>
                 </div>
@@ -139,7 +145,7 @@ const RenderMessages = ({ messages = [], isLoading, hasDoneAnyRecording, convers
                 <div className="text-center my-4 animate-pulse cursor-default select-none">
                     <p>Gimmie a few seconds...</p>
                 </div>
-            )}  
+            )}
         </div>
     );
 };

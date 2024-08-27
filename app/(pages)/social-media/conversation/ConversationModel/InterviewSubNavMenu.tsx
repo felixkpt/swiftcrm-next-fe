@@ -10,6 +10,7 @@ import InterviewProgress from './InterviewProgress';
 const InterviewSubNavMenu: React.FC<SubNavMenuProps> = ({
     setMessages,
     setMessagesMetadata,
+    setLoadingMessages,
     selectedCategory,
     setSelectedCategory,
     selectedSubCategory,
@@ -33,19 +34,22 @@ const InterviewSubNavMenu: React.FC<SubNavMenuProps> = ({
         const fetchConversation = async () => {
 
             if (!selectedCategory?.id || !selectedSubCategory?.id) return;
+
+            setLoadingMessages(true);  // Start loading
             try {
-                const uri = `/social-media/conversation/sub-categories/${selectedSubCategory.id}/conversation?mode=${mode}`
+                const uri = `/social-media/conversation/sub-categories/${selectedSubCategory.id}/conversation?mode=${mode}`;
                 const response = await axios.get<ResultsMetaDataType>(appConfig.api.url(uri));
-                console.log('response.data::', uri, response.data)
                 setMessages(response.data.records || []);
                 setMessagesMetadata(response.data.metadata || []);
             } catch (error) {
                 console.error('Error fetching conversation messages:', error);
+            } finally {
+                setTimeout(() => setLoadingMessages(false), 1000);
             }
         };
 
         fetchConversation();
-    }, [selectedCategory, selectedSubCategory, setMessages]);
+    }, [selectedCategory, selectedSubCategory]);
 
     const handleSetSelectedCategory = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const categoryId = e.target.value;
@@ -53,7 +57,7 @@ const InterviewSubNavMenu: React.FC<SubNavMenuProps> = ({
         if (selectedCategory) {
             setSelectedCategory(selectedCategory);
             setMessages([]);
-            setMessagesMetadata(null)
+            setMessagesMetadata(null);
         }
     };
 
@@ -75,7 +79,7 @@ const InterviewSubNavMenu: React.FC<SubNavMenuProps> = ({
             const resp = await axios.put(appConfig.api.url(`/social-media/conversation/categories/sub-categories/archive?category_id=${selectedCategory.id}&sub_category_id=${selectedSubCategory.id}&mode=${mode}`));
             if (resp.status === 200) {
                 setMessages([]);
-                setMessagesMetadata(null)
+                setMessagesMetadata(null);
             } else {
                 setError('Server returned an unexpected response.');
             }

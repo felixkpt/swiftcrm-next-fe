@@ -3,14 +3,16 @@ import { subscribe } from '@/app/components/baseComponents/utils/pubSub';
 import { formatErrors } from '../components/baseComponents/utils/formatErrors';
 
 interface Event {
+    uuid: string;
     name: string;
     status: 'pending' | 'done' | 'failed';
     data: any;
 }
 
-interface EventState {
-    [key: string]: Event[]; // Array of events for each UUID/model ID
-}
+type EventStatus = 'pending' | 'done' | 'failed';
+
+// Array of events
+type EventState = Event[];
 
 interface AppStateContextType {
     client_id: string;
@@ -37,28 +39,22 @@ type AppStateProviderProps = {
 };
 
 export const AppStateProvider = ({ children, client_id }: AppStateProviderProps) => {
-    const [events, setEvents] = useState<EventState>({});
+    const [events, setEvents] = useState<EventState>([]);
 
     // Function to update the state of an event
-    const updateEvent = (event: string, status: 'pending' | 'done' | 'failed', data: any = null) => {
+    const updateEvent = (event: string, status: EventStatus, data: any = null) => {
         setEvents(prev => {
-            // Check if event is defined and is a string
             if (!event || typeof event !== 'string') {
                 console.error('Invalid event:', event);
                 return prev;
             }
 
             const [uuid, eventName] = event.split('_', 2);
-
             if (!eventName) return prev;
 
-            // Get existing events for the UUID
-            const existingEvents = prev[uuid] || [];
-
-            // Push the new event into the array
-            const updatedEvents = [...existingEvents, { name: eventName, status, data }];
-
-            return { ...prev, [uuid]: updatedEvents };
+            // Add the new event to the array
+            const newEvent: Event = { uuid, name: eventName, status, data };
+            return [...prev, newEvent];
         });
     };
 
@@ -77,31 +73,33 @@ export const AppStateProvider = ({ children, client_id }: AppStateProviderProps)
             }
         };
 
-        // Subscribe to *_submit events
-        const unsubscribeSubmit = subscribe('*_submit', (payload: any) => {
-            const { modelID } = payload;
-            updateEvent(modelID, 'pending');
-        });
+        // // Subscribe to *_submit events
+        // const unsubscribeSubmit = subscribe('*_submit', (payload: any) => {
+        //     const { modelID } = payload;
+        //     updateEvent(modelID, 'pending');
+        // });
 
         // Subscribe to *_done events
         const unsubscribeDone = subscribe('*_done', (payload: any) => {
             const { modelID, ...other } = payload;
             let data = other;
+            let status: EventStatus = 'done'
             if (other.status !== 200) {
                 data = formatErrors.fastAPI(other.error);
+                status = 'failed'
             }
-            updateEvent(modelID, 'failed', data);
+            updateEvent(modelID, status, data);
         });
 
         return () => {
             ws.close();
-            unsubscribeSubmit();
+            // unsubscribeSubmit();
             unsubscribeDone();
         };
     }, [client_id]);
 
     // Check for any pending events
-    const hasPendingEvents = Object.values(events).flat().some(event => event.status === 'pending');
+    const hasPendingEvents = events.some(event => event.status === 'pending');
 
     return (
         <AppStateContext.Provider value={{ client_id, events, hasPendingEvents, updateEvent }}>

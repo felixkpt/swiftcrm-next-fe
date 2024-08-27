@@ -15,6 +15,8 @@ const Page = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [messages, setMessages] = useState<MessageType[]>([]);
     const [messagesMetadata, setMessagesMetadata] = useState<MetadataType>(null);
+    const [loadingMessages, setLoadingMessages] = useState<boolean>(false);
+    
     const [selectedCategory, setSelectedCategory] = useState<CategoryType | undefined>();
     const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategoryType | undefined>();
     const [uploadFailed, setUploadFailed] = useState<boolean>(false);
@@ -108,14 +110,14 @@ const Page = () => {
 
     return (
         <div className="bg-base-100 flex flex-col h-screen p-1 relative">
-            <TrainingSubNavMenu mode={mode} setMessages={setMessages} setMessagesMetadata={setMessagesMetadata} reloadKey={0} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} selectedSubCategory={selectedSubCategory} setSelectedSubCategory={setSelectedSubCategory} conversationsContainer={conversationsContainer} scrollToTop={scrollToTop} scrollToBottom={scrollToBottom} />
+            <TrainingSubNavMenu mode={mode} setMessages={setMessages} setMessagesMetadata={setMessagesMetadata} setLoadingMessages={setLoadingMessages} reloadKey={0} selectedCategory={selectedCategory} setSelectedCategory={setSelectedCategory} selectedSubCategory={selectedSubCategory} setSelectedSubCategory={setSelectedSubCategory} conversationsContainer={conversationsContainer} scrollToTop={scrollToTop} scrollToBottom={scrollToBottom} />
             <div ref={conversationsContainer} className="flex-1 overflow-auto p-4">
                 <div className="space-y-2">
                     {
                         selectedSubCategory &&
                         <p className="text-center my-3 text-lg border-base-300 border-b-2 px-2 text-success">{selectedSubCategory.learn_instructions}</p>
                     }
-                    <RenderMessages messages={messages} isLoading={isLoading} hasDoneAnyRecording={hasDoneAnyRecording} conversationsContainer={conversationsContainer} />
+                    <RenderMessages messages={messages} loadingMessages={loadingMessages} isLoading={isLoading} hasDoneAnyRecording={hasDoneAnyRecording} conversationsContainer={conversationsContainer} />
                 </div>
             </div>
             <div className="sticky bottom-0 left-0 right-0 shadow-lg z-50 min-h-32">

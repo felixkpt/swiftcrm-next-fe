@@ -25,6 +25,7 @@ export type SubCategoryType = {
 export type SubNavMenuProps = {
     setMessages: React.Dispatch<React.SetStateAction<Array<any>>>;
     setMessagesMetadata: React.Dispatch<React.SetStateAction<null | any>>;
+    setLoadingMessages: React.Dispatch<React.SetStateAction<boolean>>;
     selectedCategory: CategoryType | undefined;
     setSelectedCategory: React.Dispatch<React.SetStateAction<CategoryType | undefined>>;
     selectedSubCategory: SubCategoryType | undefined;

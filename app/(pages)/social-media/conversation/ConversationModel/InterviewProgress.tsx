@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import axios from 'axios';
 import { appConfig } from '@/app/components/baseComponents/utils/helpers';
+import { Box, Typography, LinearProgress, Button, Paper } from '@mui/material';
 
 type Props = {
-    selectedCategory: any
-    selectedSubCategory: any
-    setCurrentSessionId: any
-    setMessages: any
-    setMessagesMetadata: any
-    reloadKey: any
+    selectedCategory: any;
+    selectedSubCategory: any;
+    reloadKey: any;
 }
 
 const InterviewProgress = ({ selectedCategory, selectedSubCategory, reloadKey }: Props) => {
-
-    const [interviewProgress, setInterviewProgress] = useState<{ interview_id: number, current_question: number; total_count: number } | null>(null);
+    const [interviewProgress, setInterviewProgress] = useState<{ interview_id: number; current_question: number; total_count: number } | null>(null);
 
     useEffect(() => {
         if (reloadKey > 0) {
@@ -38,36 +35,35 @@ const InterviewProgress = ({ selectedCategory, selectedSubCategory, reloadKey }:
         }
     };
 
-    console.log('interviewProgress::', interviewProgress)
-
     return (
-        <div className='flex flex-row items-center gap-3 pb-1'>
-            <label className="w-full h-full">
-                {interviewProgress && interviewProgress.interview_id && (
-                    <div className='flex flex-col w-full'>
-                        <label className="form-control w-full">
-                            <div className="label">
-                                <span className="label-text text-xs text-nowrap">Interview Progress</span>
-                            </div>
-                            <div className="flex justify-between items-center">
-                                <span className="label-text text-xs text-nowrap">Questions answered: {interviewProgress.current_question} / {interviewProgress.total_count}</span>
-                                {interviewProgress.current_question === interviewProgress.total_count && (
-                                    <Link
-                                        target='_blank'
-                                        href={`/social-media/conversation/interview/results/${interviewProgress.interview_id}`}
-                                        className="btn btn-sm btn-success mb-0.5"
-                                    >
-                                        Show My Results
-                                    </Link>
-                                )}
-                            </div>
-                            <progress className="progress progress-info w-full" value={`${interviewProgress.current_question / interviewProgress.total_count * 100}`} max="100"></progress>
-                        </label>
-                    </div>
-                )}
-            </label>
-        </div>
-    )
-}
+        <Box display="flex" flexDirection="row" alignItems="center" gap={2} padding={1}>
+            {interviewProgress && interviewProgress.interview_id && (
+                <Paper elevation={3} style={{ padding: 16, width: '100%' }}>
+                    <Typography variant="subtitle2" color="textSecondary" gutterBottom>
+                        Interview Progress
+                    </Typography>
+                    <Box display="flex" justifyContent="space-between" alignItems="center">
+                        <Typography variant="body2">
+                            Questions answered: {interviewProgress.current_question} / {interviewProgress.total_count}
+                        </Typography>
+                        {interviewProgress.current_question === interviewProgress.total_count && (
+                            <Link href={`/social-media/conversation/interview/results/${interviewProgress.interview_id}`} passHref>
+                                <Button variant="contained" color="success" size="small">
+                                    Show My Results
+                                </Button>
+                            </Link>
+                        )}
+                    </Box>
+                    <Box mt={1}>
+                        <LinearProgress
+                            variant="determinate"
+                            value={(interviewProgress.current_question / interviewProgress.total_count) * 100}
+                        />
+                    </Box>
+                </Paper>
+            )}
+        </Box>
+    );
+};
 
-export default InterviewProgress
+export default InterviewProgress;

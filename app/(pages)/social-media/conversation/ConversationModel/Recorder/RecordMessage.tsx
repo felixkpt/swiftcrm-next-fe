@@ -17,7 +17,7 @@ const RecordMessage = ({ handleStop, messagesMetadata, isLoading, uploadFailed, 
   const [recording, setRecording] = useState(false);
   const [paused, setPaused] = useState(false);
   const [duration, setDuration] = useState<number | null>(null);
-  const maxDuration = 180;
+  const maxDuration = 60 * 3;
 
   const startTimer = () => {
     timerRef.current = setInterval(() => {
@@ -107,7 +107,7 @@ const RecordMessage = ({ handleStop, messagesMetadata, isLoading, uploadFailed, 
             pauseButtonRef.current = pauseRecording;
 
             return (
-              <div className="mt-2">
+              <div className="mt-2 mb-14">
                 {
                   !isLoading ?
                     <>

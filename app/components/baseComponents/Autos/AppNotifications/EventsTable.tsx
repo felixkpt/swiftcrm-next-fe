@@ -107,17 +107,13 @@ const EventsTable: React.FC = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {Object.entries(events).map(([uuid, eventList]) => (
-                  <React.Fragment key={uuid}>
-                    {eventList.map((event, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{uuid}</TableCell>
-                        <TableCell>{event.name}</TableCell>
-                        <TableCell>{renderStatusIcon(event.status)}</TableCell>
-                        <TableCell>{JSON.stringify(event.data)}</TableCell>
-                      </TableRow>
-                    ))}
-                  </React.Fragment>
+                {events.map((event, index) => (
+                  <TableRow key={index}>
+                    <TableCell>{event.uuid}</TableCell>
+                    <TableCell>{event.name}</TableCell>
+                    <TableCell>{renderStatusIcon(event.status)}</TableCell>
+                    <TableCell>{JSON.stringify(event.data)}</TableCell>
+                  </TableRow>
                 ))}
               </TableBody>
             </Table>

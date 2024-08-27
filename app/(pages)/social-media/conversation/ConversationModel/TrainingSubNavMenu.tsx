@@ -8,6 +8,7 @@ import { CategoryType, ResultsMetaDataType, SubCategoryType, SubNavMenuProps } f
 const TrainingSubNavMenu: React.FC<SubNavMenuProps> = ({
     setMessages,
     setMessagesMetadata,
+    setLoadingMessages,
     selectedCategory,
     setSelectedCategory,
     selectedSubCategory,
@@ -22,7 +23,7 @@ const TrainingSubNavMenu: React.FC<SubNavMenuProps> = ({
     const [error, setError] = useState<string | null>(null);
     const [categories, setCategories] = useState<CategoryType[]>([]);
     const [subCategories, setSubCategories] = useState<SubCategoryType[]>([]);
-    
+
     useEffect(() => {
         // Fetch categories when component mounts
         fetchCategories();
@@ -86,14 +87,16 @@ const TrainingSubNavMenu: React.FC<SubNavMenuProps> = ({
         const fetchConversation = async () => {
             if (!selectedCategory?.id || !selectedSubCategory?.id) return;
 
+            setLoadingMessages(true);  // Start loading
             try {
                 const uri = `/social-media/conversation/sub-categories/${selectedSubCategory.id}/conversation?mode=${mode}`
                 const response = await axios.get<ResultsMetaDataType>(appConfig.api.url(uri));
-                console.log('response.data::', uri, response.data)
                 setMessages(response.data.records || []);
                 setMessagesMetadata(response.data.metadata || null)
             } catch (error) {
                 console.error('Error fetching conversation messages:', error);
+            } finally {
+                setTimeout(() => setLoadingMessages(false), 1000);
             }
         };
 
@@ -122,19 +125,19 @@ const TrainingSubNavMenu: React.FC<SubNavMenuProps> = ({
 
     return (
         <>
-                <ConversationOptions
-                    categories={categories}
-                    subCategories={subCategories}
-                    selectedCategory={selectedCategory}
-                    selectedSubCategory={selectedSubCategory}
-                    handleSetSelectedCategory={handleSetSelectedCategory}
-                    handleSetSelectedSubCategory={handleSetSelectedSubCategory}
-                    archiveConversation={archiveConversation}
-                    isResetting={isResetting}
-                    conversationsContainer={conversationsContainer}
-                    scrollToTop={scrollToTop}
-                    scrollToBottom={scrollToBottom}
-                />
+            <ConversationOptions
+                categories={categories}
+                subCategories={subCategories}
+                selectedCategory={selectedCategory}
+                selectedSubCategory={selectedSubCategory}
+                handleSetSelectedCategory={handleSetSelectedCategory}
+                handleSetSelectedSubCategory={handleSetSelectedSubCategory}
+                archiveConversation={archiveConversation}
+                isResetting={isResetting}
+                conversationsContainer={conversationsContainer}
+                scrollToTop={scrollToTop}
+                scrollToBottom={scrollToBottom}
+            />
             <div>
                 {error && <div className="text-red-500">{error}</div>}
             </div>

@@ -8,7 +8,6 @@ import Menu from '@mui/material/Menu';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
-import MenuIcon from '@mui/icons-material/Menu';
 import { CircularProgress } from '@mui/material';
 
 const NotificationsMenu: React.FC = () => {
@@ -16,13 +15,11 @@ const NotificationsMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const isOpen = Boolean(anchorEl);
 
-  // Extract notifications from events
-  const notifications = Object.entries(events).flatMap(([uuid, eventList]) =>
-    eventList.map(event => ({
-      id: uuid + '-' + event.name, // Unique key for each notification
-      text: `Event ${event.name} occurred with status ${event.status}`,
-    }))
-  );
+  // Extract notifications using the array key for uniqueness
+  const notifications = events.map((event, index) => ({
+    id: index.toString(), // Use the array index as a unique key
+    text: `Event ${event.name} occurred with status ${event.status}`,
+  }));
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);

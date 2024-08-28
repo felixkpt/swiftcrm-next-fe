@@ -1,10 +1,10 @@
 
 type CustomerType = {
-name: any;
-  last_name: any;
-  phone_number: any;
-  email: any;
-  alternate_number: any;
+first_name: string;
+  last_name: string;
+  phone_number: string;
+  email: string;
+  alternate_number: string;
 }
 
 export default CustomerType;

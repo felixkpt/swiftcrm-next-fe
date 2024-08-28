@@ -11,7 +11,7 @@ import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderSingl
 // Internal utility imports
 import getServerModelOptions from '@/app/components/baseComponents/utils/getServerModelOptions';
 
-const page = () => {
+const page = async () => {
   const {
     MODEL_NAME_SINGULAR,
     MODEL_NAME_PLURAL,

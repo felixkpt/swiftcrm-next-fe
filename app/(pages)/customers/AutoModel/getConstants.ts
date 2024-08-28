@@ -3,7 +3,7 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = '9d6bebac-79cd-4f19-b2ce-9992e1fdd40e';
+const modelID = '4a66a01b-9b1b-4a53-8ac6-777e3658fe71';
 const modelNameSingular = 'Customer';
 const modelNamePlural = 'Customers';
 const modelURI = 'customers';
@@ -12,16 +12,16 @@ const apiEndpoint = 'customers/';
 // Define fillable fields for the Customer model
 const fillableFields: Array<FillableType> = [
   {
-    name: "name",
+    name: "first_name",
     label: "First Name",
     type: "input",
     dataType: "string",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -31,12 +31,12 @@ const fillableFields: Array<FillableType> = [
     label: "Last Name",
     type: "input",
     dataType: "string",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -46,12 +46,12 @@ const fillableFields: Array<FillableType> = [
     label: "Phone Number",
     type: "input",
     dataType: "string",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: true,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -61,12 +61,12 @@ const fillableFields: Array<FillableType> = [
     label: "Email",
     type: "input",
     dataType: "string",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: true,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -76,12 +76,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "string",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -91,7 +91,7 @@ const fillableFields: Array<FillableType> = [
 // Define headers for displaying in the UI (e.g., table headers, singleViewOnly means can only be shown when viewing one item not list/table)
 const headers: HeaderType[] = [
   {
-    key: "name",
+    key: "first_name",
     label: "First Name",
     isVisibleInList: true,
     isVisibleInSingleView: true

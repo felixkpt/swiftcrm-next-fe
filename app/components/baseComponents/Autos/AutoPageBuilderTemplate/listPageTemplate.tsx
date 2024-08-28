@@ -3,7 +3,7 @@ export const listPageTemplate = `
 import { revalidateTag } from 'next/cache';
 
 // Internal utility imports
-import { appConfig } from '@/app/components/baseComponents/utils/helpers';
+import { appConfig, getModelTag } from '@/app/components/baseComponents/utils/helpers';
 import fetchRecords from '@/app/components/baseComponents/utils/fetchRecords';
 import getServerModelOptions from '@/app/components/baseComponents/utils/getServerModelOptions';
 
@@ -43,7 +43,8 @@ const page = async () => {
   // Function to revalidate server records
   async function revalidateServerRecords() {
     'use server';
-    revalidateTag(MODEL_ID);
+    const tag = getModelTag(apiEndpoint)
+    revalidateTag(tag);
   }
 
   const serverModelOptions = await getServerModelOptions(FILLABLE_FIELDS);

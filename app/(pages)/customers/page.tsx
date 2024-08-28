@@ -3,13 +3,13 @@
 import { revalidateTag } from 'next/cache';
 
 // Internal utility imports
-import { appConfig, getModelTag } from '@/app/components/baseComponents/utils/helpers';
+import { appConfig } from '@/app/components/baseComponents/utils/helpers';
 import fetchRecords from '@/app/components/baseComponents/utils/fetchRecords';
+import getServerModelOptions from '@/app/components/baseComponents/utils/getServerModelOptions';
 
 // AutoModel/Component imports
 import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderList';
 import getConstants from './AutoModel/getConstants';
-import getServerModelOptions from '@/app/components/baseComponents/utils/getServerModelOptions';
 
 const page = async () => {
   // Destructure constants from getConstants
@@ -43,8 +43,7 @@ const page = async () => {
   // Function to revalidate server records
   async function revalidateServerRecords() {
     'use server';
-    const tag = getModelTag(apiEndpoint)
-    revalidateTag(tag);
+    revalidateTag(MODEL_ID);
   }
 
   const serverModelOptions = await getServerModelOptions(FILLABLE_FIELDS);
@@ -63,7 +62,6 @@ const page = async () => {
       serverModelOptions={serverModelOptions} // Model's grouped options
       revalidateServerRecords={revalidateServerRecords} // Function to revalidate server records
       serverMetadata={metadata} // Metadata associated with the fetched records
-      createUri='/auto-builders/model-builder/create'
     />
   );
 };

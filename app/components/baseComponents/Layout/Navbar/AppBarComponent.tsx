@@ -13,12 +13,12 @@ import ExitToApp from '@mui/icons-material/ExitToApp';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { ThemeContext } from './ThemeContext';
-import { drawerWidth } from '../BaseLayout';
 import { appConfig } from '../../utils/helpers';
 import { useContext, useEffect, useState } from 'react';
 import MessagesMenu from './MessagesMenu';
 import NotificationsMenu from './NotificationsMenu';
 import { Grid, Typography } from '@mui/material';
+import { drawerWidth } from '../Sidebar/SideNav';
 
 interface AppBarProps extends MuiAppBarProps {
     open?: boolean;

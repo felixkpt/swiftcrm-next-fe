@@ -1,74 +1,15 @@
 'use client'
 // BaseLayout.tsx
-import { styled, Theme, useTheme, CSSObject } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import MuiDrawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import Footer from './Footer';
 import { AppStateProvider } from '@/app/context/AppStateProvider';
 import AppBarComponent from './Navbar/AppBarComponent';
 import { appConfig, defaultTheme } from '../utils/helpers';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ThemeProviderComponent } from './Navbar/ThemeContext';
-
-export const drawerWidth = 240;
-
-const openedMixin = (theme: Theme): CSSObject => ({
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-});
-
-const closedMixin = (theme: Theme): CSSObject => ({
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: 'hidden',
-    width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 1px)`,
-    },
-});
-
-const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: theme.spacing(0, 1),
-    ...theme.mixins.toolbar,
-}));
-
-const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        width: drawerWidth,
-        flexShrink: 0,
-        whiteSpace: 'nowrap',
-        boxSizing: 'border-box',
-        ...(open && {
-            ...openedMixin(theme),
-            '& .MuiDrawer-paper': openedMixin(theme),
-        }),
-        ...(!open && {
-            ...closedMixin(theme),
-            '& .MuiDrawer-paper': closedMixin(theme),
-        }),
-    }),
-);
+import SideNav from './Sidebar/SideNav';
 
 type Props = {
     children: React.ReactNode
@@ -85,35 +26,6 @@ const BaseLayout = ({ children }: Props) => {
         setUserExplicitClose(false)
     };
 
-    const handleDrawerClose = () => {
-        setOpen(false);
-        setUserExplicitClose(true)
-    };
-
-    useEffect(() => {
-
-        const resizeListener = (e: any) => {
-            const width = e.target.innerWidth
-            if (width) {
-                toggleOpen(width)
-            }
-        }
-
-        window.addEventListener('resize', resizeListener)
-
-        return () => window.removeEventListener('resize', resizeListener)
-
-    }, [userExplicitClose])
-
-
-    function toggleOpen(width: number) {
-        if (width < 920) {
-            setOpen(false)
-        } else if (!userExplicitClose) {
-            setOpen(true)
-        }
-    }
-    
     return (
         <AppStateProvider client_id={appConfig.uuid()}>
             <ThemeProviderComponent defaultTheme={defaultTheme}>
@@ -121,63 +33,7 @@ const BaseLayout = ({ children }: Props) => {
                 <Box sx={{ display: 'flex' }}>
                     <CssBaseline />
                     <AppBarComponent open={open} handleDrawerOpen={handleDrawerOpen} />
-                    <Drawer variant="permanent" open={open}>
-                        <DrawerHeader>
-                            <IconButton onClick={handleDrawerClose}>
-                                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                            </IconButton>
-                        </DrawerHeader>
-                        <Divider />
-                        <List>
-                            {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                                <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                                    <ListItemButton
-                                        sx={{
-                                            minHeight: 48,
-                                            justifyContent: open ? 'initial' : 'center',
-                                            px: 2.5,
-                                        }}
-                                    >
-                                        <ListItemIcon
-                                            sx={{
-                                                minWidth: 0,
-                                                mr: open ? 3 : 'auto',
-                                                justifyContent: 'center',
-                                            }}
-                                        >
-                                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                        </ListItemIcon>
-                                        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
-                        </List>
-                        <Divider />
-                        <List>
-                            {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                                <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-                                    <ListItemButton
-                                        sx={{
-                                            minHeight: 48,
-                                            justifyContent: open ? 'initial' : 'center',
-                                            px: 2.5,
-                                        }}
-                                    >
-                                        <ListItemIcon
-                                            sx={{
-                                                minWidth: 0,
-                                                mr: open ? 3 : 'auto',
-                                                justifyContent: 'center',
-                                            }}
-                                        >
-                                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                        </ListItemIcon>
-                                        <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                    </ListItemButton>
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Drawer>
+                    <SideNav open={open} setOpen={setOpen} setUserExplicitClose={setUserExplicitClose} userExplicitClose={userExplicitClose} theme={theme}  />
                     <Box component="main" sx={{ flexGrow: 1, p: 1, overflow: 'hidden' }}>
                         <div className="flex min-h-screen mt-[36px] w-full">
                             <main className="flex-1 p-1 md:p-3 w-full">{children}</main>

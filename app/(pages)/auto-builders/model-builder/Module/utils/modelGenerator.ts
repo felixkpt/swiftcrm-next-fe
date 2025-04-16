@@ -23,7 +23,9 @@ export async function saveAndGenerateModel(dataRaw: any) {
 
   const { modelDisplayName, modelURI, fields: fieldsRaw, } = dataRaw;
 
-  const { fields, headers } = getFieldsAndHeaders(fieldsRaw)
+  // Normalize field names
+  const normalizedFields = normalizeFields(fieldsRaw);
+  const { fields, headers } = getFieldsAndHeaders(normalizedFields)
   const actionLabels = getActionLabels(dataRaw.actionLabels)
 
   const data: AutoPageBuilderType = dataRaw
@@ -53,6 +55,23 @@ export async function saveAndGenerateModel(dataRaw: any) {
 
   return results
 
+}
+
+function normalizeFields(fields: any[]) {
+  return fields.map((field) => {
+
+    console.log("Field", field)
+    return field
+    const cleanedName = field.name
+      .toLowerCase()
+      .replace(/\s+/g, '_')
+      .replace(/[^a-z0-9_]/g, '');
+
+    return {
+      ...field,
+      name: cleanedName
+    };
+  });
 }
 
 async function generateModel(data: any, fields: any, modelURI: string, id: number | null) {
@@ -174,9 +193,9 @@ function dumpSeeders(dataRaw: any) {
     );
 
     // Write the incoming request data to a JSON file
-    const data = {...dataRaw}
+    const data = { ...dataRaw }
     delete data.pageId
-    
+
     fs.writeFileSync(jsonFilePath, JSON.stringify(dataRaw, null, 2));
     console.log(`Data for ${modelName} has been saved to ${jsonFilePath}`);
   } else {

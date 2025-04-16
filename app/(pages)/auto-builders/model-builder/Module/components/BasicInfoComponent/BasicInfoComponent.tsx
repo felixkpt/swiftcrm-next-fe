@@ -1,5 +1,15 @@
-import React, { useState } from 'react';
-import { TextField, Checkbox, FormControlLabel, Grid } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import {
+    TextField,
+    Checkbox,
+    FormControlLabel,
+    Grid,
+    Typography,
+    InputAdornment,
+    IconButton,
+} from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
+import AdvancedSettingsModal from './AdvancedSettingsModal';
 
 type Props = {
     modelDisplayName: string;
@@ -8,9 +18,9 @@ type Props = {
     setModelURI: React.Dispatch<React.SetStateAction<string>>;
     apiEndpoint: string;
     setApiEndpoint: React.Dispatch<React.SetStateAction<string>>;
-    isValid: boolean; // Validation state
+    isValid: boolean;
     hasDoneSubmission: boolean;
-    createFrontendViews: boolean; // New state for checkbox
+    createFrontendViews: boolean;
     setCreateFrontendViews: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
@@ -26,6 +36,7 @@ const BasicInfoComponent: React.FC<Props> = ({
     createFrontendViews,
     setCreateFrontendViews
 }) => {
+    const [showAdvancedModal, setShowAdvancedModal] = useState(false);
 
     const isInvalidField = (field: string): boolean => {
         switch (field) {
@@ -73,6 +84,14 @@ const BasicInfoComponent: React.FC<Props> = ({
         setCreateFrontendViews(checked);
     };
 
+    useEffect(() => {
+        if (showAdvancedModal) {
+            const normalized = modelDisplayName.trim().toLowerCase();
+            if (!modelURI) setModelURI(`/${normalized}`);
+            if (!apiEndpoint) setApiEndpoint(`/api/${normalized}`);
+        }
+    }, [showAdvancedModal]);
+
     return (
         <div>
             <TextField
@@ -83,34 +102,21 @@ const BasicInfoComponent: React.FC<Props> = ({
                 onChange={(e) => setModelDisplayName(e.target.value)}
                 error={isInvalidField('modelDisplayName')}
                 helperText={getHelperText('modelDisplayName')}
-                sx={{
-                    mb: 2,
+                sx={{ mb: 1 }}
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <IconButton onClick={() => setShowAdvancedModal(true)} edge="end">
+                                <SettingsIcon />
+                            </IconButton>
+                        </InputAdornment>
+                    )
                 }}
             />
-            <TextField
-                label="Model/Page URI"
-                fullWidth
-                variant="outlined"
-                value={modelURI}
-                onChange={(e) => setModelURI(e.target.value)}
-                error={isInvalidField('modelURI')}
-                helperText={getHelperText('modelURI')}
-                sx={{
-                    mb: 2,
-                }}
-            />
-            <TextField
-                label="API Endpoint"
-                fullWidth
-                variant="outlined"
-                value={apiEndpoint}
-                onChange={(e) => setApiEndpoint(e.target.value)}
-                error={isInvalidField('apiEndpoint')}
-                helperText={getHelperText('apiEndpoint')}
-                sx={{
-                    mb: 2,
-                }}
-            />
+            <Typography variant="body2" color="text.secondary" sx={{ mb: 2, ml: 0.5 }}>
+                Use a singular name (e.g., <i>Product</i>, <i>User</i>). This will define the model and route naming.
+            </Typography>
+
             <Grid item xs={6}>
                 <FormControlLabel
                     control={
@@ -122,6 +128,15 @@ const BasicInfoComponent: React.FC<Props> = ({
                     label="Create Frontend views"
                 />
             </Grid>
+
+            <AdvancedSettingsModal
+                open={showAdvancedModal}
+                onClose={() => setShowAdvancedModal(false)}
+                modelURI={modelURI}
+                setModelURI={setModelURI}
+                apiEndpoint={apiEndpoint}
+                setApiEndpoint={setApiEndpoint}
+            />
         </div>
     );
 };

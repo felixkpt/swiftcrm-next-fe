@@ -9,7 +9,7 @@ import {
     Paper,
     Divider,
 } from '@mui/material';
-import BasicInfoComponent from './BasicInfoComponent';
+import BasicInfoComponent from './BasicInfoComponent/BasicInfoComponent';
 import FieldsComponent from './FormBuilder/FieldsComponent';
 import PreviewModal from './PreviewModal';
 import { appConfig } from '@/app/components/baseComponents/utils/helpers';

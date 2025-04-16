@@ -60,12 +60,10 @@ export async function saveAndGenerateModel(dataRaw: any) {
 function normalizeFields(fields: any[]) {
   return fields.map((field) => {
 
-    console.log("Field", field)
-    return field
-    const cleanedName = field.name
+    const cleanedName = field.name.value
       .toLowerCase()
       .replace(/\s+/g, '_')
-      .replace(/[^a-z0-9_]/g, '');
+      .replace(/[^a-z0-9_]/g, '')
 
     return {
       ...field,

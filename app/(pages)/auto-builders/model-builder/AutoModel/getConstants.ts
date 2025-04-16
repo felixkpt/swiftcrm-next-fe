@@ -229,7 +229,7 @@ const headers: HeaderType[] = [
     key: "action",
     label: "Action",
     isVisibleInList: true,
-    isVisibleInSingleView: true
+    isVisibleInSingleView: true,
   }
 ]
 

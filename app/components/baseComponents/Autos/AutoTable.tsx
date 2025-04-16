@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GeneralResultType, MetadataType, ServerModelOptionType } from "../types";
+import { GeneralResultType, MetadataType } from "../types";
 import { FillableType, HeaderType } from "./BaseAutoModel/types";
 import EnhancedTable from './EnhancedTable'; // Import your EnhancedTable component
 import { IconButton, Tooltip, Collapse, Box } from '@mui/material';
@@ -33,6 +33,7 @@ const AutoTable = ({ headers, records, fillableFields, modelID, metadata, onPage
         numeric: header.numeric || false,
         disablePadding: header.disablePadding || false,
         label: header.label || header.key,
+        width: header.width || 'auto',
     }));
 
     const rows = records.map(record => ({

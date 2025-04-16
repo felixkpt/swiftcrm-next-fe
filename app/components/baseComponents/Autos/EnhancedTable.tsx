@@ -14,6 +14,7 @@ type HeadCell = {
   numeric: boolean;
   disablePadding: boolean;
   label: string;
+  width?: string;
 };
 
 type EnhancedTableProps = {
@@ -56,6 +57,7 @@ const EnhancedTable = ({
                   key={headCell.id}
                   align={headCell.numeric ? 'right' : 'left'}
                   padding={headCell.disablePadding ? 'none' : 'normal'}
+                  style={{ width: headCell.width || 'auto' }}
                 >
                   <TableSortLabel
                     active={orderBy === headCell.id}
@@ -78,7 +80,9 @@ const EnhancedTable = ({
             }).map((row, index) => (
               <TableRow key={index}>
                 {headCells.map((cell, i) => (
-                  <TableCell key={cell.id} className={`${modelID} data-${cell.id}`} align={cell.numeric ? 'right' : 'left'}>
+                  <TableCell key={cell.id} className={`${modelID} data-${cell.id}`} align={cell.numeric ? 'right' : 'left'}
+                    style={{ width: cell.width || 'auto' }}
+                  >
                     {row[cell.id]}
                   </TableCell>
                 ))}

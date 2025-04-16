@@ -38,6 +38,7 @@ export type HeaderType = {
     label?: string;
     isVisibleInList?: boolean;
     isVisibleInSingleView?: boolean;
+    width?: string;
 };
 
 export type FillableType = {

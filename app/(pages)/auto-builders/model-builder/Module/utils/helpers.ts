@@ -123,7 +123,8 @@ export function getFieldsAndHeaders(fieldsRaw: FieldType[]) {
       key: "action",
       label: "Action",
       isVisibleInList: true,
-      isVisibleInSingleView: true
+      isVisibleInSingleView: true,
+      width: "10%",
     }
   )
 

@@ -32,7 +32,7 @@ async function genericRequestor(endPoint: string, data: any) {
   const pageId = data?.pageId
   endPoint = String(pageId ? `${endPoint}/${pageId}` : endPoint).replace(/\/+/g, '/')
 
-  // console.log('DATA::', JSON.stringify(data))
+  console.log('DATA::', JSON.stringify(data))
 
   const results: ResultsType = {
     data: null,

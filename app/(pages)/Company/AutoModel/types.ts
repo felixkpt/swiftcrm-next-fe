@@ -2,7 +2,7 @@
 type CompanyType = {
 name: string;
   address: string;
-  Number of employees: string;
+  Number_of_employees: string;
 }
 
 export default CompanyType;

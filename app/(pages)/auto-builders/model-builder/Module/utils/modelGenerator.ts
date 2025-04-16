@@ -67,7 +67,7 @@ function normalizeFields(fields: any[]) {
 
     return {
       ...field,
-      name: cleanedName
+      name: { ...field.name, value: cleanedName }
     };
   });
 }

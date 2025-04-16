@@ -1,7 +1,7 @@
 
 type AnimalType = {
-name: any;
-  type: any;
+name: string;
+  type: string;
 }
 
 export default AnimalType;

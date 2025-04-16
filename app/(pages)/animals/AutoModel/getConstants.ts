@@ -3,11 +3,11 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = '830d6464-c352-4ee1-add4-16127d08fcb8';
+const modelID = '2f68d972-9f86-488b-8d5e-c7a5deba6684';
 const modelNameSingular = 'Animal';
 const modelNamePlural = 'Animals';
 const modelURI = '/animals';
-const apiEndpoint = '/animals/';
+const apiEndpoint = '/api/animals/';
 
 // Define fillable fields for the Animal model
 const fillableFields: Array<FillableType> = [
@@ -16,12 +16,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "string",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: true,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12
@@ -31,12 +31,12 @@ const fillableFields: Array<FillableType> = [
     label: "",
     type: "input",
     dataType: "string",
-    defaultValue: null,
+    defaultValue: "None",
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
     isUnique: false,
-    dropdownSource: null,
+    dropdownSource: "None",
     dropdownDependsOn: null,
     desktopWidth: 12,
     mobileWidth: 12

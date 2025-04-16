@@ -24,6 +24,7 @@ import useActionLabelState from '../hooks/useActionLabelState';
 import { InputType, RecordType } from '@/app/components/baseComponents/Autos/BaseAutoModel/types';
 import RelationshipComponent from './RelationshipComponent';
 import { publish } from '@/app/components/baseComponents/utils/pubSub';
+import Pluralize from 'pluralize';
 
 type Props = {
     inputTypes: InputType[];
@@ -93,6 +94,13 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         setIsPreviewOpen(false);
     };
 
+    const [showAdvancedModal, setShowAdvancedModal] = useState(false);
+    const updateAdvancedBasicInfo = () => {
+        const normalized = Pluralize(modelDisplayName.trim().toLowerCase());
+        if (!modelURI) setModelURI(`/${normalized}`);
+        if (!apiEndpoint) setApiEndpoint(`/api/${normalized}`);
+    };
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setHasDoneSubmission(true);
@@ -118,6 +126,9 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
             && fieldValidations.every(validation => Object.values(validation).every(Boolean))
             && actionsValid;
 
+        setModelDisplayName(Pluralize(modelDisplayName.trim()));
+        updateAdvancedBasicInfo();
+
         if (!isValid) {
             publish('autoNotification', { error: { message: 'Please fill in all required fields.' }, type: 'error' });
             return;
@@ -142,8 +153,14 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         }
     };
 
-    const [relationships, setRelationships] = useState<any[]>([]);
+    useEffect(() => {
+        if (showAdvancedModal) {
+            updateAdvancedBasicInfo()
+        }
+    }, [showAdvancedModal]);
 
+    const [relationships, setRelationships] = useState<any[]>([]);
+    
     return (
         <div>
             <div>
@@ -152,7 +169,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
             <Grid justifyContent="center" mt={4}>
                 <Grid item xs={10}>
                     <Paper elevation={3} sx={{ padding: 3 }}>
-                       <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit}>
                             <BasicInfoComponent
                                 modelDisplayName={modelDisplayName}
                                 setModelDisplayName={setModelDisplayName}
@@ -164,6 +181,8 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                                 hasDoneSubmission={hasDoneSubmission}
                                 createFrontendViews={createFrontendViews}
                                 setCreateFrontendViews={setCreateFrontendViews}
+                                showAdvancedModal={showAdvancedModal}
+                                setShowAdvancedModal={setShowAdvancedModal}
                             />
                             <Divider sx={{ my: 2 }} />
                             <FieldsComponent

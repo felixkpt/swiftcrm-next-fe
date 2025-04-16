@@ -1,7 +1,7 @@
 
 type AssignmentType = {
-name: any;
-  lecturer: any;
+name: string;
+  lecturer: string;
 }
 
 export default AssignmentType;

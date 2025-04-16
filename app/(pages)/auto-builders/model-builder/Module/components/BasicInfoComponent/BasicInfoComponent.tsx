@@ -22,6 +22,8 @@ type Props = {
     hasDoneSubmission: boolean;
     createFrontendViews: boolean;
     setCreateFrontendViews: React.Dispatch<React.SetStateAction<boolean>>;
+    showAdvancedModal: boolean; 
+    setShowAdvancedModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const BasicInfoComponent: React.FC<Props> = ({
@@ -34,9 +36,10 @@ const BasicInfoComponent: React.FC<Props> = ({
     isValid,
     hasDoneSubmission,
     createFrontendViews,
-    setCreateFrontendViews
+    setCreateFrontendViews,
+    showAdvancedModal, 
+    setShowAdvancedModal,
 }) => {
-    const [showAdvancedModal, setShowAdvancedModal] = useState(false);
 
     const isInvalidField = (field: string): boolean => {
         switch (field) {
@@ -83,15 +86,7 @@ const BasicInfoComponent: React.FC<Props> = ({
     const handleCheckboxChange = (checked: boolean) => {
         setCreateFrontendViews(checked);
     };
-
-    useEffect(() => {
-        if (showAdvancedModal) {
-            const normalized = modelDisplayName.trim().toLowerCase();
-            if (!modelURI) setModelURI(`/${normalized}`);
-            if (!apiEndpoint) setApiEndpoint(`/api/${normalized}`);
-        }
-    }, [showAdvancedModal]);
-
+    
     return (
         <div>
             <TextField
@@ -114,7 +109,7 @@ const BasicInfoComponent: React.FC<Props> = ({
                 }}
             />
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2, ml: 0.5 }}>
-                Use a singular name (e.g., <i>Product</i>, <i>User</i>). This will define the model and route naming.
+                Use a plural name (e.g., <i>Products</i>, <i>Users</i>). This will define the model and route naming.
             </Typography>
 
             <Grid item xs={6}>

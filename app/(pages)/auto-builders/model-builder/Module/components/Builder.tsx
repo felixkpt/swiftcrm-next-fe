@@ -106,9 +106,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         setHasDoneSubmission(true);
 
         const isModelNameValid = modelDisplayName.trim() !== '';
-        const isModelURIValid = modelURI.trim() !== '';
-        const isApiEndpointValid = apiEndpoint.trim() !== '';
-        setIsBasicInfoValid(isModelNameValid && isModelURIValid && isApiEndpointValid);
+        setIsBasicInfoValid(isModelNameValid);
 
         const fieldValidations: FieldValidation[] = fields.map(field =>
             makeFieldValidation(field)
@@ -122,8 +120,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
 
         const actionsValid = !createFrontendViews || actionLabelValidations.every(validation => Object.values(validation).every(Boolean))
 
-        const isValid = isModelNameValid && isModelURIValid && isApiEndpointValid
-            && fieldValidations.every(validation => Object.values(validation).every(Boolean))
+        const isValid = isModelNameValid && fieldValidations.every(validation => Object.values(validation).every(Boolean))
             && actionsValid;
 
         setModelDisplayName(Pluralize(modelDisplayName.trim()));

@@ -159,11 +159,11 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
     const [relationships, setRelationships] = useState<any[]>([]);
     
     return (
-        <div>
+        <Box mt={3}>
             <div>
                 <h1>Model Builder</h1>
             </div>
-            <Grid justifyContent="center" mt={4}>
+            <Grid justifyContent="center" mt={3}>
                 <Grid item xs={10}>
                     <Paper elevation={3} sx={{ padding: 3 }}>
                         <form onSubmit={handleSubmit}>
@@ -238,7 +238,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                     actionLabels={actionLabels}
                 />
             </Grid>
-        </div>
+        </Box>
     );
 };
 

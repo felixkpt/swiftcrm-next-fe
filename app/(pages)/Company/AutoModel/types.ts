@@ -1,6 +1,7 @@
 
 type CompanyType = {
-name: any;
+name: string;
+  address: any;
 }
 
 export default CompanyType;

@@ -101,7 +101,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         const normalized = Pluralize(modelDisplayName.trim().toLowerCase());
 
         const uri = modelURI || `/${normalized}`;
-        const endpoint = apiEndpoint || `/api/${normalized}`;
+        const endpoint = apiEndpoint || `/${normalized}`;
 
         setModelURI(uri);
         setApiEndpoint(endpoint);

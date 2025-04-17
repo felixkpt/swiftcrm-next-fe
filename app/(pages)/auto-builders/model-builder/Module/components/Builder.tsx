@@ -49,6 +49,8 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
     const [hasDoneSubmission, setHasDoneSubmission] = useState<boolean>(false);
     const [isBasicInfoValid, setIsBasicInfoValid] = useState<boolean>(true);
 
+    const [showAdvancedModal, setShowAdvancedModal] = useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -94,11 +96,20 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         setIsPreviewOpen(false);
     };
 
-    const [showAdvancedModal, setShowAdvancedModal] = useState(false);
-    const updateAdvancedBasicInfo = () => {
+    const getAdvancedBasicInfo = () => {
+
         const normalized = Pluralize(modelDisplayName.trim().toLowerCase());
-        if (!modelURI) setModelURI(`/${normalized}`);
-        if (!apiEndpoint) setApiEndpoint(`/api/${normalized}`);
+
+        const uri = modelURI || `/${normalized}`;
+        const endpoint = apiEndpoint || `/api/${normalized}`;
+
+        setModelURI(uri);
+        setApiEndpoint(endpoint);
+
+        console.log('updated', { uri, endpoint });
+
+        return [uri, endpoint];
+
     };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -124,7 +135,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
             && actionsValid;
 
         setModelDisplayName(Pluralize(modelDisplayName.trim()));
-        updateAdvancedBasicInfo();
+        const [modelURI, apiEndpoint] = getAdvancedBasicInfo();
 
         if (!isValid) {
             publish('autoNotification', { error: { message: 'Please fill in all required fields.' }, type: 'error' });
@@ -152,12 +163,12 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
 
     useEffect(() => {
         if (showAdvancedModal) {
-            updateAdvancedBasicInfo()
+            getAdvancedBasicInfo()
         }
     }, [showAdvancedModal]);
 
     const [relationships, setRelationships] = useState<any[]>([]);
-    
+
     return (
         <Box mt={3}>
             <div>

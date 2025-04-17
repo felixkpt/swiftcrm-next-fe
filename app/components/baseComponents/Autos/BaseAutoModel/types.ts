@@ -71,8 +71,8 @@ export type InputType = {
 };
 
 export type ModelConstants = {
-    MODEL_NAME_SINGULAR: string;
-    MODEL_NAME_PLURAL: string;
+    MODEL_nameSingular: string;
+    MODEL_namePlural: string;
     MODEL_ID: string;
     MODEL_URI: string;
     API_ENDPOINT: string;

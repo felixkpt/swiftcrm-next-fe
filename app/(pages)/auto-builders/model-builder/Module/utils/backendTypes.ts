@@ -33,15 +33,15 @@ export interface HeaderSchema {
 export interface AutoPageBuilderType {
   uuid: string
   modelDisplayName: string;
-  name_singular: string;
-  name_plural: string;
+  nameSingular: string;
+  namePlural: string;
   modelURI: string;
   apiEndpoint: string;
   fields: FieldSchema[];
   actionLabels: ActionLabelSchema[];
   headers: HeaderSchema[];
-  table_name_singular?: string;
-  table_name_plural?: string;
-  class_name?: string;
+  tableNameSingular?: string;
+  tableNamePlural?: string;
+  className?: string;
   createFrontendViews: boolean;
 }

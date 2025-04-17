@@ -113,7 +113,7 @@
     },
     {
       "name": {
-        "value": "name_singular",
+        "value": "nameSingular",
         "required": true
       },
       "type": {
@@ -167,7 +167,7 @@
     },
     {
       "name": {
-        "value": "name_plural",
+        "value": "namePlural",
         "required": true
       },
       "type": {
@@ -329,7 +329,7 @@
     },
     {
       "name": {
-        "value": "table_name_singular",
+        "value": "tableNameSingular",
         "required": true
       },
       "type": {
@@ -383,7 +383,7 @@
     },
     {
       "name": {
-        "value": "table_name_plural",
+        "value": "tableNamePlural",
         "required": true
       },
       "type": {
@@ -437,7 +437,7 @@
     },
     {
       "name": {
-        "value": "class_name",
+        "value": "className",
         "required": true
       },
       "type": {

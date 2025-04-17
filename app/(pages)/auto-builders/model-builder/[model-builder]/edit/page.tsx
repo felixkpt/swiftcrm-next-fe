@@ -11,11 +11,11 @@ const Page = async () => {
   // Destructure constants from getConstants
   const {
     MODEL_ID,
-    MODEL_NAME_PLURAL,
+    MODEL_namePlural,
     API_ENDPOINT,
   } = getConstants;
 
-  const dropdownSourcesList: AutoPageBuilderType[] = await getDropdownSourcesList(API_ENDPOINT, MODEL_ID, MODEL_NAME_PLURAL)
+  const dropdownSourcesList: AutoPageBuilderType[] = await getDropdownSourcesList(API_ENDPOINT, MODEL_ID, MODEL_namePlural)
 
   return <Builder inputTypes={inputTypes} dropdownSourcesList={dropdownSourcesList} saveAndGenerateModel={saveAndGenerateModel} />;
 };

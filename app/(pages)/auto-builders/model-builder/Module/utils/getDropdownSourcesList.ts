@@ -1,7 +1,7 @@
 import fetchRecords from "@/app/components/baseComponents/utils/fetchRecords";
 import { appConfig } from "@/app/components/baseComponents/utils/helpers";
 
-async function getDropdownSourcesList(API_ENDPOINT: string, MODEL_ID: string, MODEL_NAME_PLURAL: string) {
+async function getDropdownSourcesList(API_ENDPOINT: string, MODEL_ID: string, MODEL_namePlural: string) {
     // Define the API endpoint URL using appConfig
     const apiEndpoint = appConfig.api.url(API_ENDPOINT);
 
@@ -15,7 +15,7 @@ async function getDropdownSourcesList(API_ENDPOINT: string, MODEL_ID: string, MO
         records = fetchedRecords;
         metadata = fetchedMetadata;
     } catch (error) {
-        console.error(`Error fetching ${MODEL_NAME_PLURAL}:`, error);
+        console.error(`Error fetching ${MODEL_namePlural}:`, error);
     }
 
     return records

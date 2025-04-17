@@ -13,8 +13,8 @@ import getServerModelOptions from '@/app/components/baseComponents/utils/getServ
 
 const page = async () => {
   const {
-    MODEL_NAME_SINGULAR,
-    MODEL_NAME_PLURAL,
+    MODEL_nameSingular,
+    MODEL_namePlural,
     MODEL_ID,
     ACTION_LABELS,
     HEADERS,
@@ -33,8 +33,8 @@ const page = async () => {
     <>
       <Renderer
         modelID={MODEL_ID} // Unique component identifier
-        modelNameSingular={MODEL_NAME_SINGULAR} // Model name for display purposes
-        modelNamePlural={MODEL_NAME_PLURAL} // Plural model name for display
+        modelNameSingular={MODEL_nameSingular} // Model name for display purposes
+        modelNamePlural={MODEL_namePlural} // Plural model name for display
         fillableFields={FILLABLE_FIELDS} // Fields that are fillable
         headers={HEADERS} // Table headers
         actionLabels={ACTION_LABELS} // Labels for different actions (e.g., create, update)

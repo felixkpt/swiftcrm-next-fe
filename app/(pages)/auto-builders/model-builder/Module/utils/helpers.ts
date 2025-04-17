@@ -20,8 +20,8 @@ export function processTemplate(template: string, data: AutoPageBuilderType) {
 
   return template
     .replace(/{autoPageBuilder_modelID}/g, data.uuid)
-    .replace(/{autoPageBuilder_modelNameSingular}/g, data.name_singular)
-    .replace(/{autoPageBuilder_modelNamePlural}/g, data.name_plural)
+    .replace(/{autoPageBuilder_modelNameSingular}/g, data.nameSingular)
+    .replace(/{autoPageBuilder_modelNamePlural}/g, data.namePlural)
     .replace(/{autoPageBuilder_modelURI}/g, data.modelURI)
     .replace(/{autoPageBuilder_apiEndpoint}/g, apiEndpoint)
     .replace(/{autoPageBuilder_fillableFields}/g, removeQuotesFromKeys(data.fields.filter((itm) => !blacklisted.includes(itm.name))))

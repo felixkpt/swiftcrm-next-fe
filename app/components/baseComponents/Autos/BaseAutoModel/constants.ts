@@ -33,8 +33,8 @@ const createModelConstants = (
 
   return {
     MODEL_ID: modelId,
-    MODEL_NAME_SINGULAR: modelNameSingular,
-    MODEL_NAME_PLURAL: modelNamePlural,
+    MODEL_nameSingular: modelNameSingular,
+    MODEL_namePlural: modelNamePlural,
     MODEL_URI: modelURI,
     API_ENDPOINT: apiEndpoint,
     FILLABLE_FIELDS: fillableFields,

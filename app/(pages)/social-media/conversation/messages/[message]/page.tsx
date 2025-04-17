@@ -10,8 +10,8 @@ import Renderer from '@/app/components/baseComponents/Autos/AutoPage/RenderSingl
 
 const page = () => {
   const {
-    MODEL_NAME_SINGULAR,
-    MODEL_NAME_PLURAL,
+    MODEL_nameSingular,
+    MODEL_namePlural,
     MODEL_ID,
     ACTION_LABELS,
     HEADERS,
@@ -27,8 +27,8 @@ const page = () => {
   return (
     <>
       <Renderer
-        modelNameSingular={MODEL_NAME_SINGULAR}
-        modelNamePlural={MODEL_NAME_PLURAL}
+        modelNameSingular={MODEL_nameSingular}
+        modelNamePlural={MODEL_namePlural}
         modelID={MODEL_ID}
         apiEndpoint={apiEndpoint}
         fillableFields={FILLABLE_FIELDS}

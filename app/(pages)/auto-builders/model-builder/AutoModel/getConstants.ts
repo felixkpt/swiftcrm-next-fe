@@ -42,7 +42,7 @@ const fillableFields: Array<FillableType> = [
     mobileWidth: 12
   },
   {
-    name: "name_singular",
+    name: "nameSingular",
     label: "",
     type: "input",
     dataType: "string",
@@ -57,7 +57,7 @@ const fillableFields: Array<FillableType> = [
     mobileWidth: 12
   },
   {
-    name: "name_plural",
+    name: "namePlural",
     label: "",
     type: "input",
     dataType: "string",
@@ -102,7 +102,7 @@ const fillableFields: Array<FillableType> = [
     mobileWidth: 12
   },
   {
-    name: "table_name_singular",
+    name: "tableNameSingular",
     label: "",
     type: "input",
     dataType: "string",
@@ -117,7 +117,7 @@ const fillableFields: Array<FillableType> = [
     mobileWidth: 12
   },
   {
-    name: "table_name_plural",
+    name: "tableNamePlural",
     label: "",
     type: "input",
     dataType: "string",
@@ -132,7 +132,7 @@ const fillableFields: Array<FillableType> = [
     mobileWidth: 12
   },
   {
-    name: "class_name",
+    name: "className",
     label: "",
     type: "input",
     dataType: "string",
@@ -178,13 +178,13 @@ const headers: HeaderType[] = [
     isVisibleInSingleView: true
   },
   {
-    key: "name_singular",
+    key: "nameSingular",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
   },
   {
-    key: "name_plural",
+    key: "namePlural",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
@@ -202,19 +202,19 @@ const headers: HeaderType[] = [
     isVisibleInSingleView: true
   },
   {
-    key: "table_name_singular",
+    key: "tableNameSingular",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
   },
   {
-    key: "table_name_plural",
+    key: "tableNamePlural",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true
   },
   {
-    key: "class_name",
+    key: "className",
     label: "",
     isVisibleInList: true,
     isVisibleInSingleView: true

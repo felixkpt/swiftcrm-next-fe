@@ -94,7 +94,7 @@ const RelationshipComponent: React.FC<RelationshipComponentProps> = ({
                 >
                   {autobuilderObjects.map((object) => (
                     <MenuItem key={object.id} value={object.id}>
-                      {object.table_name_plural}
+                      {object.tableNamePlural}
                     </MenuItem>
                   ))}
                 </Select>

@@ -37,9 +37,9 @@ export async function saveAndGenerateModel(dataRaw: any) {
     data.uuid = uuidv4()
   }
 
-  data.name_singular = nameSingular
-  data.name_plural = namePlural
-  data.class_name = className
+  data.nameSingular = nameSingular
+  data.namePlural = namePlural
+  data.className = className
 
   data.fields = fields
   data.headers = headers
@@ -100,7 +100,7 @@ async function generateModel(data: any, fields: any, modelURI: string, id: numbe
     }, []);
 
     const typeContent = typeTemplate
-      .replace(/{autoPageBuilder_typeName}/g, data.class_name + 'Type')
+      .replace(/{autoPageBuilder_typeName}/g, data.className + 'Type')
       .replace('{autoPageBuilder_typeValues}', typeDefinitions.join('\n  '));
 
     const listDirPath = path.join(process.cwd(), 'app', '(pages)', modelURI);

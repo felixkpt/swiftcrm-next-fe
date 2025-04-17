@@ -37,7 +37,7 @@ const DynamicDropdown: React.FC<Props> = ({
 
     const setInitialRecords = () => {
         setLoading(true);
-        const exists = serverModelOptions[dropdownSource];
+        const exists = serverModelOptions?.[dropdownSource];
         if (exists) {
             setOptions(exists.records || []);
         }

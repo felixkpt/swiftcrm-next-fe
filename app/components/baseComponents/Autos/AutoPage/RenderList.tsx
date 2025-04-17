@@ -57,6 +57,13 @@ const Renderer: React.FC<Props> = ({
 
   const handleActionClick = (actionKey: KnownActionsType, record: any, recordEndpoint: string) => {
     const actionConfig = actionLabels[actionKey]
+    console.log("Action Config", actionConfig)
+    console.log("Record", record)
+    console.log("Record Endpoint", recordEndpoint)
+    console.log("Action Key", actionKey)
+    console.log("Action Labels", actionLabels)
+
+    
     if (actionConfig) {
       const dataTarget = getEndpoint(actionLabels, record, recordEndpoint, actionKey);
       if (actionConfig.actionType === 'modal') {

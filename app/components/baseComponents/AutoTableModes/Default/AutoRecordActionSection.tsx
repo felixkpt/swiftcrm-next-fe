@@ -94,7 +94,7 @@ const AutoRecordActionSection = ({ modelID, record, recordEndpoint, actionLabels
                         <Button
                             key={actionKey}
                             component={Link}
-                            href={getEndpoint(actionLabels, record, recordEndpoint, actionKey)}
+                            data-href={getEndpoint(actionLabels, record, recordEndpoint, actionKey)}
                             data-action={actionKey}
                             data-id={record.id}
                             data-target={getEndpoint(actionLabels, record, recordEndpoint, actionKey)}

@@ -15,7 +15,7 @@ const AutoTableSingle = ({ record, headers = [], modelID, AutoTableHeaderActions
 
     const actionHeader = !isFromAutoView && headers.find(header => header.key === 'action');
 
-    console.log(actionHeader)
+    // console.log(actionHeader)
     return (
         <div className="autotableWrapper" id={tableComponentId}>
             <table className="table">
@@ -24,7 +24,7 @@ const AutoTableSingle = ({ record, headers = [], modelID, AutoTableHeaderActions
                         <tr>
                             <td className={`${tableComponentId} data-${actionHeader.key}`} colSpan={2}>
                                 <div className="w-full flex justify-end">
-                                    {record && record[actionHeader.key]}
+                                    {/* {record && record[actionHeader.key]} */}
                                 </div>
                             </td>
                         </tr>

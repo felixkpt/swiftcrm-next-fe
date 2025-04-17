@@ -9,7 +9,7 @@ import {
     Paper,
     Divider,
 } from '@mui/material';
-import BasicInfoComponent from './BasicInfoComponent';
+import BasicInfoComponent from './BasicInfoComponent/BasicInfoComponent';
 import FieldsComponent from './FormBuilder/FieldsComponent';
 import PreviewModal from './PreviewModal';
 import { appConfig } from '@/app/components/baseComponents/utils/helpers';
@@ -24,6 +24,7 @@ import useActionLabelState from '../hooks/useActionLabelState';
 import { InputType, RecordType } from '@/app/components/baseComponents/Autos/BaseAutoModel/types';
 import RelationshipComponent from './RelationshipComponent';
 import { publish } from '@/app/components/baseComponents/utils/pubSub';
+import Pluralize from 'pluralize';
 
 type Props = {
     inputTypes: InputType[];
@@ -93,14 +94,19 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         setIsPreviewOpen(false);
     };
 
+    const [showAdvancedModal, setShowAdvancedModal] = useState(false);
+    const updateAdvancedBasicInfo = () => {
+        const normalized = Pluralize(modelDisplayName.trim().toLowerCase());
+        if (!modelURI) setModelURI(`/${normalized}`);
+        if (!apiEndpoint) setApiEndpoint(`/api/${normalized}`);
+    };
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setHasDoneSubmission(true);
 
         const isModelNameValid = modelDisplayName.trim() !== '';
-        const isModelURIValid = modelURI.trim() !== '';
-        const isApiEndpointValid = apiEndpoint.trim() !== '';
-        setIsBasicInfoValid(isModelNameValid && isModelURIValid && isApiEndpointValid);
+        setIsBasicInfoValid(isModelNameValid);
 
         const fieldValidations: FieldValidation[] = fields.map(field =>
             makeFieldValidation(field)
@@ -114,9 +120,11 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
 
         const actionsValid = !createFrontendViews || actionLabelValidations.every(validation => Object.values(validation).every(Boolean))
 
-        const isValid = isModelNameValid && isModelURIValid && isApiEndpointValid
-            && fieldValidations.every(validation => Object.values(validation).every(Boolean))
+        const isValid = isModelNameValid && fieldValidations.every(validation => Object.values(validation).every(Boolean))
             && actionsValid;
+
+        setModelDisplayName(Pluralize(modelDisplayName.trim()));
+        updateAdvancedBasicInfo();
 
         if (!isValid) {
             publish('autoNotification', { error: { message: 'Please fill in all required fields.' }, type: 'error' });
@@ -142,17 +150,23 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
         }
     };
 
-    const [relationships, setRelationships] = useState<any[]>([]);
+    useEffect(() => {
+        if (showAdvancedModal) {
+            updateAdvancedBasicInfo()
+        }
+    }, [showAdvancedModal]);
 
+    const [relationships, setRelationships] = useState<any[]>([]);
+    
     return (
-        <div>
+        <Box mt={3}>
             <div>
                 <h1>Model Builder</h1>
             </div>
-            <Grid justifyContent="center" mt={4}>
+            <Grid justifyContent="center" mt={3}>
                 <Grid item xs={10}>
                     <Paper elevation={3} sx={{ padding: 3 }}>
-                       <form onSubmit={handleSubmit}>
+                        <form onSubmit={handleSubmit}>
                             <BasicInfoComponent
                                 modelDisplayName={modelDisplayName}
                                 setModelDisplayName={setModelDisplayName}
@@ -164,6 +178,8 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                                 hasDoneSubmission={hasDoneSubmission}
                                 createFrontendViews={createFrontendViews}
                                 setCreateFrontendViews={setCreateFrontendViews}
+                                showAdvancedModal={showAdvancedModal}
+                                setShowAdvancedModal={setShowAdvancedModal}
                             />
                             <Divider sx={{ my: 2 }} />
                             <FieldsComponent
@@ -222,7 +238,7 @@ const Builder: React.FC<Props> = ({ inputTypes, dropdownSourcesList, saveAndGene
                     actionLabels={actionLabels}
                 />
             </Grid>
-        </div>
+        </Box>
     );
 };
 

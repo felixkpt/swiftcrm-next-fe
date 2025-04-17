@@ -3,13 +3,13 @@ import createModelConstants from "@/app/components/baseComponents/Autos/BaseAuto
 import { ActionLabelsActionsType, FillableType, HeaderType } from "@/app/components/baseComponents/Autos/BaseAutoModel/types";
 
 // Define variables for model name and API endpoint
-const modelID = '63becf9d-f2e1-49c9-91f1-43e0a0aeec48';
-const modelNameSingular = 'Chatbot';
-const modelNamePlural = 'Chatbots';
-const modelURI = '/chatbots';
-const apiEndpoint = '/api/chatbots/';
+const modelID = '65e0cde3-36ef-41e2-975c-a7c023611469';
+const modelNameSingular = 'Flat';
+const modelNamePlural = 'Flats';
+const modelURI = '/flats';
+const apiEndpoint = '/api/flats/';
 
-// Define fillable fields for the Chatbot model
+// Define fillable fields for the Flat model
 const fillableFields: Array<FillableType> = [
   {
     name: "name",
@@ -20,7 +20,7 @@ const fillableFields: Array<FillableType> = [
     isRequired: true,
     isVisibleInList: true,
     isVisibleInSingleView: true,
-    isUnique: true,
+    isUnique: false,
     dropdownSource: null,
     dropdownDependsOn: null,
     desktopWidth: 12,
@@ -53,14 +53,10 @@ const actionLabelsActions: ActionLabelsActionsType = {
   editRecord: {
     actionType: "modal",
     label: ""
-  },
-  deleteRecord: {
-    actionType: "modal",
-    label: ""
   }
 };
 
-// Create Chatbot constants using the createModelConstants function
+// Create Flat constants using the createModelConstants function
 const getConstants = createModelConstants(
   modelID,          // modelID: UNIQUE ID of the model/page
   modelNameSingular,          // modelNameSingular: Name of the model/page
